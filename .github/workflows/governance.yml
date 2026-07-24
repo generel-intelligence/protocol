@@ -1,0 +1,15 @@
+name: governance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  governance:
+    uses: generel-intelligence/.github/.github/workflows/governance.yml@29081ebe54cac941742ae87f1102517285455ced
