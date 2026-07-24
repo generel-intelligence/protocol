@@ -1,0 +1,18 @@
+{
+  "protocol_version": "0.1.0",
+  "config_id": "config_fixture",
+  "model": {
+    "provider": "fixture",
+    "model": "deterministic",
+    "revision": "1",
+    "parameters_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "agent": {
+    "name": "fixture-agent",
+    "version": "1.0.0",
+    "config_digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+  },
+  "environment": {
+    "image_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+  }
+}

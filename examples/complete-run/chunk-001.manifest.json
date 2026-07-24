@@ -1,0 +1,11 @@
+{
+  "protocol_version": "0.1.0",
+  "run_id": "run_complete-fixture",
+  "ordinal": 1,
+  "sequence_range": {
+    "first": 2,
+    "last": 3
+  },
+  "event_count": 2,
+  "digest": "sha256:c433d097da83dbf8702d9f263eb904f9909abf2d3a494d72a613c8c66a6cdda5"
+}

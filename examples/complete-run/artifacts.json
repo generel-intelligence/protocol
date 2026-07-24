@@ -1,0 +1,34 @@
+[
+  {
+    "protocol_version": "0.1.0",
+    "artifact_id": "artifact_instruction",
+    "role": "task-instruction",
+    "media_type": "text/plain",
+    "byte_size": 50,
+    "digest": "sha256:b67a0788bfe2e3c4a1d37ef0b0861f81573b0d4382b1d71afd9efa9f4156f73e"
+  },
+  {
+    "protocol_version": "0.1.0",
+    "artifact_id": "artifact_model-output",
+    "role": "model-output",
+    "media_type": "text/plain",
+    "byte_size": 27,
+    "digest": "sha256:dbb56ddca2b4b9d42e0905ebe489c134eabb4dbd0d52352179849f330b921bdd"
+  },
+  {
+    "protocol_version": "0.1.0",
+    "artifact_id": "artifact_projection",
+    "role": "result-projection",
+    "media_type": "application/json",
+    "byte_size": 15,
+    "digest": "sha256:11c11db30f4b3f6c758722ba3e27eea08145b7d212f6a157451e364b48475280"
+  },
+  {
+    "protocol_version": "0.1.0",
+    "artifact_id": "artifact_objective-result",
+    "role": "objective-result",
+    "media_type": "application/json",
+    "byte_size": 522,
+    "digest": "sha256:87f955f589fc5a82ddad818c1087948db3f11013e1806e073584c1e3e3666e3b"
+  }
+]

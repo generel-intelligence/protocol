@@ -1,0 +1,13 @@
+{
+  "profile": "swe-bench-verified-result",
+  "version": "0.1.0",
+  "source_revision": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+  "source_path": "swebench/harness/grading.py",
+  "fields": {
+    "patch_is_None": "outcome.patch_is_null",
+    "patch_exists": "outcome.patch_exists",
+    "patch_successfully_applied": "outcome.patch_applied",
+    "resolved": "outcome.resolved",
+    "tests_status": "outcome.tests_status_included"
+  }
+}

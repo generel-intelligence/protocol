@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/profiles/terminal-bench-2-result.schema.json",
+  "title": "Terminal-Bench 2 result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "profile",
+    "benchmark",
+    "raw_artifact",
+    "mapping",
+    "outcome"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "../common.schema.json#/$defs/protocolVersion"
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "const": "terminal-bench-2-result"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      }
+    },
+    "benchmark": {
+      "$ref": "../benchmark-reference.schema.json"
+    },
+    "raw_artifact": {
+      "$ref": "../common.schema.json#/$defs/artifactReference"
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "implementation_digest",
+        "warnings",
+        "unmapped_fields"
+      ],
+      "properties": {
+        "version": {
+          "const": "0.1.0"
+        },
+        "implementation_digest": {
+          "$ref": "../common.schema.json#/$defs/sha256"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "../common.schema.json#/$defs/warning"
+          }
+        },
+        "unmapped_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reward",
+            "passed"
+          ],
+          "properties": {
+            "status": {
+              "const": "completed"
+            },
+            "reward": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "passed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "error_code"
+          ],
+          "properties": {
+            "status": {
+              "const": "error"
+            },
+            "error_code": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "const": "not_run"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

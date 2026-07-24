@@ -1,0 +1,27 @@
+{
+  "protocol_version": "0.1.0",
+  "run_id": "run_partial-fixture",
+  "status": "abandoned",
+  "resumable": false,
+  "generated_at": "2026-01-02T00:10:00Z",
+  "chunks": [
+    {
+      "protocol_version": "0.1.0",
+      "run_id": "run_partial-fixture",
+      "ordinal": 0,
+      "sequence_range": {
+        "first": 0,
+        "last": 0
+      },
+      "event_count": 1,
+      "digest": "sha256:1ebc7e0c5e8875e1c697d9d27364456af1f986d30ad67c897ba62983a58f30d8"
+    }
+  ],
+  "missing_ranges": [
+    {
+      "first": 1,
+      "last": 1
+    }
+  ],
+  "artifacts": []
+}

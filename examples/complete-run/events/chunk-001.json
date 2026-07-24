@@ -1,0 +1,60 @@
+[
+  {
+    "protocol_version": "0.1.0",
+    "run_id": "run_complete-fixture",
+    "sequence": 2,
+    "event_id": "event_task-finished",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "evaluator",
+      "id": "fixture-evaluator",
+      "version": "1.0.0"
+    },
+    "occurred_at": "2026-01-01T00:00:02Z",
+    "captured_at": "2026-01-01T00:00:02Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_model-output",
+        "digest": "sha256:dbb56ddca2b4b9d42e0905ebe489c134eabb4dbd0d52352179849f330b921bdd"
+      }
+    ],
+    "payload": {
+      "type": "task_finished",
+      "task_id": "task_exact-text",
+      "outcome": "passed"
+    }
+  },
+  {
+    "protocol_version": "0.1.0",
+    "run_id": "run_complete-fixture",
+    "sequence": 3,
+    "event_id": "event_run-finished",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "1.0.0"
+    },
+    "occurred_at": "2026-01-01T00:00:02Z",
+    "captured_at": "2026-01-01T00:00:02Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_finished",
+      "outcome": "completed"
+    }
+  }
+]

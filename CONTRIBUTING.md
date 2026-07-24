@@ -1,8 +1,12 @@
 # Contributing
 
-This repository is pre-alpha. During M0, contributions are limited to current
-governance and documentation corrections. Protocol schemas, fixtures, SDKs,
-and compatibility changes belong to M1 and are not accepted yet.
+This repository is pre-alpha. Contributions are limited to corrections to the
+private `0.1.0` release candidate. New schemas, benchmark profiles, dependencies,
+or compatibility promises require an approved plan.
+
+JSON Schema is authoritative. Generated TypeScript declarations, Python models,
+and copied package schemas must be regenerated from `schemas/`; do not edit them
+directly. Run the verification commands in `README.md` before requesting review.
 
 Follow the canonical
 [organization contribution policy](https://github.com/generel-intelligence/.github/blob/main/CONTRIBUTING.md).

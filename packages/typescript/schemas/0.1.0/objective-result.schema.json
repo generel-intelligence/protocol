@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/objective-result.schema.json",
+  "title": "Objective result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "result_id",
+    "run_id",
+    "profile",
+    "evaluation_status",
+    "raw_result",
+    "projection",
+    "attestation_ids",
+    "warnings"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "common.schema.json#/$defs/protocolVersion"
+    },
+    "result_id": {
+      "type": "string",
+      "pattern": "^result_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/runId"
+    },
+    "profile": {
+      "$ref": "common.schema.json#/$defs/profileReference"
+    },
+    "evaluation_status": {
+      "enum": [
+        "passed",
+        "failed",
+        "error",
+        "not_run"
+      ]
+    },
+    "raw_result": {
+      "$ref": "common.schema.json#/$defs/artifactReference"
+    },
+    "projection": {
+      "$ref": "common.schema.json#/$defs/artifactReference"
+    },
+    "attestation_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^attestation_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/warning"
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/partial-run-manifest.schema.json",
+  "title": "Partial run manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "run_id",
+    "status",
+    "resumable",
+    "generated_at",
+    "chunks",
+    "missing_ranges",
+    "artifacts"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "common.schema.json#/$defs/protocolVersion"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/runId"
+    },
+    "status": {
+      "enum": [
+        "running",
+        "failed",
+        "cancelled",
+        "abandoned"
+      ]
+    },
+    "resumable": {
+      "type": "boolean"
+    },
+    "generated_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "chunks": {
+      "type": "array",
+      "items": {
+        "$ref": "event-chunk.schema.json"
+      }
+    },
+    "missing_ranges": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "common.schema.json#/$defs/sequenceRange"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "common.schema.json#/$defs/artifactReference"
+      }
+    }
+  }
+}

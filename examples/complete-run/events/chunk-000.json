@@ -1,0 +1,53 @@
+[
+  {
+    "protocol_version": "0.1.0",
+    "run_id": "run_complete-fixture",
+    "sequence": 0,
+    "event_id": "event_run-started",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "1.0.0"
+    },
+    "occurred_at": "2026-01-01T00:00:00Z",
+    "captured_at": "2026-01-01T00:00:00Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_started"
+    }
+  },
+  {
+    "protocol_version": "0.1.0",
+    "run_id": "run_complete-fixture",
+    "sequence": 1,
+    "event_id": "event_task-started",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "1.0.0"
+    },
+    "occurred_at": "2026-01-01T00:00:01Z",
+    "captured_at": "2026-01-01T00:00:01Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "task_started",
+      "task_id": "task_exact-text"
+    }
+  }
+]

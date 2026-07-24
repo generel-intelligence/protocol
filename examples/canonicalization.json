@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "name": "empty-object",
+      "input": {},
+      "canonical": "{}",
+      "digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "name": "object-key-order",
+      "input": {
+        "b": 2,
+        "a": 1
+      },
+      "canonical": "{\"a\":1,\"b\":2}",
+      "digest": "sha256:43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+    },
+    {
+      "name": "unicode-and-number",
+      "input": {
+        "text": "é",
+        "value": 0.000001
+      },
+      "canonical": "{\"text\":\"é\",\"value\":0.000001}",
+      "digest": "sha256:b305285d652edbee4c77d676295b49e702e407c528c792903424c3562676db55"
+    }
+  ]
+}

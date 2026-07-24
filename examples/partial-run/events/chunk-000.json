@@ -1,0 +1,29 @@
+[
+  {
+    "protocol_version": "0.1.0",
+    "run_id": "run_partial-fixture",
+    "sequence": 0,
+    "event_id": "event_partial-started",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "importer",
+      "id": "fixture-importer",
+      "version": "1.0.0"
+    },
+    "occurred_at": "2026-01-02T00:00:00Z",
+    "captured_at": "2026-01-02T00:00:01Z",
+    "capture": {
+      "status": "partial",
+      "warnings": [
+        "Events after sequence 0 were unavailable at capture time."
+      ]
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_started"
+    }
+  }
+]

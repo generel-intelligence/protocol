@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/profiles/swe-bench-verified-result.schema.json",
+  "title": "SWE-bench Verified result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "profile",
+    "benchmark",
+    "raw_artifact",
+    "mapping",
+    "outcome"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "../common.schema.json#/$defs/protocolVersion"
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "const": "swe-bench-verified-result"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      }
+    },
+    "benchmark": {
+      "$ref": "../benchmark-reference.schema.json"
+    },
+    "raw_artifact": {
+      "$ref": "../common.schema.json#/$defs/artifactReference"
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "implementation_digest",
+        "warnings",
+        "unmapped_fields"
+      ],
+      "properties": {
+        "version": {
+          "const": "0.1.0"
+        },
+        "implementation_digest": {
+          "$ref": "../common.schema.json#/$defs/sha256"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "../common.schema.json#/$defs/warning"
+          }
+        },
+        "unmapped_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "patch_is_null",
+            "patch_exists",
+            "patch_applied",
+            "resolved",
+            "tests_status_included"
+          ],
+          "properties": {
+            "status": {
+              "const": "completed"
+            },
+            "patch_is_null": {
+              "type": "boolean"
+            },
+            "patch_exists": {
+              "type": "boolean"
+            },
+            "patch_applied": {
+              "type": "boolean"
+            },
+            "resolved": {
+              "type": "boolean"
+            },
+            "tests_status_included": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "error_code"
+          ],
+          "properties": {
+            "status": {
+              "const": "error"
+            },
+            "error_code": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "const": "not_run"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

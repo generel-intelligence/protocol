@@ -7,8 +7,8 @@ producers, runners, evaluators, the platform, and published records.
 
 ## Ownership
 
-It will own protocol schemas, compatibility rules, examples, and generated
-language packages once those artifacts are introduced in M1.
+It owns protocol schemas, compatibility rules, examples, and generated language
+packages.
 
 It does not own application behavior, benchmark content, evaluation policy,
 deployment, or storage implementation.
@@ -16,25 +16,33 @@ deployment, or storage implementation.
 ## Local Contracts
 
 - Keep the protocol independent of UI, database, runner, and deployment code.
-- Treat JSON Schema as authoritative once M1 introduces schemas.
+- Treat `schemas/0.1.0/` as the sole runtime authority.
+- Keep schemas closed with `additionalProperties: false`.
+- Hash structured JSON as RFC 8785 canonical UTF-8 bytes with SHA-256.
+- Treat raw evidence as append-only and preserve incomplete and unknown states.
+- Keep result envelopes neutral; benchmark profiles own benchmark-specific
+  fields.
 - Introduce cross-repository changes in a compatibility-safe order.
 - Never silently infer missing scoring or evidence semantics.
 - Preserve unknown, partial, failed, and incompatible states.
-- Do not add schema or SDK scaffolding during M0.
+- Keep the TypeScript and Python packages private until owner approval.
+- Do not run benchmarks as part of protocol verification.
 
 ## Work Guidance
 
 - Prefer explicit fields and deterministic validation.
 - Do not duplicate generated models manually across languages.
 - Keep public changes within the current pre-alpha contribution scope.
+- Regenerate package artifacts after changing an authoritative schema.
 
 ## Verification
 
+- Run the commands in `README.md` for each package.
 - Run `git diff --check`.
 - Require the shared `governance` and `security-scan` checks.
-- Add schema and cross-language checks only when M1 introduces their real
-  sources and commands.
+- Require the repository-local `protocol-conformance` checks.
 
 ## Child DOX Index
 
-No child `AGENTS.md` files are required at this stage.
+No child `AGENTS.md` files are required; this file owns the schemas, examples,
+evidence records, and both small binding packages.

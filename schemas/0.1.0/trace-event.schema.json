@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/trace-event.schema.json",
+  "title": "Trace event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "run_id",
+    "sequence",
+    "event_id",
+    "profile",
+    "producer",
+    "occurred_at",
+    "captured_at",
+    "capture",
+    "artifacts",
+    "payload"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "common.schema.json#/$defs/protocolVersion"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/runId"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^event_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "profile": {
+      "$ref": "common.schema.json#/$defs/profileReference"
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "version"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "runner",
+            "evaluator",
+            "importer"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "occurred_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "captured_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "warnings"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/warning"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "common.schema.json#/$defs/artifactReference"
+      }
+    },
+    "payload": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "run_started"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "task_id"
+          ],
+          "properties": {
+            "type": {
+              "const": "task_started"
+            },
+            "task_id": {
+              "$ref": "common.schema.json#/$defs/taskId"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "task_id",
+            "outcome"
+          ],
+          "properties": {
+            "type": {
+              "const": "task_finished"
+            },
+            "task_id": {
+              "$ref": "common.schema.json#/$defs/taskId"
+            },
+            "outcome": {
+              "enum": [
+                "passed",
+                "failed",
+                "error"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "outcome"
+          ],
+          "properties": {
+            "type": {
+              "const": "run_finished"
+            },
+            "outcome": {
+              "enum": [
+                "completed",
+                "failed",
+                "cancelled",
+                "abandoned"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
