@@ -28,19 +28,73 @@ def test_canonicalization_corpus() -> None:
         assert hash_json(fixture["input"]) == fixture["digest"]
 
 
-def test_validation_accepts_fixture_and_rejects_unknown_field() -> None:
-    value = load("examples/complete-run/run-session.json")
-    validate("schemas/0.1.0/run-session.schema.json", value)
-    with pytest.raises(Exception, match="Additional properties"):
-        validate("schemas/0.1.0/run-session.schema.json", {**value, "extra": True})
-
-
-def test_all_conformance_documents_validate() -> None:
+def test_all_conformance_documents_validate_and_reject_generated_unknown_fields() -> None:
     for document in load("examples/conformance.json")["documents"]:
         value = load(f"examples/{document['path']}")
         candidates = value if document.get("items") else [value]
         for candidate in candidates:
             validate(document["schema"], candidate)
+            with pytest.raises(Exception, match="Additional properties"):
+                validate(
+                    document["schema"],
+                    {**candidate, "synthetic_unknown_field": True},
+                )
+
+
+def test_profile_schemas_cover_generated_terminal_and_category_branches() -> None:
+    profiles = (
+        ("swe-bench-verified", "swe-bench-verified-result"),
+        ("terminal-bench-2", "terminal-bench-2-result"),
+        ("bfcl-v4", "bfcl-v4-result"),
+    )
+    for fixture_name, schema_name in profiles:
+        value = load(f"examples/profiles/{fixture_name}.json")
+        schema = f"schemas/0.1.0/profiles/{schema_name}.schema.json"
+        validate(schema, {**value, "outcome": {"status": "error", "error_code": "synthetic_error"}})
+        validate(schema, {**value, "outcome": {"status": "not_run", "reason": "synthetic branch"}})
+
+    swe = load("examples/profiles/swe-bench-verified.json")
+    validate(
+        "schemas/0.1.0/profiles/swe-bench-verified-result.schema.json",
+        {**swe, "outcome": {"status": "completed", "resolved": False}},
+    )
+
+    terminal = load("examples/profiles/terminal-bench-2.json")
+    validate(
+        "schemas/0.1.0/profiles/terminal-bench-2-result.schema.json",
+        {**terminal, "outcome": {"status": "completed", "reward": 0, "passed": False}},
+    )
+
+    bfcl = load("examples/profiles/bfcl-v4.json")
+    bfcl_schema = "schemas/0.1.0/profiles/bfcl-v4-result.schema.json"
+    validate(
+        bfcl_schema,
+        {
+            **bfcl,
+            "outcome": {
+                "status": "completed",
+                "test_category": "simple_python",
+                "accuracy": 0,
+                "correct_count": 0,
+                "total_count": 1,
+                "partial_evaluation": True,
+            },
+        },
+    )
+    with pytest.raises(Exception):
+        validate(
+            bfcl_schema,
+            {
+                **bfcl,
+                "outcome": {
+                    "status": "completed",
+                    "test_category": "simple_python",
+                    "accuracy": 0,
+                    "correct_count": 0,
+                    "partial_evaluation": True,
+                },
+            },
+        )
 
 
 def test_event_chunk_digests_match_canonical_event_bytes() -> None:
@@ -48,6 +102,34 @@ def test_event_chunk_digests_match_canonical_event_bytes() -> None:
         events = load(f"examples/complete-run/events/chunk-{ordinal}.json")
         manifest = load(f"examples/complete-run/chunk-{ordinal}.manifest.json")
         assert hash_json(events) == manifest["digest"]
+
+
+def test_complete_and_partial_run_fixtures_preserve_sequence_integrity() -> None:
+    final = load("examples/complete-run/final-run-manifest.json")
+    chunks = final["chunks"]
+    assert [chunk["ordinal"] for chunk in chunks] == list(range(len(chunks)))
+
+    sequences: list[int] = []
+    for chunk in chunks:
+        ordinal = chunk["ordinal"]
+        events = load(f"examples/complete-run/events/chunk-{ordinal:03}.json")
+        event_sequences = [event["sequence"] for event in events]
+        assert len(events) == chunk["event_count"]
+        assert event_sequences == list(
+            range(chunk["sequence_range"]["first"], chunk["sequence_range"]["last"] + 1)
+        )
+        assert {event["run_id"] for event in events} == {final["run_id"]}
+        assert hash_json(events) == chunk["digest"]
+        sequences.extend(event_sequences)
+
+    assert sequences == list(range(len(sequences)))
+    assert sum(chunk["event_count"] for chunk in chunks) == len(sequences)
+
+    partial = load("examples/partial-run/partial-run-manifest.json")
+    assert not (REPOSITORY_ROOT / "examples/partial-run/final-run-manifest.json").exists()
+    present = partial["chunks"]
+    assert [chunk["ordinal"] for chunk in present] == list(range(len(present)))
+    assert present[-1]["sequence_range"]["last"] < partial["missing_ranges"][0]["first"]
 
 
 def test_public_schema_inventory_is_exactly_sixteen_valid_schemas() -> None:

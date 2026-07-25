@@ -25,11 +25,11 @@ class Mapping(TypedDict):
 
 class Outcome(TypedDict):
     status: NotRequired[str]
-    patch_is_null: bool
-    patch_exists: bool
-    patch_applied: bool
+    patch_is_null: NotRequired[bool]
+    patch_exists: NotRequired[bool]
+    patch_applied: NotRequired[bool]
     resolved: bool
-    tests_status_included: bool
+    tests_status_included: NotRequired[bool]
 
 
 class Outcome4(TypedDict):

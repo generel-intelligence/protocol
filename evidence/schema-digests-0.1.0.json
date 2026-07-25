@@ -12,7 +12,7 @@
     "objective-result.schema.json": "sha256:5e532cdd956658034cb9bcc3ae94bbcf914e8f9fcffc43298f4d3ea33fe84609",
     "partial-run-manifest.schema.json": "sha256:49b7e85b59d47bae5a3ea3cfe2a83e26467be0b45e8a1a2fc072b691d04ce360",
     "profiles/bfcl-v4-result.schema.json": "sha256:dd6cddb8416b17e294840360470043cebf47091fc7c3a7582bb9f1e7b5ddc499",
-    "profiles/swe-bench-verified-result.schema.json": "sha256:16941541dbfad02c85973b331115fe599f484d9369837157c57dd3f785e7fc6d",
+    "profiles/swe-bench-verified-result.schema.json": "sha256:5918b2ec4b4b01fb6c3cd2846ce895af20cf0b6668e3a161fd868de0f47fa167",
     "profiles/terminal-bench-2-result.schema.json": "sha256:fe6151d2703997cde447483bef071c44547d514b22e9d4e819ead2a9c1688e1e",
     "run-session.schema.json": "sha256:b369697bfeffcbeb1cb0228fb7dbc6331ab6858af231913c4e9ac5c50842aaa0",
     "suite-manifest.schema.json": "sha256:46c481843d0abef9dc768ec3f1165b003d465a117177ff700a57545230827631",
