@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.2.0/profiles/expense-report-result.schema.json",
+  "title": "Expense report result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "profile",
+    "suite",
+    "task",
+    "evaluator",
+    "execution_contract",
+    "outcome"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.2.0"
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {
+          "const": "expense-report-result"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      }
+    },
+    "suite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "package_digest"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^suite_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "version": {
+          "$ref": "#/$defs/resultSemver"
+        },
+        "package_digest": {
+          "$ref": "#/$defs/resultSha256"
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^task_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "version": {
+          "$ref": "#/$defs/resultSemver"
+        }
+      }
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "image_digest"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^evaluator_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "version": {
+          "$ref": "#/$defs/resultSemver"
+        },
+        "image_digest": {
+          "$ref": "#/$defs/resultSha256"
+        }
+      }
+    },
+    "execution_contract": {
+      "const": "workspace-snapshot/0.1.0"
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "groups", "passed_count", "total_count", "passed"],
+          "properties": {
+            "status": {
+              "const": "completed"
+            },
+            "groups": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status", "dates", "refunds", "currencies"],
+              "properties": {
+                "status": {
+                  "type": "boolean"
+                },
+                "dates": {
+                  "type": "boolean"
+                },
+                "refunds": {
+                  "type": "boolean"
+                },
+                "currencies": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "passed_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "total_count": {
+              "const": 4
+            },
+            "passed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "error_code"],
+          "properties": {
+            "status": {
+              "const": "error"
+            },
+            "error_code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "reason"],
+          "properties": {
+            "status": {
+              "const": "not_run"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "resultSemver": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "resultSha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

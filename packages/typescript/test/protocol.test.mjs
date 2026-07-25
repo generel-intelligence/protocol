@@ -11,8 +11,44 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.1.0");
+  assert.equal(PROTOCOL_VERSION, "0.2.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
+  assert.equal(
+    getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
+    "Benchmark package manifest"
+  );
+});
+
+test("expense result terminal branches validate", () => {
+  const value = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m2", "expense-report-result.json"), "utf8")
+  );
+  const schema = "schemas/0.2.0/profiles/expense-report-result.schema.json";
+  assert.doesNotThrow(() => validate(schema, value));
+  assert.doesNotThrow(() =>
+    validate(schema, { ...value, outcome: { status: "error", error_code: "evaluator_failed" } })
+  );
+  assert.doesNotThrow(() =>
+    validate(schema, { ...value, outcome: { status: "not_run", reason: "workspace unavailable" } })
+  );
+  assert.throws(() =>
+    validate(schema, {
+      ...value,
+      outcome: { ...value.outcome, groups: { ...value.outcome.groups, hidden_case: true } }
+    })
+  );
+});
+
+test("benchmark package paths cannot traverse", () => {
+  const value = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m2", "benchmark-package-manifest.json"), "utf8")
+  );
+  assert.throws(() =>
+    validate("schemas/0.2.0/benchmark-package-manifest.schema.json", {
+      ...value,
+      files: [{ ...value.files[0], path: "workspace/../hidden-tests.py" }]
+    })
+  );
 });
 
 test("canonicalization corpus matches", () => {
@@ -137,6 +173,24 @@ test("the public schema inventory is exactly sixteen valid schemas", () => {
   assert.equal(paths.length, 16);
   for (const path of paths) {
     const schema = getSchema(`schemas/0.1.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("the protocol 0.2 schema inventory is exactly two recorded schemas", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.2.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.2.0.json"), "utf8")
+  ).schemas;
+  const paths = [
+    ...readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json")),
+    ...readdirSync(join(schemaRoot, "profiles"))
+      .filter((name) => name.endsWith(".schema.json"))
+      .map((name) => `profiles/${name}`)
+  ];
+  assert.equal(paths.length, 2);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.2.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
 });

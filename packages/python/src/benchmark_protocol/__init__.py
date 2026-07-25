@@ -3,25 +3,33 @@ from __future__ import annotations
 import hashlib
 import json
 from importlib.resources import files
+from importlib.resources.abc import Traversable
 from typing import Any
 
 import rfc8785
 from jsonschema import Draft202012Validator, FormatChecker
 from referencing import Registry, Resource
 
-PROTOCOL_VERSION = "0.1.0"
+PROTOCOL_VERSION = "0.2.0"
 _SCHEMA_ROOT = files(__package__).joinpath("schemas")
+
+
+def _schema_files(directory: Traversable) -> list[Traversable]:
+    paths: list[Traversable] = []
+    for entry in directory.iterdir():
+        if entry.is_dir():
+            paths.extend(_schema_files(entry))
+        elif entry.name.endswith(".schema.json"):
+            paths.append(entry)
+    return paths
 
 
 def _load_schemas() -> dict[str, dict[str, Any]]:
     loaded: dict[str, dict[str, Any]] = {}
-    for entry in _SCHEMA_ROOT.joinpath("0.1.0").iterdir():
-        paths = entry.iterdir() if entry.is_dir() else [entry]
-        for path in paths:
-            if path.name.endswith(".schema.json"):
-                schema = json.loads(path.read_text(encoding="utf-8"))
-                loaded[schema["$id"]] = schema
-                loaded[str(path).split("schemas", 1)[1].lstrip("\\/").replace("\\", "/")] = schema
+    for path in _schema_files(_SCHEMA_ROOT):
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        loaded[schema["$id"]] = schema
+        loaded[str(path).rsplit("schemas", 1)[1].lstrip("\\/").replace("\\", "/")] = schema
     return loaded
 
 

@@ -1,17 +1,42 @@
-# Protocol 0.1.0 candidate
+# Protocol compatibility
 
 ## Authority and compatibility
 
-The 16 JSON Schema 2020-12 documents in `schemas/0.1.0/` are the sole runtime
-authority. Generated language types are conveniences and may not relax a
-schema. All schemas are closed. An unknown field is invalid rather than an
+The versioned JSON Schema 2020-12 documents under `schemas/` are the sole
+runtime authority. Generated language types are conveniences and may not relax
+a schema. All schemas are closed. An unknown field is invalid rather than an
 implicit extension.
 
-`0.1.0` is a pre-alpha candidate. Its source is public, while its provisional
-language packages remain unpublished. A future version may add optional fields
-compatibly. Removing a field, changing its meaning, tightening accepted values,
-or changing hashing semantics requires a new protocol version and a rollout
-plan. Incompatible documents must remain labeled, not silently normalized.
+The 16 `0.1.0` schemas are unchanged. `0.2.0` adds only the benchmark-package
+manifest and the project-owned expense-report result profile. Source is public,
+while provisional language packages remain unpublished. Removing a field,
+changing its meaning, tightening accepted values, or changing hashing semantics
+requires a new protocol version and rollout plan. Incompatible documents remain
+labeled, not silently normalized.
+
+## Custom benchmark packages
+
+The `0.2.0` benchmark-package manifest identifies one suite, one or more tasks,
+an immutable OCI environment image, included licenses, and every payload file.
+Payload paths are relative forward-slash paths. Package validators must also
+enforce unique paths and identifiers, resolve every license reference, verify
+every declared byte size and digest, and reject unsafe archive entries.
+
+The manifest does not contain its own digest. The `.gbench` archive digest is
+computed over the final deterministic archive and recorded by its producer and
+consumers.
+
+## Project-owned expense results
+
+The expense-report profile exposes only four stable behavior groups:
+`status`, `dates`, `refunds`, and `currencies`. A completed result includes all
+four booleans, their passed count, and overall pass/fail. The evaluator must
+make those summary fields consistent; schema validation checks their closed
+shape and bounds but does not replace evaluator conformance tests.
+
+Case-level hidden-test evidence is intentionally outside the shareable profile.
+The `error` and `not_run` branches preserve failed or absent evaluation without
+fabricating group results.
 
 ## Canonicalization and digests
 

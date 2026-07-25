@@ -75,6 +75,14 @@
     {
       "path": "profiles/bfcl-v4.json",
       "schema": "schemas/0.1.0/profiles/bfcl-v4-result.schema.json"
+    },
+    {
+      "path": "m2/benchmark-package-manifest.json",
+      "schema": "schemas/0.2.0/benchmark-package-manifest.schema.json"
+    },
+    {
+      "path": "m2/expense-report-result.json",
+      "schema": "schemas/0.2.0/profiles/expense-report-result.schema.json"
     }
   ]
 }

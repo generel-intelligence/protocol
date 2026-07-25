@@ -1,0 +1,43 @@
+{
+  "protocol_version": "0.2.0",
+  "format_version": "0.1.0",
+  "suite": {
+    "id": "suite_expense-report",
+    "version": "0.1.0",
+    "manifest_path": "suite.json",
+    "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "tasks": [
+    {
+      "id": "task_repair-expense-report",
+      "version": "0.1.0",
+      "manifest_path": "tasks/repair-expense-report/task.json",
+      "manifest_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "environment": {
+    "image": "ghcr.io/example/expense-report@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "platform": "linux/amd64"
+  },
+  "licenses": [
+    {
+      "id": "Benchmark-Candidate-0.1",
+      "path": "licenses/BENCHMARK-LICENSE.txt",
+      "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  ],
+  "files": [
+    {
+      "path": "suite.json",
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byte_size": 512,
+      "license_id": "Benchmark-Candidate-0.1"
+    },
+    {
+      "path": "tasks/repair-expense-report/task.json",
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "byte_size": 768,
+      "license_id": "Benchmark-Candidate-0.1"
+    }
+  ]
+}
