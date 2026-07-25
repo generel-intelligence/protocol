@@ -9,7 +9,7 @@
       "result_digest": "sha256:da1756a0cf869ad40bc549bd20686674426a221167a257431348974d8cf18a44",
       "redistribution": "reference-only",
       "known_gaps": [
-        "The public aggregate identifies resolved and unresolved task IDs but omits per-task tests_status.",
+        "The public aggregate identifies resolved and unresolved task IDs but omits per-task patch and tests_status fields.",
         "This project did not reproduce the run."
       ]
     },

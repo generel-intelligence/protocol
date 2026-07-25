@@ -42,7 +42,9 @@ Automated validation never implies human approval or publication.
 The neutral objective-result envelope has no universal score. SWE-bench
 Verified, Terminal-Bench 2, and BFCL V4 each have a dedicated result profile.
 Their fixtures reference public upstream bytes by URI and digest; those bytes
-are not copied into this repository.
+are not copied into this repository. A projection omits optional profile fields
+that are absent from the referenced bytes; it must not synthesize them from an
+aggregate category or other indirect evidence.
 
 ## Run evidence
 

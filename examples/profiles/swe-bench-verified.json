@@ -32,6 +32,7 @@
     "version": "0.1.0",
     "implementation_digest": "sha256:bde28d35aa6408c3ba84b53a13884bcca005e49db466c1793d7b2b0178992a71",
     "warnings": [
+      "The published aggregate establishes only that this task appears in the resolved category; per-task patch and test-status fields are unavailable.",
       "Projection is source-attested from a published result; this project did not reproduce the run."
     ],
     "unmapped_fields": [
@@ -43,10 +44,6 @@
   },
   "outcome": {
     "status": "completed",
-    "patch_is_null": false,
-    "patch_exists": true,
-    "patch_applied": true,
-    "resolved": true,
-    "tests_status_included": false
+    "resolved": true
   }
 }

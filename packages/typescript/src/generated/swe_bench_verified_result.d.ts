@@ -17,11 +17,11 @@ export interface SWEBenchVerifiedResult {
   outcome:
     | {
         status: "completed";
-        patch_is_null: boolean;
-        patch_exists: boolean;
-        patch_applied: boolean;
+        patch_is_null?: boolean;
+        patch_exists?: boolean;
+        patch_applied?: boolean;
         resolved: boolean;
-        tests_status_included: boolean;
+        tests_status_included?: boolean;
       }
     | {
         status: "error";

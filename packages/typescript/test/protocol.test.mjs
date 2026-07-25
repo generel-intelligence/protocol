@@ -22,17 +22,7 @@ test("canonicalization corpus matches", () => {
   }
 });
 
-test("validates a fixture and rejects an unknown field", () => {
-  const path = join(repositoryRoot, "examples", "complete-run", "run-session.json");
-  const value = JSON.parse(readFileSync(path, "utf8"));
-  assert.doesNotThrow(() => validate("schemas/0.1.0/run-session.schema.json", value));
-  assert.throws(
-    () => validate("schemas/0.1.0/run-session.schema.json", { ...value, extra: true }),
-    /additionalProperties/
-  );
-});
-
-test("all conformance documents validate", () => {
+test("all conformance documents validate and reject generated unknown fields", () => {
   const manifest = JSON.parse(
     readFileSync(join(repositoryRoot, "examples", "conformance.json"), "utf8")
   );
@@ -42,8 +32,83 @@ test("all conformance documents validate", () => {
     );
     for (const candidate of document.items ? value : [value]) {
       assert.doesNotThrow(() => validate(document.schema, candidate), document.path);
+      assert.throws(
+        () => validate(document.schema, { ...candidate, synthetic_unknown_field: true }),
+        /additionalProperties/,
+        document.path
+      );
     }
   }
+});
+
+test("profile schemas cover generated terminal and category branches", () => {
+  const profiles = [
+    ["swe-bench-verified", "swe-bench-verified-result"],
+    ["terminal-bench-2", "terminal-bench-2-result"],
+    ["bfcl-v4", "bfcl-v4-result"]
+  ];
+  for (const [fixtureName, schemaName] of profiles) {
+    const value = JSON.parse(
+      readFileSync(join(repositoryRoot, "examples", "profiles", `${fixtureName}.json`), "utf8")
+    );
+    const schema = `schemas/0.1.0/profiles/${schemaName}.schema.json`;
+    assert.doesNotThrow(() =>
+      validate(schema, { ...value, outcome: { status: "error", error_code: "synthetic_error" } })
+    );
+    assert.doesNotThrow(() =>
+      validate(schema, { ...value, outcome: { status: "not_run", reason: "synthetic branch" } })
+    );
+  }
+
+  const swe = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "profiles", "swe-bench-verified.json"), "utf8")
+  );
+  assert.doesNotThrow(() =>
+    validate("schemas/0.1.0/profiles/swe-bench-verified-result.schema.json", {
+      ...swe,
+      outcome: { status: "completed", resolved: false }
+    })
+  );
+
+  const terminal = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "profiles", "terminal-bench-2.json"), "utf8")
+  );
+  assert.doesNotThrow(() =>
+    validate("schemas/0.1.0/profiles/terminal-bench-2-result.schema.json", {
+      ...terminal,
+      outcome: { status: "completed", reward: 0, passed: false }
+    })
+  );
+
+  const bfcl = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "profiles", "bfcl-v4.json"), "utf8")
+  );
+  const bfclSchema = "schemas/0.1.0/profiles/bfcl-v4-result.schema.json";
+  assert.doesNotThrow(() =>
+    validate(bfclSchema, {
+      ...bfcl,
+      outcome: {
+        status: "completed",
+        test_category: "simple_python",
+        accuracy: 0,
+        correct_count: 0,
+        total_count: 1,
+        partial_evaluation: true
+      }
+    })
+  );
+  assert.throws(() =>
+    validate(bfclSchema, {
+      ...bfcl,
+      outcome: {
+        status: "completed",
+        test_category: "simple_python",
+        accuracy: 0,
+        correct_count: 0,
+        partial_evaluation: true
+      }
+    })
+  );
 });
 
 test("event chunk digests match canonical event bytes", () => {

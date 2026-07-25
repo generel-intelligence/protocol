@@ -77,11 +77,7 @@
           "additionalProperties": false,
           "required": [
             "status",
-            "patch_is_null",
-            "patch_exists",
-            "patch_applied",
-            "resolved",
-            "tests_status_included"
+            "resolved"
           ],
           "properties": {
             "status": {
