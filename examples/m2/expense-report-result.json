@@ -1,0 +1,34 @@
+{
+  "protocol_version": "0.2.0",
+  "profile": {
+    "id": "expense-report-result",
+    "version": "0.1.0"
+  },
+  "suite": {
+    "id": "suite_expense-report",
+    "version": "0.1.0",
+    "package_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "task": {
+    "id": "task_repair-expense-report",
+    "version": "0.1.0"
+  },
+  "evaluator": {
+    "id": "evaluator_expense-report",
+    "version": "0.1.0",
+    "image_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "execution_contract": "workspace-snapshot/0.1.0",
+  "outcome": {
+    "status": "completed",
+    "groups": {
+      "status": false,
+      "dates": false,
+      "refunds": false,
+      "currencies": false
+    },
+    "passed_count": 0,
+    "total_count": 4,
+    "passed": false
+  }
+}

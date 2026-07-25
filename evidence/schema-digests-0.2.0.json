@@ -1,0 +1,7 @@
+{
+  "protocol_version": "0.2.0",
+  "schemas": {
+    "benchmark-package-manifest.schema.json": "sha256:90d9b9ab728873e70de16c5e6123d359cff063b726b0731f655d31bf9df8bc47",
+    "profiles/expense-report-result.schema.json": "sha256:6d3fcf54805125051a54d8b9bdd18e6e79174f307b144cd9640b9eafcb2c5d45"
+  }
+}

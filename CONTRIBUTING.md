@@ -1,7 +1,7 @@
 # Contributing
 
 This repository is pre-alpha. Contributions are limited to corrections to the
-`0.1.0` release candidate. New schemas, benchmark profiles, dependencies, or
+`0.2.0` release candidate. New schemas, benchmark profiles, dependencies, or
 compatibility promises require an approved plan.
 
 JSON Schema is authoritative. Generated TypeScript declarations, Python models,
