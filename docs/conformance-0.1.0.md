@@ -1,6 +1,7 @@
 # Protocol 0.1.0 conformance record
 
-Status: private release candidate; owner approval pending.
+Status: source release candidate; owner approved public repository visibility
+on 2026-07-25. npm and PyPI publication remain unapproved.
 
 The candidate is conformant only when both binding packages:
 
@@ -41,5 +42,15 @@ The smoke tests imported each installed package and checked the version and a
 shared canonical hash. The first Python offline install attempt could not
 resolve uncached transitive wheels; the successful clean install used PyPI.
 
-GitHub Actions remains unverified until the private candidate is pushed. Owner
-approval is still required before M1 is official or anything is published.
+Private candidate GitHub Actions evidence:
+
+- `protocol-ci` TypeScript and Python jobs passed in run
+  [`30164587806`](https://github.com/generel-intelligence/protocol/actions/runs/30164587806).
+- `governance` passed in run
+  [`30164588125`](https://github.com/generel-intelligence/protocol/actions/runs/30164588125).
+- `security-scan` passed in run
+  [`30164588107`](https://github.com/generel-intelligence/protocol/actions/runs/30164588107).
+
+No npm or PyPI publication, tag, or GitHub Release is authorized by this
+candidate. Explicit owner confirmation is still required before M1 is declared
+complete.

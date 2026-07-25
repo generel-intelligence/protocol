@@ -6,9 +6,10 @@ package names are provisional.
 
 ## Status
 
-Pre-alpha. Protocol `0.1.0` is a private release candidate, not a published
-compatibility promise. It contains 16 authoritative JSON Schema 2020-12
-documents, conformance examples, and private TypeScript and Python bindings.
+Pre-alpha. Protocol `0.1.0` is a source-available release candidate, not a
+published compatibility promise. It contains 16 authoritative JSON Schema
+2020-12 documents, conformance examples, and unpublished TypeScript and Python
+bindings.
 
 The protocol must remain independent of website, database, runner, evaluator,
 and deployment implementations.

@@ -7,11 +7,11 @@ authority. Generated language types are conveniences and may not relax a
 schema. All schemas are closed. An unknown field is invalid rather than an
 implicit extension.
 
-`0.1.0` is a private pre-alpha candidate. A future version may add optional
-fields compatibly. Removing a field, changing its meaning, tightening accepted
-values, or changing hashing semantics requires a new protocol version and a
-rollout plan. Incompatible documents must remain labeled, not silently
-normalized.
+`0.1.0` is a pre-alpha candidate. Its source is public, while its provisional
+language packages remain unpublished. A future version may add optional fields
+compatibly. Removing a field, changing its meaning, tightening accepted values,
+or changing hashing semantics requires a new protocol version and a rollout
+plan. Incompatible documents must remain labeled, not silently normalized.
 
 ## Canonicalization and digests
 
