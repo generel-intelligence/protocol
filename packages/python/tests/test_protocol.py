@@ -18,8 +18,12 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.1.0"
+    assert PROTOCOL_VERSION == "0.2.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
+    assert (
+        get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
+        == "Benchmark package manifest"
+    )
 
 
 def test_canonicalization_corpus() -> None:
@@ -97,6 +101,37 @@ def test_profile_schemas_cover_generated_terminal_and_category_branches() -> Non
         )
 
 
+def test_expense_result_terminal_branches_validate() -> None:
+    value = load("examples/m2/expense-report-result.json")
+    schema = "schemas/0.2.0/profiles/expense-report-result.schema.json"
+    validate(schema, value)
+    validate(schema, {**value, "outcome": {"status": "error", "error_code": "evaluator_failed"}})
+    validate(schema, {**value, "outcome": {"status": "not_run", "reason": "workspace unavailable"}})
+    with pytest.raises(Exception):
+        validate(
+            schema,
+            {
+                **value,
+                "outcome": {
+                    **value["outcome"],
+                    "groups": {**value["outcome"]["groups"], "hidden_case": True},
+                },
+            },
+        )
+
+
+def test_benchmark_package_paths_cannot_traverse() -> None:
+    value = load("examples/m2/benchmark-package-manifest.json")
+    with pytest.raises(Exception):
+        validate(
+            "schemas/0.2.0/benchmark-package-manifest.schema.json",
+            {
+                **value,
+                "files": [{**value["files"][0], "path": "workspace/../hidden-tests.py"}],
+            },
+        )
+
+
 def test_event_chunk_digests_match_canonical_event_bytes() -> None:
     for ordinal in ("000", "001"):
         events = load(f"examples/complete-run/events/chunk-{ordinal}.json")
@@ -140,6 +175,17 @@ def test_public_schema_inventory_is_exactly_sixteen_valid_schemas() -> None:
         schema = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.1.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_2_schema_inventory_is_exactly_two_valid_schemas() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.2.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.2.0.json")["schemas"]
+    assert len(paths) == 2
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.2.0").as_posix()
         assert hash_json(schema) == recorded[relative]
 
 

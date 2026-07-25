@@ -16,7 +16,7 @@ deployment, or storage implementation.
 ## Local Contracts
 
 - Keep the protocol independent of UI, database, runner, and deployment code.
-- Treat `schemas/0.1.0/` as the sole runtime authority.
+- Treat versioned files under `schemas/` as the sole runtime authority.
 - Keep schemas closed with `additionalProperties: false`.
 - Hash structured JSON as RFC 8785 canonical UTF-8 bytes with SHA-256.
 - Treat raw evidence as append-only and preserve incomplete and unknown states.
