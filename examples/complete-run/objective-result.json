@@ -1,0 +1,22 @@
+{
+  "protocol_version": "0.1.0",
+  "result_id": "result_complete-fixture",
+  "run_id": "run_complete-fixture",
+  "profile": {
+    "id": "custom-fixture-result",
+    "version": "0.1.0"
+  },
+  "evaluation_status": "passed",
+  "raw_result": {
+    "artifact_id": "artifact_model-output",
+    "digest": "sha256:dbb56ddca2b4b9d42e0905ebe489c134eabb4dbd0d52352179849f330b921bdd"
+  },
+  "projection": {
+    "artifact_id": "artifact_projection",
+    "digest": "sha256:11c11db30f4b3f6c758722ba3e27eea08145b7d212f6a157451e364b48475280"
+  },
+  "attestation_ids": [
+    "attestation_schema-validation"
+  ],
+  "warnings": []
+}

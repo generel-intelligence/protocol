@@ -1,0 +1,1 @@
+Return the exact text: protocol fixture complete.

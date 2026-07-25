@@ -1,0 +1,49 @@
+{
+  "protocol_version": "0.1.0",
+  "profile": {
+    "id": "bfcl-v4-result",
+    "version": "0.1.0"
+  },
+  "benchmark": {
+    "protocol_version": "0.1.0",
+    "profile": {
+      "id": "bfcl-v4-result",
+      "version": "0.1.0"
+    },
+    "benchmark_family": "bfcl-v4",
+    "dataset": {
+      "uri": "https://gorilla.cs.berkeley.edu/data_overall.csv",
+      "revision": "retrieved-2026-07-24",
+      "digest": "sha256:ede5081a24bc5ac7f9b3b09a52af6bcfcd35aa0f1709239fed979db77a8159a6"
+    },
+    "task": {
+      "upstream_id": "overall"
+    },
+    "evaluator": {
+      "release": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+      "config_digest": "sha256:7c756592af53eb54733989aa03a3fa87854f1c20dd566f3f10a770e17d25a9d7"
+    }
+  },
+  "raw_artifact": {
+    "artifact_id": "artifact_bfcl-upstream-result",
+    "digest": "sha256:ede5081a24bc5ac7f9b3b09a52af6bcfcd35aa0f1709239fed979db77a8159a6"
+  },
+  "mapping": {
+    "version": "0.1.0",
+    "implementation_digest": "sha256:a28261976b1e2f212e7fb6388cf8cbd8aab35abb86f647444e3ede0fe982e0f2",
+    "warnings": [
+      "The public leaderboard CSV is mutable; the retrieval date and digest identify the reviewed bytes.",
+      "Projection is source-attested from a published result; this project did not reproduce the run."
+    ],
+    "unmapped_fields": [
+      "model_metadata",
+      "per-category leaderboard columns"
+    ]
+  },
+  "outcome": {
+    "status": "completed",
+    "test_category": "web_search_base",
+    "accuracy": 0.845,
+    "partial_evaluation": true
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "protocol_version": "0.1.0",
+  "profile": {
+    "id": "terminal-bench-2-result",
+    "version": "0.1.0"
+  },
+  "benchmark": {
+    "protocol_version": "0.1.0",
+    "profile": {
+      "id": "terminal-bench-2-result",
+      "version": "0.1.0"
+    },
+    "benchmark_family": "terminal-bench-2",
+    "dataset": {
+      "uri": "https://huggingface.co/datasets/harborframework/terminal-bench-2-leaderboard/resolve/e4d82780e781db91274ce5f779255dd44da9086d/submissions/terminal-bench/2.0/ultimate-pi__oracle/adaptive-rejection-sampler__F9o65CF/result.json",
+      "revision": "e4d82780e781db91274ce5f779255dd44da9086d",
+      "digest": "sha256:1e7fbab3865d25aef6637d42dc1372d1f1b1bd908a84ca1681ef4f5e18eaa89c"
+    },
+    "task": {
+      "upstream_id": "adaptive-rejection-sampler",
+      "digest": "sha256:4fde6e809c475b000ae3ea4135f906ffe4775bccae7dafd0b123f4ecc9fcf697"
+    },
+    "evaluator": {
+      "release": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+      "config_digest": "sha256:d6f510b51fafc81b4e9b5cc95535aa13491c8753e0e4171db42c45f4de460ee7"
+    }
+  },
+  "raw_artifact": {
+    "artifact_id": "artifact_terminal-bench-upstream-result",
+    "digest": "sha256:1e7fbab3865d25aef6637d42dc1372d1f1b1bd908a84ca1681ef4f5e18eaa89c"
+  },
+  "mapping": {
+    "version": "0.1.0",
+    "implementation_digest": "sha256:fa7d3cb782c504e7c39aeb8f0ba630a91b487b60b4c72a2b32c1766fb38cd703",
+    "warnings": [
+      "Projection is source-attested from a published result; this project did not reproduce the run."
+    ],
+    "unmapped_fields": [
+      "agent_execution",
+      "exception_info",
+      "timestamps"
+    ]
+  },
+  "outcome": {
+    "status": "completed",
+    "reward": 1,
+    "passed": true
+  }
+}

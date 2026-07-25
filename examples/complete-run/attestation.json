@@ -1,0 +1,10 @@
+{
+  "protocol_version": "0.1.0",
+  "attestation_id": "attestation_schema-validation",
+  "kind": "schema_validated",
+  "issuer": "protocol conformance fixture",
+  "issued_at": "2026-01-01T00:00:03Z",
+  "subject_digest": "sha256:87f955f589fc5a82ddad818c1087948db3f11013e1806e073584c1e3e3666e3b",
+  "method": "Validated with the protocol 0.1.0 JSON Schema set.",
+  "evidence": []
+}

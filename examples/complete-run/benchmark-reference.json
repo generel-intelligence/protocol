@@ -1,0 +1,21 @@
+{
+  "protocol_version": "0.1.0",
+  "profile": {
+    "id": "custom-fixture-result",
+    "version": "0.1.0"
+  },
+  "benchmark_family": "protocol-contract-fixture",
+  "dataset": {
+    "uri": "https://example.invalid/protocol-contract-fixture",
+    "revision": "1.0.0",
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "task": {
+    "upstream_id": "exact-text",
+    "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "evaluator": {
+    "release": "fixture-1",
+    "config_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  }
+}

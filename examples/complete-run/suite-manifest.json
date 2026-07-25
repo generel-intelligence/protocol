@@ -1,0 +1,10 @@
+{
+  "protocol_version": "0.1.0",
+  "suite_id": "suite_contract-fixture",
+  "suite_version": "1.0.0",
+  "license": "CC0-1.0",
+  "task_ids": [
+    "task_exact-text"
+  ],
+  "assets": []
+}

@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/profiles/bfcl-v4-result.schema.json",
+  "title": "BFCL V4 result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "profile",
+    "benchmark",
+    "raw_artifact",
+    "mapping",
+    "outcome"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "../common.schema.json#/$defs/protocolVersion"
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "const": "bfcl-v4-result"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      }
+    },
+    "benchmark": {
+      "$ref": "../benchmark-reference.schema.json"
+    },
+    "raw_artifact": {
+      "$ref": "../common.schema.json#/$defs/artifactReference"
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "implementation_digest",
+        "warnings",
+        "unmapped_fields"
+      ],
+      "properties": {
+        "version": {
+          "const": "0.1.0"
+        },
+        "implementation_digest": {
+          "$ref": "../common.schema.json#/$defs/sha256"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "../common.schema.json#/$defs/warning"
+          }
+        },
+        "unmapped_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "test_category",
+            "accuracy",
+            "partial_evaluation"
+          ],
+          "properties": {
+            "status": {
+              "const": "completed"
+            },
+            "test_category": {
+              "enum": [
+                "simple_python",
+                "simple_java",
+                "simple_javascript",
+                "multiple",
+                "parallel",
+                "parallel_multiple",
+                "irrelevance",
+                "live_simple",
+                "live_multiple",
+                "live_parallel",
+                "live_parallel_multiple",
+                "live_irrelevance",
+                "live_relevance",
+                "multi_turn_base",
+                "multi_turn_miss_func",
+                "multi_turn_miss_param",
+                "multi_turn_long_context",
+                "web_search_base",
+                "web_search_no_snippet",
+                "memory_kv",
+                "memory_vector",
+                "memory_rec_sum",
+                "format_sensitivity"
+              ]
+            },
+            "accuracy": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "correct_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "total_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "partial_evaluation": {
+              "type": "boolean"
+            }
+          },
+          "dependentRequired": {
+            "correct_count": [
+              "total_count"
+            ],
+            "total_count": [
+              "correct_count"
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "error_code"
+          ],
+          "properties": {
+            "status": {
+              "const": "error"
+            },
+            "error_code": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "const": "not_run"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

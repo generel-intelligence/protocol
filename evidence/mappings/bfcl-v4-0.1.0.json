@@ -1,0 +1,12 @@
+{
+  "profile": "bfcl-v4-result",
+  "version": "0.1.0",
+  "source_revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+  "source_path": "bfcl_eval/eval_checker/eval_runner_helper.py",
+  "fields": {
+    "accuracy": "outcome.accuracy",
+    "correct_count": "outcome.correct_count",
+    "total_count": "outcome.total_count",
+    "test_category": "outcome.test_category"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "protocol_version": "0.1.0",
+  "task_id": "task_exact-text",
+  "suite_id": "suite_contract-fixture",
+  "task_version": "1.0.0",
+  "instruction": {
+    "artifact_id": "artifact_instruction",
+    "digest": "sha256:b67a0788bfe2e3c4a1d37ef0b0861f81573b0d4382b1d71afd9efa9f4156f73e"
+  },
+  "inputs": [],
+  "required_capabilities": []
+}

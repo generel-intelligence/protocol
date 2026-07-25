@@ -1,0 +1,80 @@
+{
+  "documents": [
+    {
+      "path": "complete-run/artifacts.json",
+      "schema": "schemas/0.1.0/artifact.schema.json",
+      "items": true
+    },
+    {
+      "path": "complete-run/attestation.json",
+      "schema": "schemas/0.1.0/attestation.schema.json"
+    },
+    {
+      "path": "complete-run/benchmark-reference.json",
+      "schema": "schemas/0.1.0/benchmark-reference.schema.json"
+    },
+    {
+      "path": "complete-run/chunk-000.manifest.json",
+      "schema": "schemas/0.1.0/event-chunk.schema.json"
+    },
+    {
+      "path": "complete-run/chunk-001.manifest.json",
+      "schema": "schemas/0.1.0/event-chunk.schema.json"
+    },
+    {
+      "path": "complete-run/execution-config.json",
+      "schema": "schemas/0.1.0/execution-config.schema.json"
+    },
+    {
+      "path": "complete-run/final-run-manifest.json",
+      "schema": "schemas/0.1.0/final-run-manifest.schema.json"
+    },
+    {
+      "path": "complete-run/objective-result.json",
+      "schema": "schemas/0.1.0/objective-result.schema.json"
+    },
+    {
+      "path": "complete-run/run-session.json",
+      "schema": "schemas/0.1.0/run-session.schema.json"
+    },
+    {
+      "path": "complete-run/suite-manifest.json",
+      "schema": "schemas/0.1.0/suite-manifest.schema.json"
+    },
+    {
+      "path": "complete-run/task-manifest.json",
+      "schema": "schemas/0.1.0/task-manifest.schema.json"
+    },
+    {
+      "path": "complete-run/events/chunk-000.json",
+      "schema": "schemas/0.1.0/trace-event.schema.json",
+      "items": true
+    },
+    {
+      "path": "complete-run/events/chunk-001.json",
+      "schema": "schemas/0.1.0/trace-event.schema.json",
+      "items": true
+    },
+    {
+      "path": "partial-run/partial-run-manifest.json",
+      "schema": "schemas/0.1.0/partial-run-manifest.schema.json"
+    },
+    {
+      "path": "partial-run/events/chunk-000.json",
+      "schema": "schemas/0.1.0/trace-event.schema.json",
+      "items": true
+    },
+    {
+      "path": "profiles/swe-bench-verified.json",
+      "schema": "schemas/0.1.0/profiles/swe-bench-verified-result.schema.json"
+    },
+    {
+      "path": "profiles/terminal-bench-2.json",
+      "schema": "schemas/0.1.0/profiles/terminal-bench-2-result.schema.json"
+    },
+    {
+      "path": "profiles/bfcl-v4.json",
+      "schema": "schemas/0.1.0/profiles/bfcl-v4-result.schema.json"
+    }
+  ]
+}

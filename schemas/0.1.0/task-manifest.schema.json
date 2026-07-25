@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.1.0/task-manifest.schema.json",
+  "title": "Task manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "task_id",
+    "suite_id",
+    "task_version",
+    "instruction",
+    "inputs",
+    "required_capabilities"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "common.schema.json#/$defs/protocolVersion"
+    },
+    "task_id": {
+      "$ref": "common.schema.json#/$defs/taskId"
+    },
+    "suite_id": {
+      "type": "string",
+      "pattern": "^suite_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "task_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "instruction": {
+      "$ref": "common.schema.json#/$defs/artifactReference"
+    },
+    "inputs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "common.schema.json#/$defs/artifactReference"
+      }
+    },
+    "required_capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+      }
+    }
+  }
+}

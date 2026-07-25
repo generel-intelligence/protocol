@@ -1,0 +1,42 @@
+{
+  "reviewed_at": "2026-07-24",
+  "profiles": [
+    {
+      "profile": "swe-bench-verified-result",
+      "evaluator_source": "https://github.com/SWE-bench/SWE-bench/tree/f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+      "evaluator_license": "MIT",
+      "result_source": "https://raw.githubusercontent.com/SWE-bench/experiments/2f15350cd32becc4569e0d826361048555b605c0/evaluation/verified/20240612_MASAI_gpt4o/results/results.json",
+      "result_digest": "sha256:da1756a0cf869ad40bc549bd20686674426a221167a257431348974d8cf18a44",
+      "redistribution": "reference-only",
+      "known_gaps": [
+        "The public aggregate identifies resolved and unresolved task IDs but omits per-task tests_status.",
+        "This project did not reproduce the run."
+      ]
+    },
+    {
+      "profile": "terminal-bench-2-result",
+      "evaluator_source": "https://github.com/laude-institute/terminal-bench-2/tree/2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+      "evaluator_license": "Apache-2.0",
+      "result_source": "https://huggingface.co/datasets/harborframework/terminal-bench-2-leaderboard/resolve/e4d82780e781db91274ce5f779255dd44da9086d/submissions/terminal-bench/2.0/ultimate-pi__oracle/adaptive-rejection-sampler__F9o65CF/result.json",
+      "result_digest": "sha256:1e7fbab3865d25aef6637d42dc1372d1f1b1bd908a84ca1681ef4f5e18eaa89c",
+      "redistribution": "reference-only",
+      "known_gaps": [
+        "The raw public trial is referenced rather than redistributed.",
+        "This project did not reproduce the run."
+      ]
+    },
+    {
+      "profile": "bfcl-v4-result",
+      "evaluator_source": "https://github.com/ShishirPatil/gorilla/tree/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard",
+      "evaluator_license": "Apache-2.0",
+      "result_source": "https://gorilla.cs.berkeley.edu/data_overall.csv",
+      "result_digest": "sha256:ede5081a24bc5ac7f9b3b09a52af6bcfcd35aa0f1709239fed979db77a8159a6",
+      "redistribution": "reference-only",
+      "known_gaps": [
+        "The leaderboard CSV is mutable; retrieval date and digest identify the reviewed bytes.",
+        "The aggregate does not publish the correct and total counts for each displayed percentage.",
+        "This project did not reproduce the run."
+      ]
+    }
+  ]
+}
