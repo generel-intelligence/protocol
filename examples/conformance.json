@@ -83,6 +83,21 @@
     {
       "path": "m2/expense-report-result.json",
       "schema": "schemas/0.2.0/profiles/expense-report-result.schema.json"
+    },
+    {
+      "path": "m3/complete-trace.json",
+      "schema": "schemas/0.3.0/agent-trace-event.schema.json",
+      "items": true
+    },
+    {
+      "path": "m3/failed-trace.json",
+      "schema": "schemas/0.3.0/agent-trace-event.schema.json",
+      "items": true
+    },
+    {
+      "path": "m3/partial-trace.json",
+      "schema": "schemas/0.3.0/agent-trace-event.schema.json",
+      "items": true
     }
   ]
 }

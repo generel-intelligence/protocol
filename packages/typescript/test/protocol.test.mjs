@@ -11,11 +11,15 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.2.0");
+  assert.equal(PROTOCOL_VERSION, "0.3.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
     "Benchmark package manifest"
+  );
+  assert.equal(
+    getSchema("0.3.0/agent-trace-event.schema.json").title,
+    "Agent trace event"
   );
 });
 
@@ -193,6 +197,60 @@ test("the protocol 0.2 schema inventory is exactly two recorded schemas", () => 
     const schema = getSchema(`schemas/0.2.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
+});
+
+test("the protocol 0.3 schema inventory is exactly one recorded schema", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.3.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.3.0.json"), "utf8")
+  ).schemas;
+  const paths = readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json"));
+  assert.equal(paths.length, 1);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.3.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("agent trace fixtures have contiguous sequences and proven relationships", () => {
+  const payloadTypes = new Set();
+  for (const name of ["complete", "failed", "partial"]) {
+    const events = JSON.parse(
+      readFileSync(join(repositoryRoot, "examples", "m3", `${name}-trace.json`), "utf8")
+    );
+    assert.deepEqual(events.map((event) => event.sequence), events.map((_, index) => index));
+    assert.equal(new Set(events.map((event) => event.event_id)).size, events.length);
+    const previous = new Set();
+    for (const event of events) {
+      payloadTypes.add(event.payload.type);
+      assert.ok(event.relationships.every((relationship) => previous.has(relationship.event_id)));
+      previous.add(event.event_id);
+    }
+  }
+  for (const type of [
+    "conversation_message",
+    "model_request",
+    "model_response_started",
+    "model_response_finished",
+    "tool_finished",
+    "workspace_checkpoint",
+    "execution_error"
+  ]) {
+    assert.ok(payloadTypes.has(type), type);
+  }
+});
+
+test("agent trace profiles and payloads are closed", () => {
+  const schema = "schemas/0.3.0/agent-trace-event.schema.json";
+  const event = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m3", "complete-trace.json"), "utf8")
+  )[1];
+  assert.throws(() =>
+    validate(schema, { ...event, profile: { id: "lifecycle", version: "0.1.0" } })
+  );
+  assert.throws(() =>
+    validate(schema, { ...event, payload: { ...event.payload, content: "private" } })
+  );
 });
 
 test("stored artifact metadata matches payload bytes", () => {

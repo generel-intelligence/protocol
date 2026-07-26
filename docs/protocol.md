@@ -7,12 +7,13 @@ runtime authority. Generated language types are conveniences and may not relax
 a schema. All schemas are closed. An unknown field is invalid rather than an
 implicit extension.
 
-The 16 `0.1.0` schemas are unchanged. `0.2.0` adds only the benchmark-package
-manifest and the project-owned expense-report result profile. Source is public,
+The 16 `0.1.0` schemas and two `0.2.0` schemas are unchanged. `0.2.0` adds only
+the benchmark-package manifest and project-owned expense-report result profile.
+`0.3.0` adds only the observation-backed agent trace event. Source is public,
 while provisional language packages remain unpublished. Removing a field,
-changing its meaning, tightening accepted values, or changing hashing semantics
-requires a new protocol version and rollout plan. Incompatible documents remain
-labeled, not silently normalized.
+changing its meaning, tightening accepted values, or changing hashing
+semantics requires a new protocol version and rollout plan. Incompatible
+documents remain labeled, not silently normalized.
 
 ## Custom benchmark packages
 
@@ -75,7 +76,27 @@ aggregate category or other indirect evidence.
 
 Trace events use one monotonic zero-based sequence per run. In `0.1.0`, event
 payloads cover lifecycle only: run start, task start, task finish, and run
-finish. Detailed process events belong to runner work after M1.
+finish.
+
+The additive `0.3.0` agent trace retains those lifecycle meanings and adds:
+
+- completed user and assistant conversation messages;
+- model request, response-start, and response-finish boundaries;
+- terminal tool outcomes;
+- authoritative workspace checkpoints;
+- runner-observed execution errors.
+
+Private message, model, tool, workspace, and error bodies remain
+content-addressed artifacts. Ordered network chunks remain inside the model
+response-stream artifact rather than becoming one normalized event each.
+OpenCode-specific steps, parts, todo state, permission details, and session
+storage remain raw evidence.
+
+Every detailed event records its observed source and only relationships proven
+by source IDs or runner-owned actions. Global sequence is runner capture order.
+Consumers must not infer cross-source causality from clocks, timing, or content.
+Fixture conformance verifies that relationships point to earlier events in the
+same trace.
 
 An event chunk digest covers the RFC 8785 encoding of its JSON event array.
 Chunk ordinals and sequence ranges make gaps explicit. A partial manifest must

@@ -1,0 +1,144 @@
+[
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-partial",
+    "sequence": 0,
+    "event_id": "event_partial-run-started",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "run-start"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T18:00:00Z",
+    "captured_at": "2026-07-26T18:00:00Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_started"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-partial",
+    "sequence": 1,
+    "event_id": "event_partial-message",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "harness",
+      "id": "message-partial"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T18:00:01Z",
+    "captured_at": "2026-07-26T18:00:02Z",
+    "capture": {
+      "status": "partial",
+      "warnings": [
+        "source stream ended before a normal final step"
+      ]
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_partial-message",
+        "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "payload": {
+      "type": "conversation_message",
+      "message_id": "message-partial",
+      "role": "assistant"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-partial",
+    "sequence": 2,
+    "event_id": "event_capture-error",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "capture-outcome"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T18:00:02Z",
+    "captured_at": "2026-07-26T18:00:02Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_capture-error",
+        "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "payload": {
+      "type": "execution_error",
+      "component": "capture",
+      "code": "source_stream_incomplete"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-partial",
+    "sequence": 3,
+    "event_id": "event_partial-run-finished",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "run-finish"
+    },
+    "relationships": [
+      {
+        "type": "caused_by",
+        "event_id": "event_capture-error"
+      }
+    ],
+    "occurred_at": "2026-07-26T18:00:03Z",
+    "captured_at": "2026-07-26T18:00:03Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_finished",
+      "outcome": "failed"
+    }
+  }
+]
