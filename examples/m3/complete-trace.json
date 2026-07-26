@@ -1,0 +1,348 @@
+[
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 0,
+    "event_id": "event_run-started",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "run-start"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T16:00:00Z",
+    "captured_at": "2026-07-26T16:00:00Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_started"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 1,
+    "event_id": "event_user-message",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "harness",
+      "id": "message-user"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T16:00:01Z",
+    "captured_at": "2026-07-26T16:00:01Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_message-user",
+        "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    ],
+    "payload": {
+      "type": "conversation_message",
+      "message_id": "message-user",
+      "role": "user"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 2,
+    "event_id": "event_model-request",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "model_gateway",
+      "id": "request-1"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T16:00:02Z",
+    "captured_at": "2026-07-26T16:00:02Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_model-request",
+        "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    ],
+    "payload": {
+      "type": "model_request",
+      "request_id": "request-1",
+      "model_id": "model-fixture"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 3,
+    "event_id": "event_model-response-started",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "model_gateway",
+      "id": "request-1-response-start"
+    },
+    "relationships": [
+      {
+        "type": "responds_to",
+        "event_id": "event_model-request"
+      }
+    ],
+    "occurred_at": "2026-07-26T16:00:03Z",
+    "captured_at": "2026-07-26T16:00:03Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_model-response-headers",
+        "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    ],
+    "payload": {
+      "type": "model_response_started",
+      "request_id": "request-1",
+      "status": 200
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 4,
+    "event_id": "event_model-response-finished",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "model_gateway",
+      "id": "request-1-response-finish"
+    },
+    "relationships": [
+      {
+        "type": "responds_to",
+        "event_id": "event_model-request"
+      }
+    ],
+    "occurred_at": "2026-07-26T16:00:04Z",
+    "captured_at": "2026-07-26T16:00:04Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_model-response",
+        "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+      }
+    ],
+    "payload": {
+      "type": "model_response_finished",
+      "request_id": "request-1",
+      "outcome": "completed",
+      "chunk_count": 3
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 5,
+    "event_id": "event_assistant-message",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "harness",
+      "id": "message-assistant"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T16:00:05Z",
+    "captured_at": "2026-07-26T16:00:05Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_message-assistant",
+        "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      }
+    ],
+    "payload": {
+      "type": "conversation_message",
+      "message_id": "message-assistant",
+      "role": "assistant"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 6,
+    "event_id": "event_tool-finished",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "harness",
+      "id": "tool-call-1"
+    },
+    "relationships": [
+      {
+        "type": "parent",
+        "event_id": "event_assistant-message"
+      }
+    ],
+    "occurred_at": "2026-07-26T16:00:06Z",
+    "captured_at": "2026-07-26T16:00:06Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_tool-input",
+        "digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      {
+        "artifact_id": "artifact_tool-output",
+        "digest": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      }
+    ],
+    "payload": {
+      "type": "tool_finished",
+      "call_id": "tool-call-1",
+      "outcome": "completed",
+      "tool_name": "edit"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 7,
+    "event_id": "event_workspace-checkpoint",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "workspace",
+      "id": "checkpoint-1"
+    },
+    "relationships": [
+      {
+        "type": "checkpoint_after",
+        "event_id": "event_tool-finished"
+      }
+    ],
+    "occurred_at": "2026-07-26T16:00:07Z",
+    "captured_at": "2026-07-26T16:00:07Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_workspace-snapshot",
+        "digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "payload": {
+      "type": "workspace_checkpoint",
+      "checkpoint_id": "checkpoint-1",
+      "changed": true
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-complete",
+    "sequence": 8,
+    "event_id": "event_run-finished",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "run-finish"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T16:00:08Z",
+    "captured_at": "2026-07-26T16:00:08Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_finished",
+      "outcome": "completed"
+    }
+  }
+]

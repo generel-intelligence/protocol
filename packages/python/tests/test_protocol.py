@@ -18,11 +18,15 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.2.0"
+    assert PROTOCOL_VERSION == "0.3.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
         == "Benchmark package manifest"
+    )
+    assert (
+        get_schema("0.3.0/agent-trace-event.schema.json")["title"]
+        == "Agent trace event"
     )
 
 
@@ -187,6 +191,52 @@ def test_protocol_0_2_schema_inventory_is_exactly_two_valid_schemas() -> None:
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.2.0").as_posix()
         assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_3_schema_inventory_is_exactly_one_valid_schema() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.3.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.3.0.json")["schemas"]
+    assert len(paths) == 1
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.3.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_agent_trace_fixtures_have_contiguous_sequences_and_proven_relationships() -> None:
+    payload_types: set[str] = set()
+    for name in ("complete", "failed", "partial"):
+        events = load(f"examples/m3/{name}-trace.json")
+        assert [event["sequence"] for event in events] == list(range(len(events)))
+        assert len({event["event_id"] for event in events}) == len(events)
+        previous: set[str] = set()
+        for event in events:
+            payload_types.add(event["payload"]["type"])
+            assert all(
+                relationship["event_id"] in previous
+                for relationship in event["relationships"]
+            )
+            previous.add(event["event_id"])
+
+    assert payload_types >= {
+        "conversation_message",
+        "model_request",
+        "model_response_started",
+        "model_response_finished",
+        "tool_finished",
+        "workspace_checkpoint",
+        "execution_error",
+    }
+
+
+def test_agent_trace_profiles_and_payloads_are_closed() -> None:
+    schema = "schemas/0.3.0/agent-trace-event.schema.json"
+    event = load("examples/m3/complete-trace.json")[1]
+    with pytest.raises(Exception):
+        validate(schema, {**event, "profile": {"id": "lifecycle", "version": "0.1.0"}})
+    with pytest.raises(Exception):
+        validate(schema, {**event, "payload": {**event["payload"], "content": "private"}})
 
 
 def test_stored_artifact_metadata_matches_payload_bytes() -> None:

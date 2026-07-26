@@ -1,0 +1,143 @@
+[
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-failed",
+    "sequence": 0,
+    "event_id": "event_failed-run-started",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "run-start"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T17:00:00Z",
+    "captured_at": "2026-07-26T17:00:00Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_started"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-failed",
+    "sequence": 1,
+    "event_id": "event_failed-tool",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "harness",
+      "id": "tool-call-denied"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T17:00:01Z",
+    "captured_at": "2026-07-26T17:00:01Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_tool-error",
+        "digest": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      }
+    ],
+    "payload": {
+      "type": "tool_finished",
+      "call_id": "tool-call-denied",
+      "outcome": "error",
+      "tool_name": "write"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-failed",
+    "sequence": 2,
+    "event_id": "event_missing-normal-stop",
+    "profile": {
+      "id": "agent-trace",
+      "version": "0.3.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "agent-outcome"
+    },
+    "relationships": [],
+    "occurred_at": "2026-07-26T17:00:02Z",
+    "captured_at": "2026-07-26T17:00:02Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_execution-error",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ],
+    "payload": {
+      "type": "execution_error",
+      "component": "agent",
+      "code": "missing_normal_stop"
+    }
+  },
+  {
+    "protocol_version": "0.3.0",
+    "run_id": "run_m3-failed",
+    "sequence": 3,
+    "event_id": "event_failed-run-finished",
+    "profile": {
+      "id": "lifecycle",
+      "version": "0.1.0"
+    },
+    "producer": {
+      "kind": "runner",
+      "id": "fixture-runner",
+      "version": "0.3.0"
+    },
+    "source": {
+      "kind": "runner",
+      "id": "run-finish"
+    },
+    "relationships": [
+      {
+        "type": "caused_by",
+        "event_id": "event_missing-normal-stop"
+      }
+    ],
+    "occurred_at": "2026-07-26T17:00:03Z",
+    "captured_at": "2026-07-26T17:00:03Z",
+    "capture": {
+      "status": "complete",
+      "warnings": []
+    },
+    "artifacts": [],
+    "payload": {
+      "type": "run_finished",
+      "outcome": "failed"
+    }
+  }
+]

@@ -18,3 +18,4 @@ export type { TaskManifest } from "./task_manifest.js";
 export type { TraceEvent } from "./trace_event.js";
 export type { PackageSemver } from "./benchmark_package_manifest.js";
 export type { ResultSemver } from "./expense_report_result.js";
+export type { AgentTraceEvent } from "./agent_trace_event.js";

@@ -20,6 +20,11 @@ deployment, or storage implementation.
 - Keep schemas closed with `additionalProperties: false`.
 - Hash structured JSON as RFC 8785 canonical UTF-8 bytes with SHA-256.
 - Treat raw evidence as append-only and preserve incomplete and unknown states.
+- Protocol `0.3.0` owns the observation-backed agent trace envelope and seven
+  detailed payloads; private bodies and provider-specific shapes remain
+  artifacts.
+- Detailed relationships require proven source IDs or runner-owned actions;
+  capture order must not be presented as inferred cross-source causality.
 - Keep result envelopes neutral; benchmark profiles own benchmark-specific
   fields.
 - Introduce cross-repository changes in a compatibility-safe order.
