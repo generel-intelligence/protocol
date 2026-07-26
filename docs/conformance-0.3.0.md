@@ -72,9 +72,16 @@ Observed locally on 2026-07-26:
 - The private Python source archive built with SHA-256
   `a7bf94a918a1ed1cb28c165bbefd5f4107ec5fa1e3facaed5f39d18d0eeb5591`.
 
-The archives remain local, ignored, and unpublished. GitHub governance,
-security, and protocol CI remain pending until the reviewed candidate is
-pushed.
+The archives remain local, ignored, and unpublished.
+
+Draft PR `generel-intelligence/protocol#6` verified signed commit
+`2a1b283a1e203082ca080760f90e453507e603b4`:
+
+- governance run `30220351340` passed;
+- security-scan run `30220351312` passed;
+- Python and TypeScript jobs in protocol-CI run `30220351035` passed.
+
+Independent review and merge remain pending.
 
 ## Claim boundary
 
