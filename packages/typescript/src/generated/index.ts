@@ -20,3 +20,5 @@ export type { PackageSemver } from "./benchmark_package_manifest.js";
 export type { ResultSemver } from "./expense_report_result.js";
 export type { AgentTraceEvent } from "./agent_trace_event.js";
 export type { ReservationResultSemver } from "./reservation_service_result.js";
+export type { ModelResponseStreamIndex } from "./model_response_stream_index.js";
+export type { Path } from "./workspace_checkpoint_manifest.js";

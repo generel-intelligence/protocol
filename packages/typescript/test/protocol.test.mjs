@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.4.0");
+  assert.equal(PROTOCOL_VERSION, "0.5.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -20,6 +20,10 @@ test("exports the candidate version and bundled schemas", () => {
   assert.equal(
     getSchema("0.3.0/agent-trace-event.schema.json").title,
     "Agent trace event"
+  );
+  assert.equal(
+    getSchema("0.5.0/workspace-checkpoint-manifest.schema.json").title,
+    "Workspace checkpoint manifest"
   );
 });
 
@@ -71,6 +75,37 @@ test("benchmark package paths cannot traverse", () => {
     validate("schemas/0.2.0/benchmark-package-manifest.schema.json", {
       ...value,
       files: [{ ...value.files[0], path: "workspace/../hidden-tests.py" }]
+    })
+  );
+});
+
+test("playback evidence rejects unsafe paths and invalid byte ranges", () => {
+  const checkpoint = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "m4", "workspace-checkpoint-manifest.json"),
+      "utf8"
+    )
+  );
+  const checkpointSchema = "schemas/0.5.0/workspace-checkpoint-manifest.schema.json";
+  assert.doesNotThrow(() => validate(checkpointSchema, checkpoint));
+  for (const path of ["/absolute", "../escape", "src//file", "src\\file"]) {
+    assert.throws(() =>
+      validate(checkpointSchema, {
+        ...checkpoint,
+        files: { [path]: Object.values(checkpoint.files)[0] }
+      })
+    );
+  }
+
+  const stream = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m4", "model-response-stream-index.json"), "utf8")
+  );
+  const streamSchema = "schemas/0.5.0/model-response-stream-index.schema.json";
+  assert.doesNotThrow(() => validate(streamSchema, stream));
+  assert.throws(() =>
+    validate(streamSchema, {
+      ...stream,
+      segments: [{ ...stream.segments[0], byte_length: 0 }]
     })
   );
 });
@@ -243,6 +278,19 @@ test("the protocol 0.4 schema inventory is exactly one recorded schema", () => {
   assert.equal(paths.length, 1);
   for (const path of paths) {
     const schema = getSchema(`schemas/0.4.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("the protocol 0.5 schema inventory is exactly two recorded schemas", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.5.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.5.0.json"), "utf8")
+  ).schemas;
+  const paths = readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json"));
+  assert.equal(paths.length, 2);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.5.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
 });

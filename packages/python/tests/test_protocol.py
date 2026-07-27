@@ -18,7 +18,7 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.4.0"
+    assert PROTOCOL_VERSION == "0.5.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
@@ -27,6 +27,10 @@ def test_version_and_schema_access() -> None:
     assert (
         get_schema("0.3.0/agent-trace-event.schema.json")["title"]
         == "Agent trace event"
+    )
+    assert (
+        get_schema("0.5.0/workspace-checkpoint-manifest.schema.json")["title"]
+        == "Workspace checkpoint manifest"
     )
 
 
@@ -155,6 +159,27 @@ def test_benchmark_package_paths_cannot_traverse() -> None:
         )
 
 
+def test_playback_evidence_rejects_unsafe_paths_and_invalid_byte_ranges() -> None:
+    checkpoint = load("examples/m4/workspace-checkpoint-manifest.json")
+    checkpoint_schema = "schemas/0.5.0/workspace-checkpoint-manifest.schema.json"
+    validate(checkpoint_schema, checkpoint)
+    for path in ("/absolute", "../escape", "src//file", r"src\file"):
+        with pytest.raises(Exception):
+            validate(
+                checkpoint_schema,
+                {**checkpoint, "files": {path: next(iter(checkpoint["files"].values()))}},
+            )
+
+    stream = load("examples/m4/model-response-stream-index.json")
+    stream_schema = "schemas/0.5.0/model-response-stream-index.schema.json"
+    validate(stream_schema, stream)
+    with pytest.raises(Exception):
+        validate(
+            stream_schema,
+            {**stream, "segments": [{**stream["segments"][0], "byte_length": 0}]},
+        )
+
+
 def test_event_chunk_digests_match_canonical_event_bytes() -> None:
     for ordinal in ("000", "001"):
         events = load(f"examples/complete-run/events/chunk-{ordinal}.json")
@@ -231,6 +256,17 @@ def test_protocol_0_4_schema_inventory_is_exactly_one_valid_schema() -> None:
         schema = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.4.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_5_schema_inventory_is_exactly_two_valid_schemas() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.5.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.5.0.json")["schemas"]
+    assert len(paths) == 2
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.5.0").as_posix()
         assert hash_json(schema) == recorded[relative]
 
 

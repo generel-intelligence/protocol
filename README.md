@@ -6,9 +6,10 @@ package names are provisional.
 
 ## Status
 
-Pre-alpha. Protocol `0.4.0` adds the Go reservation-service result profile
-without changing any prior schema. All versions are source-available
-contracts, and the TypeScript and Python bindings remain unpublished.
+Pre-alpha. Protocol `0.5.0` adds workspace-checkpoint manifests and timed model
+response stream indexes without changing any prior schema. All versions are
+source-available contracts, and the TypeScript and Python bindings remain
+unpublished.
 
 The protocol must remain independent of website, database, runner, evaluator,
 and deployment implementations.
@@ -19,6 +20,7 @@ and deployment implementations.
 - `schemas/0.2.0/` — additive package and custom-result schemas.
 - `schemas/0.3.0/` — additive detailed agent-trace schema.
 - `schemas/0.4.0/` — additive reservation-service result profile.
+- `schemas/0.5.0/` — additive workspace and response-stream evidence schemas.
 - `examples/` — complete, partial, profile, and canonicalization fixtures.
 - `evidence/mappings/` — reviewed mappings from upstream result fields.
 - `packages/typescript/` — generated declarations and an Ajv validator.
@@ -29,6 +31,7 @@ and deployment implementations.
 - `docs/conformance-0.2.0.md` — additive M2 candidate verification record.
 - `docs/conformance-0.3.0.md` — additive M3 trace verification record.
 - `docs/conformance-0.4.0.md` — second-language result-profile record.
+- `docs/conformance-0.5.0.md` — playback-evidence contract record.
 
 ## Verification
 

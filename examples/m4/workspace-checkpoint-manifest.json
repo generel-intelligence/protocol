@@ -1,0 +1,15 @@
+{
+  "protocol_version": "0.5.0",
+  "checkpoint_id": "checkpoint_final",
+  "files": {
+    "README.md": {
+      "digest": "sha256:cfb4064809bb44f5fa4e2639a6a04d4f07510cd87fd7df03f7dbb0fc6e6e91d8",
+      "byte_size": 18
+    },
+    "src/report parser.py": {
+      "digest": "sha256:6e8fd9a4353b6f0c1b227c8368c14ae002e9cdd734d082f026ed00e2af5d9d42",
+      "byte_size": 42
+    }
+  },
+  "total_byte_size": 60
+}

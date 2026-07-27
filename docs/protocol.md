@@ -10,9 +10,10 @@ implicit extension.
 The 16 `0.1.0` schemas and two `0.2.0` schemas are unchanged. `0.2.0` adds only
 the benchmark-package manifest and project-owned expense-report result profile.
 `0.3.0` adds only the observation-backed agent trace event, and `0.4.0` adds
-only the project-owned reservation-service result profile. Source is public,
-while provisional language packages remain unpublished. Removing a field,
-changing its meaning, tightening accepted values, or changing hashing
+only the project-owned reservation-service result profile. `0.5.0` adds only
+workspace-checkpoint manifests and model-response stream indexes. Source is
+public, while provisional language packages remain unpublished. Removing a
+field, changing its meaning, tightening accepted values, or changing hashing
 semantics requires a new protocol version and rollout plan. Incompatible
 documents remain labeled, not silently normalized.
 
@@ -109,6 +110,30 @@ An event chunk digest covers the RFC 8785 encoding of its JSON event array.
 Chunk ordinals and sequence ranges make gaps explicit. A partial manifest must
 declare at least one missing range and cannot be mistaken for a final manifest.
 A final manifest requires complete evidence but does not imply publication.
+
+## Playback evidence
+
+A workspace-checkpoint manifest maps each normalized relative regular-file path
+to its exact SHA-256 digest and byte size. Paths use forward slashes, must not
+be absolute or empty, and must not contain empty, `.` or `..` segments,
+backslashes, NUL, or control characters. Producers emit the complete map for
+each checkpoint and set `total_byte_size` to the sum of all file sizes.
+Consumers verify that sum and every referenced body before accepting the
+checkpoint. Adjacent checkpoint comparison is derived; the manifests and file
+bodies remain authoritative.
+
+A model-response stream index references the byte-exact response artifact and
+records when each ordered byte range became available to the observer.
+Producers emit contiguous ranges in ascending `byte_offset` order with no
+overlap and cover the entire response artifact exactly once. Empty responses
+have no segments. Consumers verify those invariants against the artifact byte
+size.
+
+`timing_resolution_ms` states the capture clock's resolution. `captured_at`
+describes observed byte availability, not provider token generation. Warnings
+record buffering, estimation, or other known ambiguity. A transport read,
+provider frame, or indexed range must not be presented as a token unless
+separate provider and tokenizer evidence proves that claim.
 
 ## Benchmark source pins
 

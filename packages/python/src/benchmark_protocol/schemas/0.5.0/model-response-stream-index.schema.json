@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.5.0/model-response-stream-index.schema.json",
+  "title": "Model response stream index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "response_artifact",
+    "timing_resolution_ms",
+    "segments",
+    "warnings"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.5.0"
+    },
+    "response_artifact": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/artifactReference"
+    },
+    "timing_resolution_ms": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/segment"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "../0.1.0/common.schema.json#/$defs/warning"
+      }
+    }
+  },
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "byte_offset",
+        "byte_length",
+        "captured_at"
+      ],
+      "properties": {
+        "byte_offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "captured_at": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/timestamp"
+        }
+      }
+    }
+  }
+}

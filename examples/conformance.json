@@ -102,6 +102,14 @@
     {
       "path": "m3/reservation-service-result.json",
       "schema": "schemas/0.4.0/profiles/reservation-service-result.schema.json"
+    },
+    {
+      "path": "m4/workspace-checkpoint-manifest.json",
+      "schema": "schemas/0.5.0/workspace-checkpoint-manifest.schema.json"
+    },
+    {
+      "path": "m4/model-response-stream-index.json",
+      "schema": "schemas/0.5.0/model-response-stream-index.schema.json"
     }
   ]
 }
