@@ -1,0 +1,6 @@
+{
+  "schemas": {
+    "model-response-stream-index.schema.json": "sha256:b5d9eb6e3e73774ac0830ca7faeb13ccc4767cfde8382f5997b9c063b19900b6",
+    "workspace-checkpoint-manifest.schema.json": "sha256:9d6488b84b34dd9175788abfc76669c2e69cd7dfdec384abb31bf47589604bf6"
+  }
+}

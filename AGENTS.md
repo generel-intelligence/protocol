@@ -25,6 +25,8 @@ deployment, or storage implementation.
   artifacts.
 - Protocol `0.4.0` owns only the project-authored reservation-service result
   profile; all prior schemas remain unchanged.
+- Protocol `0.5.0` owns only workspace-checkpoint manifests and model-response
+  stream indexes; all prior schemas remain unchanged.
 - Detailed relationships require proven source IDs or runner-owned actions;
   capture order must not be presented as inferred cross-source causality.
 - Keep result envelopes neutral; benchmark profiles own benchmark-specific
@@ -32,7 +34,7 @@ deployment, or storage implementation.
 - Introduce cross-repository changes in a compatibility-safe order.
 - Never silently infer missing scoring or evidence semantics.
 - Preserve unknown, partial, failed, and incompatible states.
-- Keep the TypeScript and Python packages private until owner approval.
+- Keep the TypeScript and Python packages unpublished until owner approval.
 - Do not run benchmarks as part of protocol verification.
 
 ## Work Guidance

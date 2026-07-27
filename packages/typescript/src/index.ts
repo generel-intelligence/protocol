@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 export type * from "./generated/index.js";
 
-export const PROTOCOL_VERSION = "0.4.0";
+export const PROTOCOL_VERSION = "0.5.0";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const schemaRoot = join(packageRoot, "schemas");
