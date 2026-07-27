@@ -11,6 +11,17 @@ const destinationRoot = join(packageRoot, "schemas");
 const generatedRoot = join(packageRoot, "src", "generated");
 const check = process.argv.includes("--check");
 
+async function syncVersion() {
+  const source = await readFile(join(repositoryRoot, "VERSION"));
+  const destination = join(packageRoot, "VERSION");
+  try {
+    if ((await readFile(destination)).equals(source)) return;
+  } catch {
+    // Write the missing generated file below.
+  }
+  await writeFile(destination, source);
+}
+
 async function schemaFiles(directory) {
   const { readdir } = await import("node:fs/promises");
   const entries = await readdir(directory, { withFileTypes: true });
@@ -79,5 +90,5 @@ if (check) {
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, content);
   }
-  await cp(join(repositoryRoot, "VERSION"), join(packageRoot, "VERSION"));
+  await syncVersion();
 }
