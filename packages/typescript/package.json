@@ -23,8 +23,8 @@
   "scripts": {
     "generate": "node scripts/generate.mjs",
     "check:generated": "node scripts/generate.mjs --check",
-    "build": "tsc -p tsconfig.json",
-    "prepare": "node scripts/generate.mjs && tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/copy-generated-types.mjs",
+    "prepare": "node scripts/generate.mjs && npm run build",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import test from "node:test";
 import { canonicalize, getSchema, hash_json, validate, PROTOCOL_VERSION } from "../dist/index.js";
@@ -25,6 +25,15 @@ test("exports the candidate version and bundled schemas", () => {
     getSchema("0.5.0/workspace-checkpoint-manifest.schema.json").title,
     "Workspace checkpoint manifest"
   );
+});
+
+test("the built package includes every exported generated declaration", () => {
+  const packageRoot = join(import.meta.dirname, "..");
+  for (const name of readdirSync(join(packageRoot, "src", "generated"))) {
+    if (name.endsWith(".d.ts")) {
+      assert.ok(existsSync(join(packageRoot, "dist", "generated", name)), name);
+    }
+  }
 });
 
 test("expense result terminal branches validate", () => {

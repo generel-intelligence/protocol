@@ -35,6 +35,8 @@ deployment, or storage implementation.
 - Never silently infer missing scoring or evidence semantics.
 - Preserve unknown, partial, failed, and incompatible states.
 - Keep the TypeScript and Python packages unpublished until owner approval.
+- The Git-installed TypeScript package must include every generated declaration
+  referenced by its public `dist` type index.
 - Do not run benchmarks as part of protocol verification.
 
 ## Work Guidance
