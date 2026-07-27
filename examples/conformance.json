@@ -98,6 +98,10 @@
       "path": "m3/partial-trace.json",
       "schema": "schemas/0.3.0/agent-trace-event.schema.json",
       "items": true
+    },
+    {
+      "path": "m3/reservation-service-result.json",
+      "schema": "schemas/0.4.0/profiles/reservation-service-result.schema.json"
     }
   ]
 }

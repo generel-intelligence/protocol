@@ -6,10 +6,9 @@ package names are provisional.
 
 ## Status
 
-Pre-alpha. Protocol `0.3.0` adds the observation-backed agent trace contract
-without changing the 16 protocol `0.1.0` schemas or two protocol `0.2.0`
-schemas. All versions are source-available contracts, and the TypeScript and
-Python bindings remain unpublished.
+Pre-alpha. Protocol `0.4.0` adds the Go reservation-service result profile
+without changing any prior schema. All versions are source-available
+contracts, and the TypeScript and Python bindings remain unpublished.
 
 The protocol must remain independent of website, database, runner, evaluator,
 and deployment implementations.
@@ -19,6 +18,7 @@ and deployment implementations.
 - `schemas/0.1.0/` — the unchanged M1 schemas.
 - `schemas/0.2.0/` — additive package and custom-result schemas.
 - `schemas/0.3.0/` — additive detailed agent-trace schema.
+- `schemas/0.4.0/` — additive reservation-service result profile.
 - `examples/` — complete, partial, profile, and canonicalization fixtures.
 - `evidence/mappings/` — reviewed mappings from upstream result fields.
 - `packages/typescript/` — generated declarations and an Ajv validator.
@@ -28,6 +28,7 @@ and deployment implementations.
 - `docs/conformance-0.1.0.md` — archived M1 verification record.
 - `docs/conformance-0.2.0.md` — additive M2 candidate verification record.
 - `docs/conformance-0.3.0.md` — additive M3 trace verification record.
+- `docs/conformance-0.4.0.md` — second-language result-profile record.
 
 ## Verification
 

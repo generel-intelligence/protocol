@@ -23,6 +23,8 @@ deployment, or storage implementation.
 - Protocol `0.3.0` owns the observation-backed agent trace envelope and seven
   detailed payloads; private bodies and provider-specific shapes remain
   artifacts.
+- Protocol `0.4.0` owns only the project-authored reservation-service result
+  profile; all prior schemas remain unchanged.
 - Detailed relationships require proven source IDs or runner-owned actions;
   capture order must not be presented as inferred cross-source causality.
 - Keep result envelopes neutral; benchmark profiles own benchmark-specific
