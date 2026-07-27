@@ -18,7 +18,7 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.3.0"
+    assert PROTOCOL_VERSION == "0.4.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
@@ -124,6 +124,25 @@ def test_expense_result_terminal_branches_validate() -> None:
         )
 
 
+def test_reservation_result_terminal_branches_validate() -> None:
+    value = load("examples/m3/reservation-service-result.json")
+    schema = "schemas/0.4.0/profiles/reservation-service-result.schema.json"
+    validate(schema, value)
+    validate(schema, {**value, "outcome": {"status": "error", "error_code": "evaluator_failed"}})
+    validate(schema, {**value, "outcome": {"status": "not_run", "reason": "workspace unavailable"}})
+    with pytest.raises(Exception):
+        validate(
+            schema,
+            {
+                **value,
+                "outcome": {
+                    **value["outcome"],
+                    "groups": {**value["outcome"]["groups"], "hidden_case": True},
+                },
+            },
+        )
+
+
 def test_benchmark_package_paths_cannot_traverse() -> None:
     value = load("examples/m2/benchmark-package-manifest.json")
     with pytest.raises(Exception):
@@ -201,6 +220,17 @@ def test_protocol_0_3_schema_inventory_is_exactly_one_valid_schema() -> None:
         schema = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.3.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_4_schema_inventory_is_exactly_one_valid_schema() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.4.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.4.0.json")["schemas"]
+    assert len(paths) == 1
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.4.0").as_posix()
         assert hash_json(schema) == recorded[relative]
 
 

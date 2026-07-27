@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.3.0");
+  assert.equal(PROTOCOL_VERSION, "0.4.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -28,6 +28,26 @@ test("expense result terminal branches validate", () => {
     readFileSync(join(repositoryRoot, "examples", "m2", "expense-report-result.json"), "utf8")
   );
   const schema = "schemas/0.2.0/profiles/expense-report-result.schema.json";
+  assert.doesNotThrow(() => validate(schema, value));
+  assert.doesNotThrow(() =>
+    validate(schema, { ...value, outcome: { status: "error", error_code: "evaluator_failed" } })
+  );
+  assert.doesNotThrow(() =>
+    validate(schema, { ...value, outcome: { status: "not_run", reason: "workspace unavailable" } })
+  );
+  assert.throws(() =>
+    validate(schema, {
+      ...value,
+      outcome: { ...value.outcome, groups: { ...value.outcome.groups, hidden_case: true } }
+    })
+  );
+});
+
+test("reservation result terminal branches validate", () => {
+  const value = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m3", "reservation-service-result.json"), "utf8")
+  );
+  const schema = "schemas/0.4.0/profiles/reservation-service-result.schema.json";
   assert.doesNotThrow(() => validate(schema, value));
   assert.doesNotThrow(() =>
     validate(schema, { ...value, outcome: { status: "error", error_code: "evaluator_failed" } })
@@ -208,6 +228,21 @@ test("the protocol 0.3 schema inventory is exactly one recorded schema", () => {
   assert.equal(paths.length, 1);
   for (const path of paths) {
     const schema = getSchema(`schemas/0.3.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("the protocol 0.4 schema inventory is exactly one recorded schema", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.4.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.4.0.json"), "utf8")
+  ).schemas;
+  const paths = readdirSync(join(schemaRoot, "profiles"))
+    .filter((name) => name.endsWith(".schema.json"))
+    .map((name) => `profiles/${name}`);
+  assert.equal(paths.length, 1);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.4.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
 });
