@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.6.0/execution-config.schema.json",
+  "title": "Execution configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "config_id",
+    "images",
+    "harness",
+    "adapter",
+    "model"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.6.0"
+    },
+    "config_id": {
+      "type": "string",
+      "pattern": "^config_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "images": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment",
+        "execution",
+        "gateway"
+      ],
+      "properties": {
+        "environment": {
+          "$ref": "#/$defs/image"
+        },
+        "execution": {
+          "$ref": "#/$defs/image"
+        },
+        "gateway": {
+          "$ref": "#/$defs/image"
+        },
+        "evaluator": {
+          "$ref": "#/$defs/image"
+        }
+      }
+    },
+    "harness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "artifact"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "artifact": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "digest"
+              ],
+              "properties": {
+                "digest": {
+                  "$ref": "../0.1.0/common.schema.json#/$defs/sha256"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "package_integrity"
+              ],
+              "properties": {
+                "package_integrity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "implementation_version"
+      ],
+      "properties": {
+        "contract": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]*/[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "implementation_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "model_id",
+        "parameters_digest",
+        "presented_route",
+        "upstream_route"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parameters_digest": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/sha256"
+        },
+        "presented_route": {
+          "$ref": "#/$defs/modelRoute"
+        },
+        "upstream_route": {
+          "$ref": "#/$defs/modelRoute"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest"
+      ],
+      "properties": {
+        "digest": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/sha256"
+        }
+      }
+    },
+    "modelRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "model_id"
+      ],
+      "properties": {
+        "protocol": {
+          "enum": [
+            "openai-chat-completions",
+            "openai-responses",
+            "anthropic-messages"
+          ]
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

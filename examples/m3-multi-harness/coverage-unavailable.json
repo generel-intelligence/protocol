@@ -1,0 +1,22 @@
+{
+  "protocol_version": "0.6.0",
+  "run_id": "run_multi-harness-unavailable",
+  "phase": "achieved",
+  "records": [
+    {"channel": "agent_identity", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "agent_parentage", "scope": "run", "status": "unavailable", "reason_code": "unsupported_harness_extension", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": ["Arbitrary Pi extensions have no universal recursive-agent contract."]},
+    {"channel": "agent_lifecycle", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "workspace_identity", "scope": "run", "status": "complete", "capture_sources": ["harness", "runner"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "conversation", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "returned_reasoning", "scope": "run", "status": "unavailable", "reason_code": "harness_surface_unavailable", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": ["The selected Pi surface exposed no returned reasoning."]},
+    {"channel": "model_transport", "scope": "run", "status": "complete", "capture_sources": ["gateway"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "response_stream", "scope": "run", "status": "complete", "capture_sources": ["gateway"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "model_agent_attribution", "scope": "run", "status": "complete", "capture_sources": ["gateway", "harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "tool_calls", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "tool_results", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "tool_agent_attribution", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "terminal", "scope": "run", "status": "unavailable", "reason_code": "harness_surface_unavailable", "capture_sources": ["harness"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": ["The selected Pi surface exposed tool records but no terminal stream."]},
+    {"channel": "filesystem_final_state", "scope": "run", "status": "complete", "capture_sources": ["runner"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "filesystem_history", "scope": "run", "status": "partial", "reason_code": "harness_surface_partial", "capture_sources": ["harness", "runner"], "harness_id": "pi", "harness_version": "0.9.0", "adapter_version": "0.1.0", "warnings": ["Only observed mutation hints produced intermediate checkpoints."]}
+  ]
+}

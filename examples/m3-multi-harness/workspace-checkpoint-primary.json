@@ -1,0 +1,12 @@
+{
+  "protocol_version": "0.6.0",
+  "checkpoint_id": "checkpoint_workspace-primary-final",
+  "workspace_context_id": "workspace_primary",
+  "files": {
+    "README.md": {
+      "digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "byte_size": 18
+    }
+  },
+  "total_byte_size": 18
+}

@@ -1,0 +1,709 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.6.0/agent-trace-event.schema.json",
+  "title": "Agent trace event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "run_id",
+    "sequence",
+    "event_id",
+    "profile",
+    "producer",
+    "source",
+    "context",
+    "relationships",
+    "occurred_at",
+    "captured_at",
+    "capture",
+    "artifacts",
+    "payload"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.6.0"
+    },
+    "run_id": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/runId"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^event_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "profile": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/profileReference"
+    },
+    "producer": {
+      "$ref": "#/$defs/producer"
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "context": {
+      "$ref": "#/$defs/context"
+    },
+    "relationships": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/relationship"
+      }
+    },
+    "occurred_at": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/timestamp"
+    },
+    "captured_at": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/timestamp"
+    },
+    "capture": {
+      "$ref": "#/$defs/capture"
+    },
+    "artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "../0.1.0/common.schema.json#/$defs/artifactReference"
+      }
+    },
+    "payload": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/runStarted"
+        },
+        {
+          "$ref": "#/$defs/taskStarted"
+        },
+        {
+          "$ref": "#/$defs/taskFinished"
+        },
+        {
+          "$ref": "#/$defs/runFinished"
+        },
+        {
+          "$ref": "#/$defs/agentStarted"
+        },
+        {
+          "$ref": "#/$defs/agentFinished"
+        },
+        {
+          "$ref": "#/$defs/workspaceRegistered"
+        },
+        {
+          "$ref": "#/$defs/conversationMessage"
+        },
+        {
+          "$ref": "#/$defs/modelRequest"
+        },
+        {
+          "$ref": "#/$defs/modelResponseStarted"
+        },
+        {
+          "$ref": "#/$defs/modelResponseFinished"
+        },
+        {
+          "$ref": "#/$defs/toolFinished"
+        },
+        {
+          "$ref": "#/$defs/workspaceCheckpoint"
+        },
+        {
+          "$ref": "#/$defs/executionError"
+        }
+      ]
+    }
+  },
+  "if": {
+    "properties": {
+      "payload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "run_started",
+              "task_started",
+              "task_finished",
+              "run_finished"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    },
+    "required": [
+      "payload"
+    ]
+  },
+  "then": {
+    "properties": {
+      "profile": {
+        "const": {
+          "id": "lifecycle",
+          "version": "0.1.0"
+        }
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "profile": {
+        "const": {
+          "id": "agent-trace",
+          "version": "0.6.0"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "version"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "runner",
+            "evaluator",
+            "importer"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "runner",
+            "harness",
+            "model_gateway",
+            "workspace",
+            "container"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_span_id",
+        "workspace_context_id"
+      ],
+      "properties": {
+        "agent_span_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^agent_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workspace_context_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^workspace_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "event_id"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "parent",
+            "responds_to",
+            "caused_by",
+            "directed_to",
+            "checkpoint_after"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "pattern": "^event_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "warnings"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "../0.1.0/common.schema.json#/$defs/warning"
+          }
+        }
+      }
+    },
+    "harnessIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "adapter_version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "runStarted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "expected_coverage"
+      ],
+      "properties": {
+        "type": {
+          "const": "run_started"
+        },
+        "expected_coverage": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/artifactReference"
+        }
+      }
+    },
+    "taskStarted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "task_id"
+      ],
+      "properties": {
+        "type": {
+          "const": "task_started"
+        },
+        "task_id": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/taskId"
+        }
+      }
+    },
+    "taskFinished": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "task_id",
+        "outcome"
+      ],
+      "properties": {
+        "type": {
+          "const": "task_finished"
+        },
+        "task_id": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/taskId"
+        },
+        "outcome": {
+          "enum": [
+            "passed",
+            "failed",
+            "error"
+          ]
+        }
+      }
+    },
+    "runFinished": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "outcome",
+        "achieved_coverage"
+      ],
+      "properties": {
+        "type": {
+          "const": "run_finished"
+        },
+        "outcome": {
+          "enum": [
+            "completed",
+            "failed",
+            "cancelled",
+            "abandoned"
+          ]
+        },
+        "achieved_coverage": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/artifactReference"
+        }
+      }
+    },
+    "agentStarted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "agent_span_id",
+        "role",
+        "harness"
+      ],
+      "dependentRequired": {
+        "parent_agent_span_id": [
+          "native_parent_agent_id"
+        ],
+        "native_parent_agent_id": [
+          "parent_agent_span_id"
+        ]
+      },
+      "properties": {
+        "type": {
+          "const": "agent_started"
+        },
+        "agent_span_id": {
+          "type": "string",
+          "pattern": "^agent_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "native_agent_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parent_agent_span_id": {
+          "type": "string",
+          "pattern": "^agent_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "native_parent_agent_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "role": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "harness": {
+          "$ref": "#/$defs/harnessIdentity"
+        }
+      }
+    },
+    "agentFinished": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "agent_span_id",
+        "outcome",
+        "warnings"
+      ],
+      "properties": {
+        "type": {
+          "const": "agent_finished"
+        },
+        "agent_span_id": {
+          "type": "string",
+          "pattern": "^agent_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "outcome": {
+          "enum": [
+            "completed",
+            "failed",
+            "cancelled",
+            "unknown"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "../0.1.0/common.schema.json#/$defs/warning"
+          }
+        }
+      }
+    },
+    "workspaceRegistered": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "workspace_context_id",
+        "display_alias",
+        "container_path",
+        "capture"
+      ],
+      "properties": {
+        "type": {
+          "const": "workspace_registered"
+        },
+        "workspace_context_id": {
+          "type": "string",
+          "pattern": "^workspace_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "display_alias": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "container_path": {
+          "type": "string",
+          "pattern": "^/(?:workspace|workspaces(?:/[A-Za-z0-9._-]+)+)$"
+        },
+        "vcs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "git_head": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40,64}$"
+            },
+            "worktree_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "repository_fingerprint": {
+              "$ref": "../0.1.0/common.schema.json#/$defs/sha256"
+            }
+          }
+        },
+        "capture": {
+          "$ref": "#/$defs/capture"
+        }
+      }
+    },
+    "conversationMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "message_id",
+        "role"
+      ],
+      "properties": {
+        "type": {
+          "const": "conversation_message"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        }
+      }
+    },
+    "modelRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "request_id",
+        "model_id"
+      ],
+      "properties": {
+        "type": {
+          "const": "model_request"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "modelResponseStarted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "request_id",
+        "status"
+      ],
+      "properties": {
+        "type": {
+          "const": "model_response_started"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        }
+      }
+    },
+    "modelResponseFinished": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "request_id",
+        "outcome",
+        "chunk_count"
+      ],
+      "properties": {
+        "type": {
+          "const": "model_response_finished"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "outcome": {
+          "enum": [
+            "completed",
+            "error"
+          ]
+        },
+        "chunk_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "toolFinished": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "call_id",
+        "outcome",
+        "tool_name"
+      ],
+      "properties": {
+        "type": {
+          "const": "tool_finished"
+        },
+        "call_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "outcome": {
+          "enum": [
+            "completed",
+            "error"
+          ]
+        },
+        "tool_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "workspaceCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "checkpoint_id",
+        "changed"
+      ],
+      "properties": {
+        "type": {
+          "const": "workspace_checkpoint"
+        },
+        "checkpoint_id": {
+          "type": "string",
+          "pattern": "^checkpoint_[A-Za-z0-9][A-Za-z0-9._-]{0,255}$"
+        },
+        "changed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "executionError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "component",
+        "code"
+      ],
+      "properties": {
+        "type": {
+          "const": "execution_error"
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,127}$"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "protocol_version": "0.6.0",
+  "run_id": "run_multi-harness-complete",
+  "phase": "expected",
+  "records": [
+    {"channel": "agent_identity", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "agent_parentage", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "agent_lifecycle", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "workspace_identity", "scope": "run", "status": "complete", "capture_sources": ["harness", "runner"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "conversation", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "returned_reasoning", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "model_transport", "scope": "run", "status": "complete", "capture_sources": ["gateway"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "response_stream", "scope": "run", "status": "complete", "capture_sources": ["gateway"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "model_agent_attribution", "scope": "run", "status": "complete", "capture_sources": ["gateway", "harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "tool_calls", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "tool_results", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "tool_agent_attribution", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "terminal", "scope": "run", "status": "complete", "capture_sources": ["harness"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "filesystem_final_state", "scope": "run", "status": "complete", "capture_sources": ["runner"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []},
+    {"channel": "filesystem_history", "scope": "run", "status": "complete", "capture_sources": ["harness", "runner"], "harness_id": "opencode", "harness_version": "1.18.5", "adapter_version": "0.1.0", "warnings": []}
+  ]
+}

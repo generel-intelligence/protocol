@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.6.0/capture-coverage-manifest.schema.json",
+  "title": "Capture coverage manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "run_id",
+    "phase",
+    "records"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.6.0"
+    },
+    "run_id": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/runId"
+    },
+    "phase": {
+      "enum": [
+        "expected",
+        "achieved"
+      ]
+    },
+    "records": {
+      "type": "array",
+      "minItems": 15,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/coverageRecord"
+      }
+    }
+  },
+  "$defs": {
+    "coverageRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "channel",
+        "scope",
+        "status",
+        "capture_sources",
+        "harness_id",
+        "harness_version",
+        "adapter_version",
+        "warnings"
+      ],
+      "properties": {
+        "channel": {
+          "$ref": "#/$defs/channel"
+        },
+        "scope": {
+          "enum": [
+            "run",
+            "agent",
+            "workspace"
+          ]
+        },
+        "scope_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 134
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "reason_code": {
+          "$ref": "#/$defs/reasonCode"
+        },
+        "capture_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._-]{0,127}$"
+          }
+        },
+        "harness_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "harness_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "../0.1.0/common.schema.json#/$defs/warning"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "run"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "scope_id": false
+            }
+          },
+          "else": {
+            "type": "object",
+            "properties": {
+              "scope_id": true
+            },
+            "required": [
+              "scope_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "agent"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "scope_id": {
+                "type": "string",
+                "pattern": "^agent_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "workspace"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "scope_id": {
+                "type": "string",
+                "pattern": "^workspace_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "reason_code": false
+            }
+          },
+          "else": {
+            "type": "object",
+            "properties": {
+              "reason_code": true
+            },
+            "required": [
+              "reason_code"
+            ]
+          }
+        }
+      ]
+    },
+    "channel": {
+      "enum": [
+        "agent_identity",
+        "agent_parentage",
+        "agent_lifecycle",
+        "workspace_identity",
+        "conversation",
+        "returned_reasoning",
+        "model_transport",
+        "response_stream",
+        "model_agent_attribution",
+        "tool_calls",
+        "tool_results",
+        "tool_agent_attribution",
+        "terminal",
+        "filesystem_final_state",
+        "filesystem_history"
+      ]
+    },
+    "reasonCode": {
+      "enum": [
+        "harness_surface_partial",
+        "harness_surface_unavailable",
+        "native_identifier_missing",
+        "native_parentage_missing",
+        "provider_route_bypasses_gateway",
+        "unsupported_harness_extension",
+        "workspace_outside_authorized_roots",
+        "capture_interrupted",
+        "adapter_parse_error",
+        "native_timestamp_missing"
+      ]
+    }
+  }
+}

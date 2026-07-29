@@ -5,18 +5,19 @@ from __future__ import annotations
 
 from typing import NotRequired, TypedDict
 
-from . import model_response_stream_index_schema
+from . import agent_trace_event_schema
 
 Path = str
 
 
 class File(TypedDict):
-    digest: model_response_stream_index_schema.Sha256
+    digest: agent_trace_event_schema.Sha256
     byte_size: int
 
 
 class WorkspaceCheckpointManifest(TypedDict):
     protocol_version: NotRequired[str]
     checkpoint_id: str
+    workspace_context_id: str
     files: dict[str, File]
     total_byte_size: int

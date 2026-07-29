@@ -3,31 +3,61 @@
 
 from __future__ import annotations
 
-from typing import NotRequired, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
-from . import common_schema
+from . import agent_trace_event_schema
+
+
+class Artifact(TypedDict):
+    digest: agent_trace_event_schema.Sha256
+
+
+class Artifact1(TypedDict):
+    package_integrity: str
+
+
+class Harness(TypedDict):
+    id: str
+    version: str
+    artifact: Artifact | Artifact1
+
+
+class Adapter(TypedDict):
+    contract: str
+    implementation_version: str
+
+
+class Image(TypedDict):
+    digest: agent_trace_event_schema.Sha256
+
+
+class ModelRoute(TypedDict):
+    protocol: Literal[
+        'openai-chat-completions', 'openai-responses', 'anthropic-messages'
+    ]
+    model_id: str
+
+
+class Images(TypedDict):
+    environment: Image
+    execution: Image
+    gateway: Image
+    evaluator: NotRequired[Image]
 
 
 class Model(TypedDict):
     provider: str
-    model: str
+    model_id: str
     revision: NotRequired[str]
-    parameters_digest: common_schema.Sha256
-
-
-class Agent(TypedDict):
-    name: str
-    version: str
-    config_digest: common_schema.Sha256
-
-
-class Environment(TypedDict):
-    image_digest: common_schema.Sha256
+    parameters_digest: agent_trace_event_schema.Sha256
+    presented_route: ModelRoute
+    upstream_route: ModelRoute
 
 
 class ExecutionConfiguration(TypedDict):
-    protocol_version: common_schema.ProtocolVersion
+    protocol_version: NotRequired[str]
     config_id: str
+    images: Images
+    harness: Harness
+    adapter: Adapter
     model: Model
-    agent: Agent
-    environment: Environment
