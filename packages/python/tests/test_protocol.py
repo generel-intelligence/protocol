@@ -353,6 +353,15 @@ def test_protocol_0_6_examples_cover_recursive_agents_workspaces_and_attribution
     assert workspaces == {"workspace_primary", "workspace_child"}
     assert any(context["agent_span_id"] == "agent_child" for context in gateway_contexts)
     assert any(context["agent_span_id"] is None for context in gateway_contexts)
+    tool_started = next(
+        event for event in events if event["payload"]["type"] == "tool_started"
+    )
+    tool_finished = next(
+        event for event in events if event["payload"]["type"] == "tool_finished"
+    )
+    assert tool_finished["relationships"] == [
+        {"type": "caused_by", "event_id": tool_started["event_id"]}
+    ]
     directed = [
         relationship
         for event in events

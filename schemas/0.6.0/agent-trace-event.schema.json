@@ -106,6 +106,9 @@
           "$ref": "#/$defs/modelResponseFinished"
         },
         {
+          "$ref": "#/$defs/toolStarted"
+        },
+        {
           "$ref": "#/$defs/toolFinished"
         },
         {
@@ -628,6 +631,30 @@
         "chunk_count": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "toolStarted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "call_id",
+        "tool_name"
+      ],
+      "properties": {
+        "type": {
+          "const": "tool_started"
+        },
+        "call_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "tool_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
         }
       }
     },

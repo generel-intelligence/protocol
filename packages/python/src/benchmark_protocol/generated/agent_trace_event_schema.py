@@ -157,6 +157,12 @@ class ModelResponseFinished(TypedDict):
     chunk_count: int
 
 
+class ToolStarted(TypedDict):
+    type: NotRequired[str]
+    call_id: str
+    tool_name: str
+
+
 class ToolFinished(TypedDict):
     type: NotRequired[str]
     call_id: str
@@ -202,6 +208,7 @@ class AgentTraceEvent(TypedDict):
         | ModelRequest
         | ModelResponseStarted
         | ModelResponseFinished
+        | ToolStarted
         | ToolFinished
         | WorkspaceCheckpoint
         | ExecutionError
