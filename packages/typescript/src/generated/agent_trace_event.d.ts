@@ -64,7 +64,7 @@ export interface Context {
  * via the `definition` "relationship".
  */
 export interface Relationship {
-  type: "parent" | "responds_to" | "caused_by" | "checkpoint_after";
+  type: "parent" | "responds_to" | "caused_by" | "directed_to" | "checkpoint_after";
   event_id: string;
 }
 /**

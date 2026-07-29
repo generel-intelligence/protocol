@@ -170,7 +170,8 @@
     "source": {"kind": "harness", "id": "message-child-1"},
     "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
     "relationships": [
-      {"type": "responds_to", "event_id": "event_model-request-attributed"}
+      {"type": "responds_to", "event_id": "event_model-request-attributed"},
+      {"type": "directed_to", "event_id": "event_agent-root-started"}
     ],
     "occurred_at": "2026-07-29T16:00:06Z",
     "captured_at": "2026-07-29T16:00:06Z",

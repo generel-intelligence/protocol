@@ -370,6 +370,7 @@ test("protocol 0.6 rejects malformed context, coverage, parent, and workspace fi
 test("protocol 0.6 examples cover recursive agents, workspaces, and attribution", () => {
   const directory = join(repositoryRoot, "examples", "m3-multi-harness");
   const events = JSON.parse(readFileSync(join(directory, "complete-trace.json"), "utf8"));
+  const eventsById = new Map(events.map((event) => [event.event_id, event]));
   const started = events
     .filter((event) => event.payload.type === "agent_started")
     .map((event) => event.payload);
@@ -393,6 +394,11 @@ test("protocol 0.6 examples cover recursive agents, workspaces, and attribution"
   assert.deepEqual(workspaces, new Set(["workspace_primary", "workspace_child"]));
   assert.ok(gatewayContexts.some((context) => context.agent_span_id === "agent_child"));
   assert.ok(gatewayContexts.some((context) => context.agent_span_id === null));
+  const directed = events.flatMap((event) =>
+    event.relationships.filter((relationship) => relationship.type === "directed_to")
+  );
+  assert.equal(directed.length, 1);
+  assert.equal(eventsById.get(directed[0].event_id).payload.type, "agent_started");
   assert.deepEqual(coverageStatuses, new Set(["complete", "partial", "unavailable"]));
 });
 

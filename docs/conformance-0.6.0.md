@@ -22,8 +22,9 @@ status, scope, reason-code, harness, adapter, and capture-source vocabularies.
 Every coverage manifest includes a run-scope record for every required channel.
 
 The examples cover complete, partial, and unavailable coverage; a native
-parent/child agent pair; two registered workspaces; an exactly attributable
-gateway request; and a gateway request whose agent and workspace remain null.
+parent/child agent pair; a message directed to an exact earlier agent; two
+registered workspaces; an exactly attributable gateway request; and a gateway
+request whose agent and workspace remain null.
 
 ## Cross-record enforcement
 
@@ -32,6 +33,8 @@ must additionally reject:
 
 - a relationship or agent parent that does not identify an earlier record in
   the same run;
+- a `directed_to` relationship that does not identify the earlier
+  `agent_started` event for the exact native recipient;
 - duplicate agent starts, finish without start, duplicate finish, finish before
   start, or agent-attributed events after finish;
 - a workspace context used before registration, except by its own registration

@@ -336,6 +336,7 @@ def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fi
 
 def test_protocol_0_6_examples_cover_recursive_agents_workspaces_and_attribution() -> None:
     events = load("examples/m3-multi-harness/complete-trace.json")
+    events_by_id = {event["event_id"]: event for event in events}
     started = [event["payload"] for event in events if event["payload"]["type"] == "agent_started"]
     workspaces = {
         event["payload"]["workspace_context_id"]
@@ -352,6 +353,14 @@ def test_protocol_0_6_examples_cover_recursive_agents_workspaces_and_attribution
     assert workspaces == {"workspace_primary", "workspace_child"}
     assert any(context["agent_span_id"] == "agent_child" for context in gateway_contexts)
     assert any(context["agent_span_id"] is None for context in gateway_contexts)
+    directed = [
+        relationship
+        for event in events
+        for relationship in event["relationships"]
+        if relationship["type"] == "directed_to"
+    ]
+    assert len(directed) == 1
+    assert events_by_id[directed[0]["event_id"]]["payload"]["type"] == "agent_started"
     coverage_statuses = {
         record["status"]
         for name in ("complete", "partial", "unavailable")

@@ -61,7 +61,9 @@ class Context(TypedDict):
 
 
 class Relationship(TypedDict):
-    type: Literal['parent', 'responds_to', 'caused_by', 'checkpoint_after']
+    type: Literal[
+        'parent', 'responds_to', 'caused_by', 'directed_to', 'checkpoint_after'
+    ]
     event_id: str
 
 

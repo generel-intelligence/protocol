@@ -111,6 +111,11 @@ Consumers must not infer cross-source causality from clocks, timing, or content.
 Fixture conformance verifies that relationships point to earlier events in the
 same trace.
 
+`directed_to` links an attributable event to the earlier `agent_started` event
+for an exact native recipient. It supports navigable peer or parent-agent
+messaging without turning harness-specific collaboration, task, or mailbox
+records into portable payloads.
+
 Protocol `0.6.0` adds a required context containing nullable runner-owned agent
 and workspace IDs. Null means the event cannot be authoritatively attributed;
 it is not an invitation to infer identity. Agent start and finish events retain

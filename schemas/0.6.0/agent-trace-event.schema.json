@@ -258,6 +258,7 @@
             "parent",
             "responds_to",
             "caused_by",
+            "directed_to",
             "checkpoint_after"
           ]
         },
