@@ -135,9 +135,10 @@ execution, gateway, and optional evaluator image identities distinct. It also
 records the exact harness artifact, adapter contract and implementation, model
 provenance, harness-facing route, and owner-selected upstream route.
 
-`tool_started` is intentionally absent. It may be added in a later protocol
-only after fixtures from at least two required harnesses prove a stable start
-event; `tool_finished` remains the portable tool boundary.
+`tool_started` records the portable beginning of a harness-reported tool call;
+input and native detail remain referenced artifacts. Gate 1 OpenCode v1.18.5
+and Codex App Server fixtures both prove a stable native start lifecycle.
+`tool_finished` records the authoritative final outcome.
 
 An event chunk digest covers the RFC 8785 encoding of its JSON event array.
 Chunk ordinals and sequence ranges make gaps explicit. A partial manifest must

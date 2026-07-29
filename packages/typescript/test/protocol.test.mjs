@@ -394,6 +394,11 @@ test("protocol 0.6 examples cover recursive agents, workspaces, and attribution"
   assert.deepEqual(workspaces, new Set(["workspace_primary", "workspace_child"]));
   assert.ok(gatewayContexts.some((context) => context.agent_span_id === "agent_child"));
   assert.ok(gatewayContexts.some((context) => context.agent_span_id === null));
+  const toolStarted = events.find((event) => event.payload.type === "tool_started");
+  const toolFinished = events.find((event) => event.payload.type === "tool_finished");
+  assert.deepEqual(toolFinished.relationships, [
+    { type: "caused_by", event_id: toolStarted.event_id }
+  ]);
   const directed = events.flatMap((event) =>
     event.relationships.filter((relationship) => relationship.type === "directed_to")
   );

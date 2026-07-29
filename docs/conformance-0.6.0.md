@@ -24,7 +24,10 @@ Every coverage manifest includes a run-scope record for every required channel.
 The examples cover complete, partial, and unavailable coverage; a native
 parent/child agent pair; a message directed to an exact earlier agent; two
 registered workspaces; an exactly attributable gateway request; and a gateway
-request whose agent and workspace remain null.
+request whose agent and workspace remain null. The complete trace also links a
+portable `tool_started` event to its later `tool_finished` event. Gate 1 native
+fixtures prove stable start records in both OpenCode v1.18.5 and Codex App
+Server.
 
 ## Cross-record enforcement
 

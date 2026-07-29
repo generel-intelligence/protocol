@@ -26,6 +26,7 @@ export interface AgentTraceEvent {
     | ModelRequest
     | ModelResponseStarted
     | ModelResponseFinished
+    | ToolStarted
     | ToolFinished
     | WorkspaceCheckpoint
     | ExecutionError;
@@ -197,6 +198,15 @@ export interface ModelResponseFinished {
   request_id: string;
   outcome: "completed" | "error";
   chunk_count: number;
+}
+/**
+ * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * via the `definition` "toolStarted".
+ */
+export interface ToolStarted {
+  type: "tool_started";
+  call_id: string;
+  tool_name: string;
 }
 /**
  * This interface was referenced by `AgentTraceEvent`'s JSON-Schema

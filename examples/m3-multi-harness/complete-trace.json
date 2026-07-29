@@ -192,6 +192,49 @@
     "protocol_version": "0.6.0",
     "run_id": "run_multi-harness-complete",
     "sequence": 7,
+    "event_id": "event_tool-started",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "call-child-1"},
+    "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:06.100Z",
+    "captured_at": "2026-07-29T16:00:06.100Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "tool_started",
+      "call_id": "call-child-1",
+      "tool_name": "shell"
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 8,
+    "event_id": "event_tool-finished",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "call-child-1"},
+    "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
+    "relationships": [
+      {"type": "caused_by", "event_id": "event_tool-started"}
+    ],
+    "occurred_at": "2026-07-29T16:00:06.200Z",
+    "captured_at": "2026-07-29T16:00:06.200Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "tool_finished",
+      "call_id": "call-child-1",
+      "outcome": "completed",
+      "tool_name": "shell"
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 9,
     "event_id": "event_model-request-unattributed",
     "profile": {"id": "agent-trace", "version": "0.6.0"},
     "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
@@ -219,7 +262,7 @@
   {
     "protocol_version": "0.6.0",
     "run_id": "run_multi-harness-complete",
-    "sequence": 8,
+    "sequence": 10,
     "event_id": "event_agent-child-finished",
     "profile": {"id": "agent-trace", "version": "0.6.0"},
     "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
@@ -240,7 +283,7 @@
   {
     "protocol_version": "0.6.0",
     "run_id": "run_multi-harness-complete",
-    "sequence": 9,
+    "sequence": 11,
     "event_id": "event_agent-root-finished",
     "profile": {"id": "agent-trace", "version": "0.6.0"},
     "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
@@ -261,7 +304,7 @@
   {
     "protocol_version": "0.6.0",
     "run_id": "run_multi-harness-complete",
-    "sequence": 10,
+    "sequence": 12,
     "event_id": "event_run-finished",
     "profile": {"id": "lifecycle", "version": "0.1.0"},
     "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
