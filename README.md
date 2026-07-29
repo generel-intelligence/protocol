@@ -6,10 +6,11 @@ package names are provisional.
 
 ## Status
 
-Pre-alpha. Protocol `0.5.0` adds workspace-checkpoint manifests and timed model
-response stream indexes without changing any prior schema. All versions are
-source-available contracts, and the TypeScript and Python bindings remain
-unpublished.
+Pre-alpha. Protocol `0.6.0` adds multi-harness execution identity, recursive
+agent and workspace context, capture coverage, and workspace-scoped
+checkpoints without changing any prior schema bytes. New run producers and
+consumers cut over directly to `0.6.0`; legacy run ingestion is not supported.
+The TypeScript and Python bindings remain unpublished.
 
 The protocol must remain independent of website, database, runner, evaluator,
 and deployment implementations.
@@ -21,6 +22,7 @@ and deployment implementations.
 - `schemas/0.3.0/` — additive detailed agent-trace schema.
 - `schemas/0.4.0/` — additive reservation-service result profile.
 - `schemas/0.5.0/` — additive workspace and response-stream evidence schemas.
+- `schemas/0.6.0/` — multi-harness run evidence and identity schemas.
 - `examples/` — complete, partial, profile, and canonicalization fixtures.
 - `evidence/mappings/` — reviewed mappings from upstream result fields.
 - `packages/typescript/` — generated declarations and an Ajv validator.
@@ -32,6 +34,7 @@ and deployment implementations.
 - `docs/conformance-0.3.0.md` — additive M3 trace verification record.
 - `docs/conformance-0.4.0.md` — second-language result-profile record.
 - `docs/conformance-0.5.0.md` — playback-evidence contract record.
+- `docs/conformance-0.6.0.md` — multi-harness evidence conformance rules.
 
 ## Verification
 
@@ -54,6 +57,7 @@ python -m uv run python scripts/generate.py --check
 python -m uv run ruff check .
 python -m uv run mypy
 python -m uv run pytest
+python -m uv build
 ```
 
 No command above downloads or executes a benchmark.

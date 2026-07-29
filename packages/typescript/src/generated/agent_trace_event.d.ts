@@ -1,13 +1,14 @@
 /* Generated from JSON Schema. Do not edit. */
 
 export interface AgentTraceEvent {
-  protocol_version: "0.3.0";
+  protocol_version: "0.6.0";
   run_id: string;
   sequence: number;
   event_id: string;
   profile: ProfileReference;
   producer: Producer;
   source: Source;
+  context: Context;
   relationships: Relationship[];
   occurred_at: string;
   captured_at: string;
@@ -18,6 +19,9 @@ export interface AgentTraceEvent {
     | TaskStarted
     | TaskFinished
     | RunFinished
+    | AgentStarted
+    | AgentFinished
+    | WorkspaceRegistered
     | ConversationMessage
     | ModelRequest
     | ModelResponseStarted
@@ -49,6 +53,14 @@ export interface Source {
 }
 /**
  * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * via the `definition` "context".
+ */
+export interface Context {
+  agent_span_id: string | null;
+  workspace_context_id: string | null;
+}
+/**
+ * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
  * via the `definition` "relationship".
  */
 export interface Relationship {
@@ -73,6 +85,7 @@ export interface ArtifactReference {
  */
 export interface RunStarted {
   type: "run_started";
+  expected_coverage: ArtifactReference;
 }
 /**
  * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
@@ -98,6 +111,55 @@ export interface TaskFinished {
 export interface RunFinished {
   type: "run_finished";
   outcome: "completed" | "failed" | "cancelled" | "abandoned";
+  achieved_coverage: ArtifactReference;
+}
+/**
+ * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * via the `definition` "agentStarted".
+ */
+export interface AgentStarted {
+  type: "agent_started";
+  agent_span_id: string;
+  native_agent_id?: string;
+  parent_agent_span_id?: string;
+  native_parent_agent_id?: string;
+  role: string;
+  harness: HarnessIdentity;
+}
+/**
+ * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * via the `definition` "harnessIdentity".
+ */
+export interface HarnessIdentity {
+  id: string;
+  version: string;
+  adapter_version: string;
+}
+/**
+ * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * via the `definition` "agentFinished".
+ */
+export interface AgentFinished {
+  type: "agent_finished";
+  agent_span_id: string;
+  outcome: "completed" | "failed" | "cancelled" | "unknown";
+  warnings: string[];
+}
+/**
+ * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * via the `definition` "workspaceRegistered".
+ */
+export interface WorkspaceRegistered {
+  type: "workspace_registered";
+  workspace_context_id: string;
+  display_alias: string;
+  container_path: string;
+  vcs?: {
+    git_head?: string;
+    worktree_id?: string;
+    repository_fingerprint?: string;
+  };
+  capture: Capture;
 }
 /**
  * This interface was referenced by `AgentTraceEvent`'s JSON-Schema

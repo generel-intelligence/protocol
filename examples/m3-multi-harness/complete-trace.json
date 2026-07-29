@@ -1,0 +1,288 @@
+[
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 0,
+    "event_id": "event_run-started",
+    "profile": {"id": "lifecycle", "version": "0.1.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "runner", "id": "run-start"},
+    "context": {"agent_span_id": null, "workspace_context_id": null},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:00Z",
+    "captured_at": "2026-07-29T16:00:00Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [
+      {
+        "artifact_id": "artifact_coverage-expected",
+        "digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "payload": {
+      "type": "run_started",
+      "expected_coverage": {
+        "artifact_id": "artifact_coverage-expected",
+        "digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 1,
+    "event_id": "event_workspace-primary",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "workspace", "id": "workspace-primary"},
+    "context": {"agent_span_id": null, "workspace_context_id": "workspace_primary"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:01Z",
+    "captured_at": "2026-07-29T16:00:01Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "workspace_registered",
+      "workspace_context_id": "workspace_primary",
+      "display_alias": "primary",
+      "container_path": "/workspace",
+      "vcs": {
+        "git_head": "1111111111111111111111111111111111111111",
+        "repository_fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      "capture": {"status": "complete", "warnings": []}
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 2,
+    "event_id": "event_agent-root-started",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "session-root"},
+    "context": {"agent_span_id": "agent_root", "workspace_context_id": "workspace_primary"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:02Z",
+    "captured_at": "2026-07-29T16:00:02Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "agent_started",
+      "agent_span_id": "agent_root",
+      "native_agent_id": "session-root",
+      "role": "root",
+      "harness": {
+        "id": "opencode",
+        "version": "1.18.5",
+        "adapter_version": "0.1.0"
+      }
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 3,
+    "event_id": "event_workspace-child",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "workspace", "id": "workspace-child"},
+    "context": {"agent_span_id": "agent_root", "workspace_context_id": "workspace_child"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:03Z",
+    "captured_at": "2026-07-29T16:00:03Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "workspace_registered",
+      "workspace_context_id": "workspace_child",
+      "display_alias": "child-worktree",
+      "container_path": "/workspaces/child",
+      "vcs": {
+        "git_head": "2222222222222222222222222222222222222222",
+        "worktree_id": "native-worktree-child",
+        "repository_fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      "capture": {"status": "complete", "warnings": []}
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 4,
+    "event_id": "event_agent-child-started",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "session-child"},
+    "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
+    "relationships": [
+      {"type": "parent", "event_id": "event_agent-root-started"}
+    ],
+    "occurred_at": "2026-07-29T16:00:04Z",
+    "captured_at": "2026-07-29T16:00:04Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "agent_started",
+      "agent_span_id": "agent_child",
+      "native_agent_id": "session-child",
+      "parent_agent_span_id": "agent_root",
+      "native_parent_agent_id": "session-root",
+      "role": "explore",
+      "harness": {
+        "id": "opencode",
+        "version": "1.18.5",
+        "adapter_version": "0.1.0"
+      }
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 5,
+    "event_id": "event_model-request-attributed",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "model_gateway", "id": "request-shared-1"},
+    "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:05Z",
+    "captured_at": "2026-07-29T16:00:05Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [
+      {
+        "artifact_id": "artifact_model-request",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ],
+    "payload": {
+      "type": "model_request",
+      "request_id": "request-shared-1",
+      "model_id": "qwen36-chunter-i1-iq4-xs"
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 6,
+    "event_id": "event_child-message",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "message-child-1"},
+    "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
+    "relationships": [
+      {"type": "responds_to", "event_id": "event_model-request-attributed"}
+    ],
+    "occurred_at": "2026-07-29T16:00:06Z",
+    "captured_at": "2026-07-29T16:00:06Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [
+      {
+        "artifact_id": "artifact_child-message",
+        "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "payload": {
+      "type": "conversation_message",
+      "message_id": "message-child-1",
+      "role": "assistant"
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 7,
+    "event_id": "event_model-request-unattributed",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "model_gateway", "id": "request-unshared-2"},
+    "context": {"agent_span_id": null, "workspace_context_id": null},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:07Z",
+    "captured_at": "2026-07-29T16:00:07Z",
+    "capture": {
+      "status": "partial",
+      "warnings": ["No exact shared request ID proved agent attribution."]
+    },
+    "artifacts": [
+      {
+        "artifact_id": "artifact_model-request-unattributed",
+        "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "payload": {
+      "type": "model_request",
+      "request_id": "request-unshared-2",
+      "model_id": "qwen36-chunter-i1-iq4-xs"
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 8,
+    "event_id": "event_agent-child-finished",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "session-child"},
+    "context": {"agent_span_id": "agent_child", "workspace_context_id": "workspace_child"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:08Z",
+    "captured_at": "2026-07-29T16:00:08Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "agent_finished",
+      "agent_span_id": "agent_child",
+      "outcome": "completed",
+      "warnings": []
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 9,
+    "event_id": "event_agent-root-finished",
+    "profile": {"id": "agent-trace", "version": "0.6.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "harness", "id": "session-root"},
+    "context": {"agent_span_id": "agent_root", "workspace_context_id": "workspace_primary"},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:09Z",
+    "captured_at": "2026-07-29T16:00:09Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [],
+    "payload": {
+      "type": "agent_finished",
+      "agent_span_id": "agent_root",
+      "outcome": "completed",
+      "warnings": []
+    }
+  },
+  {
+    "protocol_version": "0.6.0",
+    "run_id": "run_multi-harness-complete",
+    "sequence": 10,
+    "event_id": "event_run-finished",
+    "profile": {"id": "lifecycle", "version": "0.1.0"},
+    "producer": {"kind": "runner", "id": "fixture-runner", "version": "0.6.0"},
+    "source": {"kind": "runner", "id": "run-finish"},
+    "context": {"agent_span_id": null, "workspace_context_id": null},
+    "relationships": [],
+    "occurred_at": "2026-07-29T16:00:10Z",
+    "captured_at": "2026-07-29T16:00:10Z",
+    "capture": {"status": "complete", "warnings": []},
+    "artifacts": [
+      {
+        "artifact_id": "artifact_coverage-achieved",
+        "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    ],
+    "payload": {
+      "type": "run_finished",
+      "outcome": "completed",
+      "achieved_coverage": {
+        "artifact_id": "artifact_coverage-achieved",
+        "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    }
+  }
+]

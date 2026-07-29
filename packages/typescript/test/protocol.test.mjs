@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.5.0");
+  assert.equal(PROTOCOL_VERSION, "0.6.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -22,8 +22,12 @@ test("exports the candidate version and bundled schemas", () => {
     "Agent trace event"
   );
   assert.equal(
-    getSchema("0.5.0/workspace-checkpoint-manifest.schema.json").title,
+    getSchema("0.6.0/workspace-checkpoint-manifest.schema.json").title,
     "Workspace checkpoint manifest"
+  );
+  assert.equal(
+    getSchema("0.6.0/capture-coverage-manifest.schema.json").title,
+    "Capture coverage manifest"
   );
 });
 
@@ -302,6 +306,94 @@ test("the protocol 0.5 schema inventory is exactly two recorded schemas", () => 
     const schema = getSchema(`schemas/0.5.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
+});
+
+test("the protocol 0.6 schema inventory is exactly four recorded schemas", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.6.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.6.0.json"), "utf8")
+  ).schemas;
+  const paths = readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json"));
+  assert.equal(paths.length, 4);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.6.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("protocol 0.6 rejects malformed context, coverage, parent, and workspace fields", () => {
+  const eventSchema = "schemas/0.6.0/agent-trace-event.schema.json";
+  const events = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "m3-multi-harness", "complete-trace.json"),
+      "utf8"
+    )
+  );
+  assert.throws(() =>
+    validate(eventSchema, {
+      ...events[0],
+      context: { agent_span_id: "", workspace_context_id: null }
+    })
+  );
+
+  const { native_parent_agent_id: _, ...payloadWithoutNativeParent } = events[4].payload;
+  assert.throws(() =>
+    validate(eventSchema, { ...events[4], payload: payloadWithoutNativeParent })
+  );
+
+  const coverage = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "m3-multi-harness", "coverage-partial.json"),
+      "utf8"
+    )
+  );
+  const { reason_code: __, ...recordWithoutReason } = coverage.records[8];
+  assert.throws(() =>
+    validate("schemas/0.6.0/capture-coverage-manifest.schema.json", {
+      ...coverage,
+      records: [...coverage.records.slice(0, 8), recordWithoutReason, ...coverage.records.slice(9)]
+    })
+  );
+
+  const checkpoint = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "m3-multi-harness", "workspace-checkpoint-primary.json"),
+      "utf8"
+    )
+  );
+  const { workspace_context_id: ___, ...checkpointWithoutWorkspace } = checkpoint;
+  assert.throws(() =>
+    validate("schemas/0.6.0/workspace-checkpoint-manifest.schema.json", checkpointWithoutWorkspace)
+  );
+});
+
+test("protocol 0.6 examples cover recursive agents, workspaces, and attribution", () => {
+  const directory = join(repositoryRoot, "examples", "m3-multi-harness");
+  const events = JSON.parse(readFileSync(join(directory, "complete-trace.json"), "utf8"));
+  const started = events
+    .filter((event) => event.payload.type === "agent_started")
+    .map((event) => event.payload);
+  const workspaces = new Set(
+    events
+      .filter((event) => event.payload.type === "workspace_registered")
+      .map((event) => event.payload.workspace_context_id)
+  );
+  const gatewayContexts = events
+    .filter((event) => event.source.kind === "model_gateway")
+    .map((event) => event.context);
+  const coverageStatuses = new Set(
+    ["complete", "partial", "unavailable"].flatMap((name) =>
+      JSON.parse(readFileSync(join(directory, `coverage-${name}.json`), "utf8")).records.map(
+        (record) => record.status
+      )
+    )
+  );
+
+  assert.ok(started.some((payload) => "parent_agent_span_id" in payload));
+  assert.deepEqual(workspaces, new Set(["workspace_primary", "workspace_child"]));
+  assert.ok(gatewayContexts.some((context) => context.agent_span_id === "agent_child"));
+  assert.ok(gatewayContexts.some((context) => context.agent_span_id === null));
+  assert.deepEqual(coverageStatuses, new Set(["complete", "partial", "unavailable"]));
 });
 
 test("agent trace fixtures have contiguous sequences and proven relationships", () => {

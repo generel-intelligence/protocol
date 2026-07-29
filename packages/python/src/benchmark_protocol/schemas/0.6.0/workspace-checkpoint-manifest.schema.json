@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.6.0/workspace-checkpoint-manifest.schema.json",
+  "title": "Workspace checkpoint manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "checkpoint_id",
+    "workspace_context_id",
+    "files",
+    "total_byte_size"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.6.0"
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "pattern": "^checkpoint_[A-Za-z0-9][A-Za-z0-9._-]{0,255}$"
+    },
+    "workspace_context_id": {
+      "type": "string",
+      "pattern": "^workspace_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "files": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/path"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/file"
+      }
+    },
+    "total_byte_size": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "$defs": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "^[^/\\\\\\u0000-\\u001f](?:[^\\\\\\u0000-\\u001f]*[^/\\\\\\u0000-\\u001f])?$",
+      "not": {
+        "pattern": "(^|/)\\.{1,2}(/|$)|//"
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "byte_size"
+      ],
+      "properties": {
+        "digest": {
+          "$ref": "../0.1.0/common.schema.json#/$defs/sha256"
+        },
+        "byte_size": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

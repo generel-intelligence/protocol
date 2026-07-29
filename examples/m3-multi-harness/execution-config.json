@@ -1,0 +1,43 @@
+{
+  "protocol_version": "0.6.0",
+  "config_id": "config_multi-harness-fixture",
+  "images": {
+    "environment": {
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "execution": {
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "gateway": {
+      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "evaluator": {
+      "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+    }
+  },
+  "harness": {
+    "id": "codex",
+    "version": "1.2.3",
+    "artifact": {
+      "package_integrity": "sha512-fixture"
+    }
+  },
+  "adapter": {
+    "contract": "adapter-event/0.1.0",
+    "implementation_version": "0.1.0"
+  },
+  "model": {
+    "provider": "owner-managed",
+    "model_id": "qwen36-chunter-i1-iq4-xs",
+    "revision": "fixture",
+    "parameters_digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+    "presented_route": {
+      "protocol": "openai-responses",
+      "model_id": "qwen36-chunter-i1-iq4-xs"
+    },
+    "upstream_route": {
+      "protocol": "openai-chat-completions",
+      "model_id": "qwen36-chunter-i1-iq4-xs"
+    }
+  }
+}

@@ -34,7 +34,7 @@ async function schemaFiles(directory) {
 
 async function expectedFiles() {
   const output = new Map();
-  const exports = [];
+  const exports = new Map();
   for (const schemaPath of await schemaFiles(sourceRoot)) {
     const name = basename(schemaPath, ".schema.json").replaceAll("-", "_");
     const declaration = await compileFromFile(schemaPath, {
@@ -45,11 +45,11 @@ async function expectedFiles() {
     output.set(join(generatedRoot, `${name}.d.ts`), declaration);
     const topLevelName = declaration.match(/export (?:interface|type) ([A-Za-z0-9_]+)/)?.[1];
     if (!topLevelName) throw new Error(`no generated top-level type for ${schemaPath}`);
-    exports.push(`export type { ${topLevelName} } from "./${name}.js";`);
+    exports.set(name, `export type { ${topLevelName} } from "./${name}.js";`);
   }
   output.set(
     join(packageRoot, "src", "generated", "index.ts"),
-    `/* Generated from JSON Schema. Do not edit. */\n\n${exports.join("\n")}\n`
+    `/* Generated from JSON Schema. Do not edit. */\n\n${[...exports.values()].join("\n")}\n`
   );
   return output;
 }

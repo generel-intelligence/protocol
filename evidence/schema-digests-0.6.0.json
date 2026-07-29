@@ -1,0 +1,8 @@
+{
+  "schemas": {
+    "agent-trace-event.schema.json": "sha256:a74d80761f2f516925d4f97a995fe95e83d42a7bfbae940fdea4dbab218cd0cd",
+    "capture-coverage-manifest.schema.json": "sha256:12ca525d77c546976554151e4a51b3d9393fdfe598ef06b5f1d05aa08332dacf",
+    "execution-config.schema.json": "sha256:4f1d964a156a85292928bc840238d68b35960af4673e795a841c51a326dc5402",
+    "workspace-checkpoint-manifest.schema.json": "sha256:697abacfd1431b802391a0bc1bf2c768cc3a74b937f5f8c2db152a99ce1e231d"
+  }
+}

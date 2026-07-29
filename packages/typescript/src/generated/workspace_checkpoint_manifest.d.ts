@@ -7,8 +7,9 @@
 export type Path = string;
 
 export interface WorkspaceCheckpointManifest {
-  protocol_version: "0.5.0";
+  protocol_version: "0.6.0";
   checkpoint_id: string;
+  workspace_context_id: string;
   files: {
     [k: string]: File;
   };

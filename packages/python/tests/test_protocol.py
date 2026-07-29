@@ -18,7 +18,7 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.5.0"
+    assert PROTOCOL_VERSION == "0.6.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
@@ -29,8 +29,12 @@ def test_version_and_schema_access() -> None:
         == "Agent trace event"
     )
     assert (
-        get_schema("0.5.0/workspace-checkpoint-manifest.schema.json")["title"]
+        get_schema("0.6.0/workspace-checkpoint-manifest.schema.json")["title"]
         == "Workspace checkpoint manifest"
+    )
+    assert (
+        get_schema("0.6.0/capture-coverage-manifest.schema.json")["title"]
+        == "Capture coverage manifest"
     )
 
 
@@ -268,6 +272,92 @@ def test_protocol_0_5_schema_inventory_is_exactly_two_valid_schemas() -> None:
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.5.0").as_posix()
         assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_6_schema_inventory_is_exactly_four_valid_schemas() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.6.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.6.0.json")["schemas"]
+    assert len(paths) == 4
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.6.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fields() -> None:
+    event_schema = "schemas/0.6.0/agent-trace-event.schema.json"
+    events = load("examples/m3-multi-harness/complete-trace.json")
+
+    with pytest.raises(Exception):
+        validate(
+            event_schema,
+            {
+                **events[0],
+                "context": {"agent_span_id": "", "workspace_context_id": None},
+            },
+        )
+
+    child = events[4]
+    malformed_parent = {
+        **child,
+        "payload": {
+            key: value
+            for key, value in child["payload"].items()
+            if key != "native_parent_agent_id"
+        },
+    }
+    with pytest.raises(Exception):
+        validate(event_schema, malformed_parent)
+
+    coverage = load("examples/m3-multi-harness/coverage-partial.json")
+    malformed_record = {**coverage["records"][8]}
+    malformed_record.pop("reason_code")
+    with pytest.raises(Exception):
+        validate(
+            "schemas/0.6.0/capture-coverage-manifest.schema.json",
+            {
+                **coverage,
+                "records": [
+                    *coverage["records"][:8],
+                    malformed_record,
+                    *coverage["records"][9:],
+                ],
+            },
+        )
+
+    checkpoint = load("examples/m3-multi-harness/workspace-checkpoint-primary.json")
+    with pytest.raises(Exception):
+        validate(
+            "schemas/0.6.0/workspace-checkpoint-manifest.schema.json",
+            {key: value for key, value in checkpoint.items() if key != "workspace_context_id"},
+        )
+
+
+def test_protocol_0_6_examples_cover_recursive_agents_workspaces_and_attribution() -> None:
+    events = load("examples/m3-multi-harness/complete-trace.json")
+    started = [event["payload"] for event in events if event["payload"]["type"] == "agent_started"]
+    workspaces = {
+        event["payload"]["workspace_context_id"]
+        for event in events
+        if event["payload"]["type"] == "workspace_registered"
+    }
+    gateway_contexts = [
+        event["context"]
+        for event in events
+        if event["source"]["kind"] == "model_gateway"
+    ]
+
+    assert any("parent_agent_span_id" in payload for payload in started)
+    assert workspaces == {"workspace_primary", "workspace_child"}
+    assert any(context["agent_span_id"] == "agent_child" for context in gateway_contexts)
+    assert any(context["agent_span_id"] is None for context in gateway_contexts)
+    coverage_statuses = {
+        record["status"]
+        for name in ("complete", "partial", "unavailable")
+        for record in load(f"examples/m3-multi-harness/coverage-{name}.json")["records"]
+    }
+    assert coverage_statuses == {"complete", "partial", "unavailable"}
 
 
 def test_agent_trace_fixtures_have_contiguous_sequences_and_proven_relationships() -> None:
