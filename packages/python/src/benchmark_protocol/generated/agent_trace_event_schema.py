@@ -55,8 +55,15 @@ class Source(TypedDict):
     id: str
 
 
+class Context(TypedDict):
+    agent_span_id: str | None
+    workspace_context_id: str | None
+
+
 class Relationship(TypedDict):
-    type: Literal['parent', 'responds_to', 'caused_by', 'checkpoint_after']
+    type: Literal[
+        'parent', 'responds_to', 'caused_by', 'directed_to', 'checkpoint_after'
+    ]
     event_id: str
 
 
@@ -65,8 +72,15 @@ class Capture(TypedDict):
     warnings: list[Warning]
 
 
+class HarnessIdentity(TypedDict):
+    id: str
+    version: str
+    adapter_version: str
+
+
 class RunStarted(TypedDict):
     type: NotRequired[str]
+    expected_coverage: ArtifactReference
 
 
 class TaskStarted(TypedDict):
@@ -83,6 +97,39 @@ class TaskFinished(TypedDict):
 class RunFinished(TypedDict):
     type: NotRequired[str]
     outcome: Literal['completed', 'failed', 'cancelled', 'abandoned']
+    achieved_coverage: ArtifactReference
+
+
+class AgentStarted(TypedDict):
+    type: NotRequired[str]
+    agent_span_id: str
+    native_agent_id: NotRequired[str]
+    parent_agent_span_id: NotRequired[str]
+    native_parent_agent_id: NotRequired[str]
+    role: str
+    harness: HarnessIdentity
+
+
+class AgentFinished(TypedDict):
+    type: NotRequired[str]
+    agent_span_id: str
+    outcome: Literal['completed', 'failed', 'cancelled', 'unknown']
+    warnings: list[Warning]
+
+
+class Vcs(TypedDict):
+    git_head: NotRequired[str]
+    worktree_id: NotRequired[str]
+    repository_fingerprint: NotRequired[Sha256]
+
+
+class WorkspaceRegistered(TypedDict):
+    type: NotRequired[str]
+    workspace_context_id: str
+    display_alias: str
+    container_path: str
+    vcs: NotRequired[Vcs]
+    capture: Capture
 
 
 class ConversationMessage(TypedDict):
@@ -137,6 +184,7 @@ class AgentTraceEvent(TypedDict):
     profile: ProfileReference
     producer: Producer
     source: Source
+    context: Context
     relationships: list[Relationship]
     occurred_at: Timestamp
     captured_at: Timestamp
@@ -147,6 +195,9 @@ class AgentTraceEvent(TypedDict):
         | TaskStarted
         | TaskFinished
         | RunFinished
+        | AgentStarted
+        | AgentFinished
+        | WorkspaceRegistered
         | ConversationMessage
         | ModelRequest
         | ModelResponseStarted

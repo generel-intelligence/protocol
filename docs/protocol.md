@@ -11,11 +11,16 @@ The 16 `0.1.0` schemas and two `0.2.0` schemas are unchanged. `0.2.0` adds only
 the benchmark-package manifest and project-owned expense-report result profile.
 `0.3.0` adds only the observation-backed agent trace event, and `0.4.0` adds
 only the project-owned reservation-service result profile. `0.5.0` adds only
-workspace-checkpoint manifests and model-response stream indexes. Source is
-public, while provisional language packages remain unpublished. Removing a
-field, changing its meaning, tightening accepted values, or changing hashing
-semantics requires a new protocol version and rollout plan. Incompatible
-documents remain labeled, not silently normalized.
+workspace-checkpoint manifests and model-response stream indexes. `0.6.0` adds
+multi-harness execution identity, event context, capture coverage, and
+workspace-scoped checkpoints. Source is public, while provisional language
+packages remain unpublished. Removing a field, changing its meaning,
+tightening accepted values, or changing hashing semantics requires a new
+protocol version and rollout plan.
+
+The pre-production run path cuts over directly to `0.6.0`. Old schema files
+remain byte-identical history, but new runner and platform implementations do
+not ingest, backfill, dispatch, or render legacy run evidence.
 
 ## Custom benchmark packages
 
@@ -106,6 +111,34 @@ Consumers must not infer cross-source causality from clocks, timing, or content.
 Fixture conformance verifies that relationships point to earlier events in the
 same trace.
 
+`directed_to` links an attributable event to the earlier `agent_started` event
+for an exact native recipient. It supports navigable peer or parent-agent
+messaging without turning harness-specific collaboration, task, or mailbox
+records into portable payloads.
+
+Protocol `0.6.0` adds a required context containing nullable runner-owned agent
+and workspace IDs. Null means the event cannot be authoritatively attributed;
+it is not an invitation to infer identity. Agent start and finish events retain
+native identity and parentage when exposed. Workspace registration records only
+container paths and sanitized VCS identity. Protocol and storage impose no
+recursive-agent depth limit.
+
+Run start references the immutable expected capture-coverage manifest and
+normal run finish references the achieved manifest. Every required channel has
+a run-scope record with `complete`, `partial`, or `unavailable` status.
+Non-complete records require a stable reason code. Scope-specific agent or
+workspace records override the run record only for that scope. Achieved
+coverage may preserve or downgrade an expected status, never upgrade it.
+
+The `0.6.0` execution configuration keeps suite environment, combined
+execution, gateway, and optional evaluator image identities distinct. It also
+records the exact harness artifact, adapter contract and implementation, model
+provenance, harness-facing route, and owner-selected upstream route.
+
+`tool_started` is intentionally absent. It may be added in a later protocol
+only after fixtures from at least two required harnesses prove a stable start
+event; `tool_finished` remains the portable tool boundary.
+
 An event chunk digest covers the RFC 8785 encoding of its JSON event array.
 Chunk ordinals and sequence ranges make gaps explicit. A partial manifest must
 declare at least one missing range and cannot be mistaken for a final manifest.
@@ -121,6 +154,9 @@ each checkpoint and set `total_byte_size` to the sum of all file sizes.
 Consumers verify that sum and every referenced body before accepting the
 checkpoint. Adjacent checkpoint comparison is derived; the manifests and file
 bodies remain authoritative.
+
+The `0.6.0` checkpoint additionally requires the runner-owned workspace context
+ID. Checkpoint IDs are run-unique and include or derive from that context.
 
 A model-response stream index references the byte-exact response artifact and
 records when each ordered byte range became available to the observer.

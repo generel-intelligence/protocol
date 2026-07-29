@@ -27,6 +27,11 @@ deployment, or storage implementation.
   profile; all prior schemas remain unchanged.
 - Protocol `0.5.0` owns only workspace-checkpoint manifests and model-response
   stream indexes; all prior schemas remain unchanged.
+- Protocol `0.6.0` owns multi-harness execution identity, agent/workspace event
+  context, expected and achieved capture coverage, and workspace-scoped
+  checkpoints; all prior schema bytes remain unchanged.
+- New run producers and consumers cut over directly to `0.6.0`; this repository
+  does not require legacy run ingestion, backfill, or dual-version dispatch.
 - Detailed relationships require proven source IDs or runner-owned actions;
   capture order must not be presented as inferred cross-source causality.
 - Keep result envelopes neutral; benchmark profiles own benchmark-specific

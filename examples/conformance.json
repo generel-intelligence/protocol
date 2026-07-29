@@ -110,6 +110,35 @@
     {
       "path": "m4/model-response-stream-index.json",
       "schema": "schemas/0.5.0/model-response-stream-index.schema.json"
+    },
+    {
+      "path": "m3-multi-harness/complete-trace.json",
+      "schema": "schemas/0.6.0/agent-trace-event.schema.json",
+      "items": true
+    },
+    {
+      "path": "m3-multi-harness/coverage-complete.json",
+      "schema": "schemas/0.6.0/capture-coverage-manifest.schema.json"
+    },
+    {
+      "path": "m3-multi-harness/coverage-partial.json",
+      "schema": "schemas/0.6.0/capture-coverage-manifest.schema.json"
+    },
+    {
+      "path": "m3-multi-harness/coverage-unavailable.json",
+      "schema": "schemas/0.6.0/capture-coverage-manifest.schema.json"
+    },
+    {
+      "path": "m3-multi-harness/execution-config.json",
+      "schema": "schemas/0.6.0/execution-config.schema.json"
+    },
+    {
+      "path": "m3-multi-harness/workspace-checkpoint-primary.json",
+      "schema": "schemas/0.6.0/workspace-checkpoint-manifest.schema.json"
+    },
+    {
+      "path": "m3-multi-harness/workspace-checkpoint-child.json",
+      "schema": "schemas/0.6.0/workspace-checkpoint-manifest.schema.json"
     }
   ]
 }
