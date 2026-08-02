@@ -6,9 +6,10 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from jsonschema import Draft202012Validator
+from jsonschema.exceptions import ValidationError
 
 from benchmark_protocol import PROTOCOL_VERSION, canonicalize, get_schema, hash_json, validate
-from jsonschema import Draft202012Validator
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 
@@ -24,10 +25,7 @@ def test_version_and_schema_access() -> None:
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
         == "Benchmark package manifest"
     )
-    assert (
-        get_schema("0.3.0/agent-trace-event.schema.json")["title"]
-        == "Agent trace event"
-    )
+    assert get_schema("0.3.0/agent-trace-event.schema.json")["title"] == "Agent trace event"
     assert (
         get_schema("0.6.0/workspace-checkpoint-manifest.schema.json")["title"]
         == "Workspace checkpoint manifest"
@@ -50,7 +48,7 @@ def test_all_conformance_documents_validate_and_reject_generated_unknown_fields(
         candidates = value if document.get("items") else [value]
         for candidate in candidates:
             validate(document["schema"], candidate)
-            with pytest.raises(Exception, match="Additional properties"):
+            with pytest.raises(ValidationError, match="Additional properties"):
                 validate(
                     document["schema"],
                     {**candidate, "synthetic_unknown_field": True},
@@ -97,7 +95,7 @@ def test_profile_schemas_cover_generated_terminal_and_category_branches() -> Non
             },
         },
     )
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             bfcl_schema,
             {
@@ -119,7 +117,7 @@ def test_expense_result_terminal_branches_validate() -> None:
     validate(schema, value)
     validate(schema, {**value, "outcome": {"status": "error", "error_code": "evaluator_failed"}})
     validate(schema, {**value, "outcome": {"status": "not_run", "reason": "workspace unavailable"}})
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             schema,
             {
@@ -138,7 +136,7 @@ def test_reservation_result_terminal_branches_validate() -> None:
     validate(schema, value)
     validate(schema, {**value, "outcome": {"status": "error", "error_code": "evaluator_failed"}})
     validate(schema, {**value, "outcome": {"status": "not_run", "reason": "workspace unavailable"}})
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             schema,
             {
@@ -153,7 +151,7 @@ def test_reservation_result_terminal_branches_validate() -> None:
 
 def test_benchmark_package_paths_cannot_traverse() -> None:
     value = load("examples/m2/benchmark-package-manifest.json")
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             "schemas/0.2.0/benchmark-package-manifest.schema.json",
             {
@@ -168,7 +166,7 @@ def test_playback_evidence_rejects_unsafe_paths_and_invalid_byte_ranges() -> Non
     checkpoint_schema = "schemas/0.5.0/workspace-checkpoint-manifest.schema.json"
     validate(checkpoint_schema, checkpoint)
     for path in ("/absolute", "../escape", "src//file", r"src\file"):
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             validate(
                 checkpoint_schema,
                 {**checkpoint, "files": {path: next(iter(checkpoint["files"].values()))}},
@@ -177,7 +175,7 @@ def test_playback_evidence_rejects_unsafe_paths_and_invalid_byte_ranges() -> Non
     stream = load("examples/m4/model-response-stream-index.json")
     stream_schema = "schemas/0.5.0/model-response-stream-index.schema.json"
     validate(stream_schema, stream)
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             stream_schema,
             {**stream, "segments": [{**stream["segments"][0], "byte_length": 0}]},
@@ -289,7 +287,7 @@ def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fi
     event_schema = "schemas/0.6.0/agent-trace-event.schema.json"
     events = load("examples/m3-multi-harness/complete-trace.json")
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             event_schema,
             {
@@ -302,18 +300,16 @@ def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fi
     malformed_parent = {
         **child,
         "payload": {
-            key: value
-            for key, value in child["payload"].items()
-            if key != "native_parent_agent_id"
+            key: value for key, value in child["payload"].items() if key != "native_parent_agent_id"
         },
     }
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(event_schema, malformed_parent)
 
     coverage = load("examples/m3-multi-harness/coverage-partial.json")
     malformed_record = {**coverage["records"][8]}
     malformed_record.pop("reason_code")
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             "schemas/0.6.0/capture-coverage-manifest.schema.json",
             {
@@ -327,7 +323,7 @@ def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fi
         )
 
     checkpoint = load("examples/m3-multi-harness/workspace-checkpoint-primary.json")
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(
             "schemas/0.6.0/workspace-checkpoint-manifest.schema.json",
             {key: value for key, value in checkpoint.items() if key != "workspace_context_id"},
@@ -344,21 +340,15 @@ def test_protocol_0_6_examples_cover_recursive_agents_workspaces_and_attribution
         if event["payload"]["type"] == "workspace_registered"
     }
     gateway_contexts = [
-        event["context"]
-        for event in events
-        if event["source"]["kind"] == "model_gateway"
+        event["context"] for event in events if event["source"]["kind"] == "model_gateway"
     ]
 
     assert any("parent_agent_span_id" in payload for payload in started)
     assert workspaces == {"workspace_primary", "workspace_child"}
     assert any(context["agent_span_id"] == "agent_child" for context in gateway_contexts)
     assert any(context["agent_span_id"] is None for context in gateway_contexts)
-    tool_started = next(
-        event for event in events if event["payload"]["type"] == "tool_started"
-    )
-    tool_finished = next(
-        event for event in events if event["payload"]["type"] == "tool_finished"
-    )
+    tool_started = next(event for event in events if event["payload"]["type"] == "tool_started")
+    tool_finished = next(event for event in events if event["payload"]["type"] == "tool_finished")
     assert tool_finished["relationships"] == [
         {"type": "caused_by", "event_id": tool_started["event_id"]}
     ]
@@ -388,8 +378,7 @@ def test_agent_trace_fixtures_have_contiguous_sequences_and_proven_relationships
         for event in events:
             payload_types.add(event["payload"]["type"])
             assert all(
-                relationship["event_id"] in previous
-                for relationship in event["relationships"]
+                relationship["event_id"] in previous for relationship in event["relationships"]
             )
             previous.add(event["event_id"])
 
@@ -407,9 +396,9 @@ def test_agent_trace_fixtures_have_contiguous_sequences_and_proven_relationships
 def test_agent_trace_profiles_and_payloads_are_closed() -> None:
     schema = "schemas/0.3.0/agent-trace-event.schema.json"
     event = load("examples/m3/complete-trace.json")[1]
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(schema, {**event, "profile": {"id": "lifecycle", "version": "0.1.0"}})
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         validate(schema, {**event, "payload": {**event["payload"], "content": "private"}})
 
 

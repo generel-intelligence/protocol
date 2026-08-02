@@ -6,7 +6,6 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_ROOT = PACKAGE_ROOT.parents[1]
 SOURCE_SCHEMAS = REPOSITORY_ROOT / "schemas"
@@ -21,12 +20,17 @@ def generate(destination: Path) -> None:
         (path for path in SOURCE_SCHEMAS.iterdir() if path.is_dir()),
         key=lambda path: tuple(int(part) for part in path.name.split(".")),
     )
+    codegen = shutil.which("datamodel-codegen")
+    if codegen is None:
+        raise RuntimeError("datamodel-codegen is unavailable")
     for version in versions:
         with tempfile.TemporaryDirectory() as temporary:
             generated = Path(temporary) / "generated"
-            subprocess.run(
+            # Security proof: generation requires the pinned CLI; its executable is absolute,
+            # every argument is repository-owned, and shell=False.
+            subprocess.run(  # noqa: S603
                 [
-                    "datamodel-codegen",
+                    codegen,
                     "--input",
                     str(version),
                     "--input-file-type",
@@ -42,6 +46,7 @@ def generate(destination: Path) -> None:
                     "--disable-timestamp",
                 ],
                 check=True,
+                shell=False,
             )
             for source in generated.rglob("*.py"):
                 if source.name == "__init__.py":
@@ -59,7 +64,9 @@ def generate(destination: Path) -> None:
 
 
 def same_files(left: Path, right: Path) -> bool:
-    left_files = {path.relative_to(left): path.read_bytes() for path in left.rglob("*") if path.is_file()}
+    left_files = {
+        path.relative_to(left): path.read_bytes() for path in left.rglob("*") if path.is_file()
+    }
     right_files = (
         {path.relative_to(right): path.read_bytes() for path in right.rglob("*") if path.is_file()}
         if right.exists()
@@ -77,14 +84,18 @@ def main() -> None:
         candidate = Path(temporary) / "generated"
         generate(candidate)
         if args.check:
-            if not same_files(candidate, GENERATED) or not same_files(SOURCE_SCHEMAS, PACKAGE_SCHEMAS):
+            if not same_files(candidate, GENERATED) or not same_files(
+                SOURCE_SCHEMAS, PACKAGE_SCHEMAS
+            ):
                 raise SystemExit("generated Python models are stale; run the generator")
         else:
             shutil.rmtree(GENERATED, ignore_errors=True)
             shutil.copytree(candidate, GENERATED)
             shutil.rmtree(PACKAGE_SCHEMAS, ignore_errors=True)
             shutil.copytree(SOURCE_SCHEMAS, PACKAGE_SCHEMAS)
-            shutil.copy2(REPOSITORY_ROOT / "VERSION", PACKAGE_ROOT / "src" / "benchmark_protocol" / "VERSION")
+            shutil.copy2(
+                REPOSITORY_ROOT / "VERSION", PACKAGE_ROOT / "src" / "benchmark_protocol" / "VERSION"
+            )
 
 
 if __name__ == "__main__":

@@ -30,6 +30,41 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+exclude = ["src/benchmark_protocol/generated"]
+
+[tool.ruff.lint]
+select = [
+  "ARG",
+  "B",
+  "C4",
+  "C90",
+  "DTZ",
+  "E4",
+  "E7",
+  "E9",
+  "ERA",
+  "F",
+  "I",
+  "PERF",
+  "PGH",
+  "PIE",
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "RUF",
+  "S",
+  "SIM",
+  "T10",
+  "UP",
+  "W",
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLR2004", "S101"]
 
 [tool.mypy]
 python_version = "3.12"

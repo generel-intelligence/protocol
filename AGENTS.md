@@ -51,6 +51,9 @@ deployment, or storage implementation.
 - Do not duplicate generated models manually across languages.
 - Keep public changes within the current pre-alpha contribution scope.
 - Regenerate package artifacts after changing an authoritative schema.
+- Retain a security-lint suppression only when a safe rewrite is unreasonable.
+  State the enforced invariant in an adjacent `Security proof` comment and add
+  a focused test for non-trivial validation.
 
 ## Verification
 
