@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, NotRequired, TypedDict
+from typing import Literal, TypedDict
 
 from . import common_schema, event_chunk_schema
 
@@ -12,7 +12,7 @@ class FinalRunManifest(TypedDict):
     protocol_version: common_schema.ProtocolVersion
     run_id: common_schema.RunId
     run_outcome: Literal['completed', 'failed', 'cancelled', 'abandoned']
-    evidence_status: NotRequired[str]
+    evidence_status: Literal['complete']
     finalized_at: common_schema.Timestamp
     chunks: list[event_chunk_schema.EventChunk]
     artifacts: list[common_schema.ArtifactReference]

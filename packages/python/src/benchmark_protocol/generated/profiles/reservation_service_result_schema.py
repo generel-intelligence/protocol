@@ -3,12 +3,12 @@
 
 from __future__ import annotations
 
-from typing import NotRequired, TypedDict
+from typing import Literal, TypedDict
 
 
 class Profile(TypedDict):
-    id: NotRequired[str]
-    version: NotRequired[str]
+    id: Literal['reservation-service-result']
+    version: Literal['0.1.0']
 
 
 class Groups(TypedDict):
@@ -19,27 +19,27 @@ class Groups(TypedDict):
 
 
 class Outcome(TypedDict):
-    status: NotRequired[str]
+    status: Literal['completed']
     groups: Groups
     passed_count: int
-    total_count: NotRequired[int]
+    total_count: Literal[4]
     passed: bool
 
 
 class Outcome1(TypedDict):
-    status: NotRequired[str]
+    status: Literal['error']
     error_code: str
 
 
 class Outcome2(TypedDict):
-    status: NotRequired[str]
+    status: Literal['not_run']
     reason: str
 
 
-ReservationResultSemver = str
+type ReservationResultSemver = str
 
 
-ReservationResultSha256 = str
+type ReservationResultSha256 = str
 
 
 class Suite(TypedDict):
@@ -60,10 +60,10 @@ class Evaluator(TypedDict):
 
 
 class ReservationServiceResult(TypedDict):
-    protocol_version: NotRequired[str]
+    protocol_version: Literal['0.4.0']
     profile: Profile
     suite: Suite
     task: Task
     evaluator: Evaluator
-    execution_contract: NotRequired[str]
+    execution_contract: Literal['workspace-snapshot/0.1.0']
     outcome: Outcome | Outcome1 | Outcome2

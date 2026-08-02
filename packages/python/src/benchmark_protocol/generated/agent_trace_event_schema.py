@@ -3,27 +3,27 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, NotRequired, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
-RunId = str
-
-
-ProtocolVersion = Any
+type RunId = str
 
 
-Sha256 = str
+type ProtocolVersion = Literal['0.1.0']
 
 
-EntityId = str
+type Sha256 = str
 
 
-TaskId = str
+type EntityId = str
 
 
-ArtifactId = str
+type TaskId = str
 
 
-Timestamp = str
+type ArtifactId = str
+
+
+type Timestamp = str
 
 
 class ProfileReference(TypedDict):
@@ -41,7 +41,7 @@ class SequenceRange(TypedDict):
     last: int
 
 
-Warning = str
+type Warning = str
 
 
 class Producer(TypedDict):
@@ -79,29 +79,29 @@ class HarnessIdentity(TypedDict):
 
 
 class RunStarted(TypedDict):
-    type: NotRequired[str]
+    type: Literal['run_started']
     expected_coverage: ArtifactReference
 
 
 class TaskStarted(TypedDict):
-    type: NotRequired[str]
+    type: Literal['task_started']
     task_id: TaskId
 
 
 class TaskFinished(TypedDict):
-    type: NotRequired[str]
+    type: Literal['task_finished']
     task_id: TaskId
     outcome: Literal['passed', 'failed', 'error']
 
 
 class RunFinished(TypedDict):
-    type: NotRequired[str]
+    type: Literal['run_finished']
     outcome: Literal['completed', 'failed', 'cancelled', 'abandoned']
     achieved_coverage: ArtifactReference
 
 
 class AgentStarted(TypedDict):
-    type: NotRequired[str]
+    type: Literal['agent_started']
     agent_span_id: str
     native_agent_id: NotRequired[str]
     parent_agent_span_id: NotRequired[str]
@@ -111,7 +111,7 @@ class AgentStarted(TypedDict):
 
 
 class AgentFinished(TypedDict):
-    type: NotRequired[str]
+    type: Literal['agent_finished']
     agent_span_id: str
     outcome: Literal['completed', 'failed', 'cancelled', 'unknown']
     warnings: list[Warning]
@@ -124,7 +124,7 @@ class Vcs(TypedDict):
 
 
 class WorkspaceRegistered(TypedDict):
-    type: NotRequired[str]
+    type: Literal['workspace_registered']
     workspace_context_id: str
     display_alias: str
     container_path: str
@@ -133,57 +133,57 @@ class WorkspaceRegistered(TypedDict):
 
 
 class ConversationMessage(TypedDict):
-    type: NotRequired[str]
+    type: Literal['conversation_message']
     message_id: str
     role: Literal['user', 'assistant']
 
 
 class ModelRequest(TypedDict):
-    type: NotRequired[str]
+    type: Literal['model_request']
     request_id: str
     model_id: str
 
 
 class ModelResponseStarted(TypedDict):
-    type: NotRequired[str]
+    type: Literal['model_response_started']
     request_id: str
     status: int
 
 
 class ModelResponseFinished(TypedDict):
-    type: NotRequired[str]
+    type: Literal['model_response_finished']
     request_id: str
     outcome: Literal['completed', 'error']
     chunk_count: int
 
 
 class ToolStarted(TypedDict):
-    type: NotRequired[str]
+    type: Literal['tool_started']
     call_id: str
     tool_name: str
 
 
 class ToolFinished(TypedDict):
-    type: NotRequired[str]
+    type: Literal['tool_finished']
     call_id: str
     outcome: Literal['completed', 'error']
     tool_name: str
 
 
 class WorkspaceCheckpoint(TypedDict):
-    type: NotRequired[str]
+    type: Literal['workspace_checkpoint']
     checkpoint_id: str
     changed: bool
 
 
 class ExecutionError(TypedDict):
-    type: NotRequired[str]
+    type: Literal['execution_error']
     component: str
     code: str
 
 
 class AgentTraceEvent(TypedDict):
-    protocol_version: NotRequired[str]
+    protocol_version: Literal['0.6.0']
     run_id: RunId
     sequence: int
     event_id: str

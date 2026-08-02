@@ -3,28 +3,28 @@
 
 from __future__ import annotations
 
-from typing import NotRequired, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 from .. import benchmark_reference_schema, common_schema
 
 
 class Profile(TypedDict):
-    id: NotRequired[str]
-    version: NotRequired[str]
+    id: Literal['swe-bench-verified-result']
+    version: Literal['0.1.0']
 
 
-UnmappedField = str
+type UnmappedField = str
 
 
 class Mapping(TypedDict):
-    version: NotRequired[str]
+    version: Literal['0.1.0']
     implementation_digest: common_schema.Sha256
     warnings: list[common_schema.Warning]
     unmapped_fields: list[UnmappedField]
 
 
 class Outcome(TypedDict):
-    status: NotRequired[str]
+    status: Literal['completed']
     patch_is_null: NotRequired[bool]
     patch_exists: NotRequired[bool]
     patch_applied: NotRequired[bool]
@@ -33,12 +33,12 @@ class Outcome(TypedDict):
 
 
 class Outcome4(TypedDict):
-    status: NotRequired[str]
+    status: Literal['error']
     error_code: str
 
 
 class Outcome5(TypedDict):
-    status: NotRequired[str]
+    status: Literal['not_run']
     reason: str
 
 

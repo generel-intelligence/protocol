@@ -7,10 +7,10 @@ from typing import Literal, NotRequired, TypedDict
 
 from . import agent_trace_event_schema
 
-CaptureSource = str
+type CaptureSource = str
 
 
-Channel = Literal[
+type Channel = Literal[
     'agent_identity',
     'agent_parentage',
     'agent_lifecycle',
@@ -29,7 +29,7 @@ Channel = Literal[
 ]
 
 
-ReasonCode = Literal[
+type ReasonCode = Literal[
     'harness_surface_partial',
     'harness_surface_unavailable',
     'native_identifier_missing',
@@ -57,7 +57,7 @@ class CoverageRecord(TypedDict):
 
 
 class CaptureCoverageManifest(TypedDict):
-    protocol_version: NotRequired[str]
+    protocol_version: Literal['0.6.0']
     run_id: agent_trace_event_schema.RunId
     phase: Literal['expected', 'achieved']
     records: list[CoverageRecord]

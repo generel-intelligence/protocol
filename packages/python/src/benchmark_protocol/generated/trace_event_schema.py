@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, NotRequired, TypedDict
+from typing import Literal, TypedDict
 
 from . import common_schema
 
@@ -20,22 +20,22 @@ class Capture(TypedDict):
 
 
 class Payload(TypedDict):
-    type: NotRequired[str]
+    type: Literal['run_started']
 
 
 class Payload1(TypedDict):
-    type: NotRequired[str]
+    type: Literal['task_started']
     task_id: common_schema.TaskId
 
 
 class Payload2(TypedDict):
-    type: NotRequired[str]
+    type: Literal['task_finished']
     task_id: common_schema.TaskId
     outcome: Literal['passed', 'failed', 'error']
 
 
 class Payload3(TypedDict):
-    type: NotRequired[str]
+    type: Literal['run_finished']
     outcome: Literal['completed', 'failed', 'cancelled', 'abandoned']
 
 

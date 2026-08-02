@@ -3,30 +3,30 @@
 
 from __future__ import annotations
 
-from typing import Any, TypedDict
+from typing import Any, Literal, TypedDict
 
-ProtocolCommonDefinitions = Any
-
-
-ProtocolVersion = Any
+type ProtocolCommonDefinitions = Any
 
 
-Sha256 = str
+type ProtocolVersion = Literal['0.1.0']
 
 
-EntityId = str
+type Sha256 = str
 
 
-RunId = str
+type EntityId = str
 
 
-TaskId = str
+type RunId = str
 
 
-ArtifactId = str
+type TaskId = str
 
 
-Timestamp = str
+type ArtifactId = str
+
+
+type Timestamp = str
 
 
 class ProfileReference(TypedDict):
@@ -44,4 +44,4 @@ class SequenceRange(TypedDict):
     last: int
 
 
-Warning = str
+type Warning = str
