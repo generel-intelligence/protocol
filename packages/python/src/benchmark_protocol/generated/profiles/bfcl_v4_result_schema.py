@@ -9,15 +9,15 @@ from .. import benchmark_reference_schema, common_schema
 
 
 class Profile(TypedDict):
-    id: NotRequired[str]
-    version: NotRequired[str]
+    id: Literal['bfcl-v4-result']
+    version: Literal['0.1.0']
 
 
-UnmappedField = str
+type UnmappedField = str
 
 
 class Outcome(TypedDict):
-    status: NotRequired[str]
+    status: Literal['completed']
     test_category: Literal[
         'simple_python',
         'simple_java',
@@ -50,17 +50,17 @@ class Outcome(TypedDict):
 
 
 class Outcome1(TypedDict):
-    status: NotRequired[str]
+    status: Literal['error']
     error_code: str
 
 
 class Outcome2(TypedDict):
-    status: NotRequired[str]
+    status: Literal['not_run']
     reason: str
 
 
 class Mapping(TypedDict):
-    version: NotRequired[str]
+    version: Literal['0.1.0']
     implementation_digest: common_schema.Sha256
     warnings: list[common_schema.Warning]
     unmapped_fields: list[UnmappedField]

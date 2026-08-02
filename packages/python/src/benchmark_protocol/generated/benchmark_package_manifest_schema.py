@@ -3,15 +3,15 @@
 
 from __future__ import annotations
 
-from typing import NotRequired, TypedDict
+from typing import Literal, TypedDict
 
-PackageSemver = str
-
-
-PackageSha256 = str
+type PackageSemver = str
 
 
-Path = str
+type PackageSha256 = str
+
+
+type Path = str
 
 
 class Suite(TypedDict):
@@ -47,8 +47,8 @@ class File(TypedDict):
 
 
 class BenchmarkPackageManifest(TypedDict):
-    protocol_version: NotRequired[str]
-    format_version: NotRequired[str]
+    protocol_version: Literal['0.2.0']
+    format_version: Literal['0.1.0']
     suite: Suite
     tasks: list[Task]
     environment: Environment

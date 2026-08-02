@@ -3,27 +3,27 @@
 
 from __future__ import annotations
 
-from typing import Any, NotRequired, TypedDict
+from typing import Literal, TypedDict
 
-ProtocolVersion = Any
-
-
-Sha256 = str
+type ProtocolVersion = Literal['0.1.0']
 
 
-EntityId = str
+type Sha256 = str
 
 
-RunId = str
+type EntityId = str
 
 
-TaskId = str
+type RunId = str
 
 
-ArtifactId = str
+type TaskId = str
 
 
-Timestamp = str
+type ArtifactId = str
+
+
+type Timestamp = str
 
 
 class ProfileReference(TypedDict):
@@ -36,7 +36,7 @@ class SequenceRange(TypedDict):
     last: int
 
 
-Warning = str
+type Warning = str
 
 
 class Segment(TypedDict):
@@ -51,7 +51,7 @@ class ArtifactReference(TypedDict):
 
 
 class ModelResponseStreamIndex(TypedDict):
-    protocol_version: NotRequired[str]
+    protocol_version: Literal['0.5.0']
     response_artifact: ArtifactReference
     timing_resolution_ms: int
     segments: list[Segment]

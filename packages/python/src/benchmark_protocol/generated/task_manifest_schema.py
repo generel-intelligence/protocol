@@ -7,7 +7,7 @@ from typing import TypedDict
 
 from . import common_schema
 
-RequiredCapability = str
+type RequiredCapability = str
 
 
 class TaskManifest(TypedDict):

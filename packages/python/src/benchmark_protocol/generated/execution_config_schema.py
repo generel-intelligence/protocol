@@ -55,7 +55,7 @@ class Model(TypedDict):
 
 
 class ExecutionConfiguration(TypedDict):
-    protocol_version: NotRequired[str]
+    protocol_version: Literal['0.6.0']
     config_id: str
     images: Images
     harness: Harness

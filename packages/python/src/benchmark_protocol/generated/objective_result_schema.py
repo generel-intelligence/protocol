@@ -7,7 +7,7 @@ from typing import Literal, TypedDict
 
 from . import common_schema
 
-AttestationId = str
+type AttestationId = str
 
 
 class ObjectiveResult(TypedDict):

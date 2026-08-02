@@ -3,11 +3,11 @@
 
 from __future__ import annotations
 
-from typing import NotRequired, TypedDict
+from typing import Literal, TypedDict
 
 from . import agent_trace_event_schema
 
-Path = str
+type Path = str
 
 
 class File(TypedDict):
@@ -16,8 +16,8 @@ class File(TypedDict):
 
 
 class WorkspaceCheckpointManifest(TypedDict):
-    protocol_version: NotRequired[str]
+    protocol_version: Literal['0.6.0']
     checkpoint_id: str
     workspace_context_id: str
-    files: dict[str, File]
+    files: dict[Path, File]
     total_byte_size: int
