@@ -336,7 +336,8 @@ test("protocol 0.6 rejects malformed context, coverage, parent, and workspace fi
     })
   );
 
-  const { native_parent_agent_id: _, ...payloadWithoutNativeParent } = events[4].payload;
+  const payloadWithoutNativeParent = { ...events[4].payload };
+  delete payloadWithoutNativeParent.native_parent_agent_id;
   assert.throws(() =>
     validate(eventSchema, { ...events[4], payload: payloadWithoutNativeParent })
   );
@@ -347,7 +348,8 @@ test("protocol 0.6 rejects malformed context, coverage, parent, and workspace fi
       "utf8"
     )
   );
-  const { reason_code: __, ...recordWithoutReason } = coverage.records[8];
+  const recordWithoutReason = { ...coverage.records[8] };
+  delete recordWithoutReason.reason_code;
   assert.throws(() =>
     validate("schemas/0.6.0/capture-coverage-manifest.schema.json", {
       ...coverage,
@@ -361,7 +363,8 @@ test("protocol 0.6 rejects malformed context, coverage, parent, and workspace fi
       "utf8"
     )
   );
-  const { workspace_context_id: ___, ...checkpointWithoutWorkspace } = checkpoint;
+  const checkpointWithoutWorkspace = { ...checkpoint };
+  delete checkpointWithoutWorkspace.workspace_context_id;
   assert.throws(() =>
     validate("schemas/0.6.0/workspace-checkpoint-manifest.schema.json", checkpointWithoutWorkspace)
   );

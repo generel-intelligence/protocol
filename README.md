@@ -43,6 +43,7 @@ TypeScript:
 ```text
 cd packages/typescript
 corepack pnpm install --frozen-lockfile
+corepack pnpm lint
 corepack pnpm check:generated
 corepack pnpm build
 corepack pnpm test
@@ -54,6 +55,7 @@ Python:
 cd packages/python
 python -m uv sync --frozen
 python -m uv run python scripts/generate.py --check
+python -m uv run ruff format --check .
 python -m uv run ruff check .
 python -m uv run mypy
 python -m uv run pytest

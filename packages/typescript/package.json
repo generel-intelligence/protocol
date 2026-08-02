@@ -21,6 +21,7 @@
     }
   },
   "scripts": {
+    "lint": "biome lint --error-on-warnings .",
     "generate": "node scripts/generate.mjs",
     "check:generated": "node scripts/generate.mjs --check",
     "build": "tsc -p tsconfig.json && node scripts/copy-generated-types.mjs",
@@ -33,6 +34,7 @@
     "canonicalize": "3.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.6",
     "@types/node": "24.1.0",
     "json-schema-to-typescript": "15.0.4",
     "typescript": "5.8.3"
