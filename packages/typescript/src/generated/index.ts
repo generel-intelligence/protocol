@@ -25,3 +25,4 @@ export type { Path } from "./workspace_checkpoint_manifest.js";
 export type { CoverageRecord } from "./capture_coverage_manifest.js";
 export type { ArtifactOutputPath } from "./artifact_output_manifest.js";
 export type { WebpageResultSemver } from "./webpage_artifact_result.js";
+export type { WebpageBundlePath } from "./webpage_bundle_manifest.js";

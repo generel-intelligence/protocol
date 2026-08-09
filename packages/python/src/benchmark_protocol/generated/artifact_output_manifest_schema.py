@@ -3,18 +3,29 @@
 
 from __future__ import annotations
 
-from typing import Literal, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 type ArtifactOutputPath = str
 
 
-class Output(TypedDict):
+type MediaType = str
+
+
+class FileOutput(TypedDict):
     path: ArtifactOutputPath
     role: str
-    media_type: str
+    media_type: MediaType
+    maximum_bytes: int
+
+
+class WebpageBundleOutput(TypedDict):
+    path: ArtifactOutputPath
+    entrypoint: ArtifactOutputPath
+    maximum_files: int
     maximum_bytes: int
 
 
 class ArtifactOutputManifest(TypedDict):
-    protocol_version: Literal['0.7.0']
-    outputs: list[Output]
+    protocol_version: Literal['0.8.0']
+    outputs: NotRequired[list[FileOutput]]
+    webpage_bundles: NotRequired[list[WebpageBundleOutput]]

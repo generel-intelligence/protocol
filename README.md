@@ -6,10 +6,10 @@ package names are provisional.
 
 ## Status
 
-Pre-alpha. Protocol `0.7.0` adds bounded task-output declarations and a
-project-owned webpage-artifact result profile without changing any prior schema
-bytes. New run producers and consumers cut over directly to `0.7.0`; legacy
-run ingestion is not supported.
+Pre-alpha. Protocol `0.8.0` adds bounded multi-file webpage declarations and a
+deterministic promoted bundle manifest without changing prior schema bytes.
+New run producers and consumers cut over directly to `0.8.0`; legacy output
+declaration ingestion is not supported.
 The TypeScript and Python bindings remain unpublished.
 
 The protocol must remain independent of website, database, runner, evaluator,
@@ -24,6 +24,7 @@ and deployment implementations.
 - `schemas/0.5.0/` — additive workspace and response-stream evidence schemas.
 - `schemas/0.6.0/` — multi-harness run evidence and identity schemas.
 - `schemas/0.7.0/` — declared output and webpage-result schemas.
+- `schemas/0.8.0/` — multi-file webpage declaration and bundle schemas.
 - `examples/` — complete, partial, profile, and canonicalization fixtures.
 - `evidence/mappings/` — reviewed mappings from upstream result fields.
 - `packages/typescript/` — generated declarations and an Ajv validator.
@@ -37,6 +38,7 @@ and deployment implementations.
 - `docs/conformance-0.5.0.md` — playback-evidence contract record.
 - `docs/conformance-0.6.0.md` — multi-harness evidence conformance rules.
 - `docs/conformance-0.7.0.md` — declared-output conformance rules.
+- `docs/conformance-0.8.0.md` — webpage-bundle conformance rules.
 
 ## Verification
 
