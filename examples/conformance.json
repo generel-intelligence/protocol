@@ -147,6 +147,14 @@
     {
       "path": "m5/webpage-artifact-result.json",
       "schema": "schemas/0.7.0/profiles/webpage-artifact-result.schema.json"
+    },
+    {
+      "path": "webpage-bundle/artifact-output-manifest.json",
+      "schema": "schemas/0.8.0/artifact-output-manifest.schema.json"
+    },
+    {
+      "path": "webpage-bundle/webpage-bundle-manifest.json",
+      "schema": "schemas/0.8.0/webpage-bundle-manifest.schema.json"
     }
   ]
 }

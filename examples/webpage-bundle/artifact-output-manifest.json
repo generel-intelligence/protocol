@@ -1,0 +1,11 @@
+{
+  "protocol_version": "0.8.0",
+  "webpage_bundles": [
+    {
+      "path": "dist",
+      "entrypoint": "index.html",
+      "maximum_files": 64,
+      "maximum_bytes": 8388608
+    }
+  ]
+}

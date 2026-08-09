@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.8.0/artifact-output-manifest.schema.json",
+  "title": "Artifact output manifest",
+  "type": "object",
+  "minProperties": 2,
+  "additionalProperties": false,
+  "required": ["protocol_version"],
+  "properties": {
+    "protocol_version": { "const": "0.8.0" },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/fileOutput" }
+    },
+    "webpage_bundles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/webpageBundleOutput" }
+    }
+  },
+  "$defs": {
+    "fileOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "media_type", "maximum_bytes"],
+      "properties": {
+        "path": { "$ref": "#/$defs/artifactOutputPath" },
+        "role": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "media_type": { "$ref": "#/$defs/mediaType" },
+        "maximum_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        }
+      }
+    },
+    "webpageBundleOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "entrypoint",
+        "maximum_files",
+        "maximum_bytes"
+      ],
+      "properties": {
+        "path": { "$ref": "#/$defs/artifactOutputPath" },
+        "entrypoint": {
+          "allOf": [
+            { "$ref": "#/$defs/artifactOutputPath" },
+            { "type": "string", "pattern": "\\.[Hh][Tt][Mm][Ll]?$" }
+          ]
+        },
+        "maximum_files": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "maximum_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        }
+      }
+    },
+    "artifactOutputPath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$",
+      "not": { "pattern": "(^|/)\\.{1,2}($|/)" }
+    },
+    "mediaType": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+$"
+    }
+  }
+}
