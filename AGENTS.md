@@ -66,6 +66,8 @@ deployment, or storage implementation.
 ## Verification
 
 - Run the commands in `README.md` for each package.
+- Python imports must be backed by direct declared dependencies; `deptry src`
+  enforces that boundary.
 - Run `git diff --check`.
 - Require the shared `governance` and `security-scan` checks.
 - Require the repository-local `protocol-conformance` checks.
