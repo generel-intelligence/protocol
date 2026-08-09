@@ -1,0 +1,34 @@
+{
+  "protocol_version": "0.7.0",
+  "profile": {
+    "id": "webpage-artifact-result",
+    "version": "0.1.0"
+  },
+  "suite": {
+    "id": "suite_procedural-dungeon",
+    "version": "0.2.0",
+    "package_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "task": {
+    "id": "task_build-procedural-dungeon",
+    "version": "0.2.0"
+  },
+  "evaluator": {
+    "id": "evaluator_webpage-artifact",
+    "version": "0.1.0",
+    "image_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "execution_contract": "workspace-snapshot/0.1.0",
+  "outcome": {
+    "status": "completed",
+    "groups": {
+      "deliverable": true,
+      "html_document": true,
+      "self_contained": true,
+      "requested_surface": true
+    },
+    "passed_count": 4,
+    "total_count": 4,
+    "passed": true
+  }
+}

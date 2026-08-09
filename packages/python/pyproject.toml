@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "benchmark-protocol-contract"
-version = "0.6.0"
+version = "0.7.0"
 description = "Private pre-alpha bindings for the benchmark protocol"
 requires-python = ">=3.12"
 dependencies = [
