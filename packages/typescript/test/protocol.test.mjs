@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.7.0");
+  assert.equal(PROTOCOL_VERSION, "0.8.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -30,8 +30,12 @@ test("exports the candidate version and bundled schemas", () => {
     "Capture coverage manifest"
   );
   assert.equal(
-    getSchema("0.7.0/artifact-output-manifest.schema.json").title,
+    getSchema("0.8.0/artifact-output-manifest.schema.json").title,
     "Artifact output manifest"
+  );
+  assert.equal(
+    getSchema("0.8.0/webpage-bundle-manifest.schema.json").title,
+    "Webpage bundle manifest"
   );
 });
 
@@ -105,6 +109,35 @@ test("webpage output and result contracts validate", () => {
   assert.doesNotThrow(() =>
     validate(resultSchema, { ...result, outcome: { status: "not_run", reason: "missing" } })
   );
+});
+
+test("webpage bundle contracts validate", () => {
+  const declaration = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "webpage-bundle", "artifact-output-manifest.json"),
+      "utf8"
+    )
+  );
+  const declarationSchema = "schemas/0.8.0/artifact-output-manifest.schema.json";
+  assert.doesNotThrow(() => validate(declarationSchema, declaration));
+  assert.throws(() =>
+    validate(declarationSchema, {
+      ...declaration,
+      webpage_bundles: [
+        { ...declaration.webpage_bundles[0], entrypoint: "../index.html" }
+      ]
+    })
+  );
+
+  const bundle = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "webpage-bundle", "webpage-bundle-manifest.json"),
+      "utf8"
+    )
+  );
+  const bundleSchema = "schemas/0.8.0/webpage-bundle-manifest.schema.json";
+  assert.doesNotThrow(() => validate(bundleSchema, bundle));
+  assert.throws(() => validate(bundleSchema, { ...bundle, entrypoint: "/index.html" }));
 });
 
 test("benchmark package paths cannot traverse", () => {

@@ -1,0 +1,7 @@
+{
+  "protocol_version": "0.8.0",
+  "schemas": {
+    "artifact-output-manifest.schema.json": "sha256:9864cb5f6cfed89111a06d68e1815f808b64624691c168ebf28ab4a075c31802",
+    "webpage-bundle-manifest.schema.json": "sha256:ae3a41cb82e3c27647fb4c700728e19329f554a5a3c376b8575f4a10ac8fc687"
+  }
+}
