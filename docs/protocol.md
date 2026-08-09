@@ -182,6 +182,16 @@ outputs are omitted. Promoted bytes keep a `workspace:/` source URI and remain
 untrusted evidence. The webpage result profile records deterministic document
 checks without claiming visual quality or authorizing execution in a browser.
 
+Protocol `0.8.0` replaces that pre-release declaration for new producers. It
+retains bounded single-file outputs and adds webpage bundles declared by safe
+directory path, relative HTML entrypoint, file-count limit, and aggregate byte
+limit. The runner promotes only final regular files beneath the declared root
+and records their sorted relative paths, media types, exact sizes, and artifact
+references in a `webpage-bundle/0.1.0` manifest. Consumers verify that the
+entrypoint is present, paths are unique, the aggregate size is exact, and every
+reference belongs to the run. The manifest authorizes neither undeclared
+workspace access nor browser script or network privileges.
+
 ## Benchmark source pins
 
 - SWE-bench evaluator:

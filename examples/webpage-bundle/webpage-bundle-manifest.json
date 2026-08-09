@@ -1,0 +1,30 @@
+{
+  "protocol_version": "0.8.0",
+  "profile": {
+    "id": "webpage-bundle",
+    "version": "0.1.0"
+  },
+  "source_root": "workspace:/dist",
+  "entrypoint": "index.html",
+  "files": [
+    {
+      "path": "assets/site.css",
+      "media_type": "text/css",
+      "byte_size": 20,
+      "artifact": {
+        "artifact_id": "artifact_webpage_file-21d16050f7f68c17",
+        "digest": "sha256:21d16050f7f68c179575f114b30e94f1e52a6ae7b17b5799ea49cad37b2f5c2d"
+      }
+    },
+    {
+      "path": "index.html",
+      "media_type": "text/html",
+      "byte_size": 83,
+      "artifact": {
+        "artifact_id": "artifact_webpage_file-b366e34b855c5c4c",
+        "digest": "sha256:b366e34b855c5c4c58830b75c00446c7c1825b913b2cf71fb37d575ce9ec82b0"
+      }
+    }
+  ],
+  "total_byte_size": 103
+}
