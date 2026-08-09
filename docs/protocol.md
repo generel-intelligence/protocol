@@ -172,6 +172,16 @@ record buffering, estimation, or other known ambiguity. A transport read,
 provider frame, or indexed range must not be presented as a token unless
 separate provider and tokenizer evidence proves that claim.
 
+## Declared outputs
+
+Protocol `0.7.0` lets a task declare bounded output files by safe relative
+path, role, media type, and maximum byte size. A declaration is only permission
+to inspect and promote a matching final-workspace regular file; it is not proof
+that the file exists or is valid. Missing, symlinked, unsafe, or oversized
+outputs are omitted. Promoted bytes keep a `workspace:/` source URI and remain
+untrusted evidence. The webpage result profile records deterministic document
+checks without claiming visual quality or authorizing execution in a browser.
+
 ## Benchmark source pins
 
 - SWE-bench evaluator:

@@ -1,0 +1,11 @@
+{
+  "protocol_version": "0.7.0",
+  "outputs": [
+    {
+      "path": "dungeon.html",
+      "role": "webpage",
+      "media_type": "text/html",
+      "maximum_bytes": 1048576
+    }
+  ]
+}

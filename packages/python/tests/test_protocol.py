@@ -19,7 +19,7 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.6.0"
+    assert PROTOCOL_VERSION == "0.7.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
@@ -33,6 +33,9 @@ def test_version_and_schema_access() -> None:
     assert (
         get_schema("0.6.0/capture-coverage-manifest.schema.json")["title"]
         == "Capture coverage manifest"
+    )
+    assert get_schema("0.7.0/artifact-output-manifest.schema.json")["title"] == (
+        "Artifact output manifest"
     )
 
 
@@ -147,6 +150,20 @@ def test_reservation_result_terminal_branches_validate() -> None:
                 },
             },
         )
+
+
+def test_webpage_output_and_result_contracts() -> None:
+    output = load("examples/m5/artifact-output-manifest.json")
+    output_schema = "schemas/0.7.0/artifact-output-manifest.schema.json"
+    validate(output_schema, output)
+    with pytest.raises(ValidationError):
+        validate(output_schema, {**output, "outputs": [{**output["outputs"][0], "path": "../x"}]})
+
+    result = load("examples/m5/webpage-artifact-result.json")
+    result_schema = "schemas/0.7.0/profiles/webpage-artifact-result.schema.json"
+    validate(result_schema, result)
+    validate(result_schema, {**result, "outcome": {"status": "error", "error_code": "failed"}})
+    validate(result_schema, {**result, "outcome": {"status": "not_run", "reason": "missing"}})
 
 
 def test_benchmark_package_paths_cannot_traverse() -> None:
@@ -280,6 +297,17 @@ def test_protocol_0_6_schema_inventory_is_exactly_four_valid_schemas() -> None:
         schema = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.6.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_7_schema_inventory_is_exactly_two_valid_schemas() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.7.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.7.0.json")["schemas"]
+    assert len(paths) == 2
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.7.0").as_posix()
         assert hash_json(schema) == recorded[relative]
 
 

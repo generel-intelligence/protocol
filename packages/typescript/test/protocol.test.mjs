@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.6.0");
+  assert.equal(PROTOCOL_VERSION, "0.7.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -28,6 +28,10 @@ test("exports the candidate version and bundled schemas", () => {
   assert.equal(
     getSchema("0.6.0/capture-coverage-manifest.schema.json").title,
     "Capture coverage manifest"
+  );
+  assert.equal(
+    getSchema("0.7.0/artifact-output-manifest.schema.json").title,
+    "Artifact output manifest"
   );
 });
 
@@ -77,6 +81,29 @@ test("reservation result terminal branches validate", () => {
       ...value,
       outcome: { ...value.outcome, groups: { ...value.outcome.groups, hidden_case: true } }
     })
+  );
+});
+
+test("webpage output and result contracts validate", () => {
+  const output = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m5", "artifact-output-manifest.json"), "utf8")
+  );
+  const outputSchema = "schemas/0.7.0/artifact-output-manifest.schema.json";
+  assert.doesNotThrow(() => validate(outputSchema, output));
+  assert.throws(() =>
+    validate(outputSchema, { ...output, outputs: [{ ...output.outputs[0], path: "../x" }] })
+  );
+
+  const result = JSON.parse(
+    readFileSync(join(repositoryRoot, "examples", "m5", "webpage-artifact-result.json"), "utf8")
+  );
+  const resultSchema = "schemas/0.7.0/profiles/webpage-artifact-result.schema.json";
+  assert.doesNotThrow(() => validate(resultSchema, result));
+  assert.doesNotThrow(() =>
+    validate(resultSchema, { ...result, outcome: { status: "error", error_code: "failed" } })
+  );
+  assert.doesNotThrow(() =>
+    validate(resultSchema, { ...result, outcome: { status: "not_run", reason: "missing" } })
   );
 });
 
@@ -317,6 +344,24 @@ test("the protocol 0.6 schema inventory is exactly four recorded schemas", () =>
   assert.equal(paths.length, 4);
   for (const path of paths) {
     const schema = getSchema(`schemas/0.6.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("the protocol 0.7 schema inventory is exactly two recorded schemas", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.7.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.7.0.json"), "utf8")
+  ).schemas;
+  const paths = [
+    ...readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json")),
+    ...readdirSync(join(schemaRoot, "profiles"))
+      .filter((name) => name.endsWith(".schema.json"))
+      .map((name) => `profiles/${name}`)
+  ];
+  assert.equal(paths.length, 2);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.7.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
 });

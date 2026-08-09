@@ -1,0 +1,6 @@
+{
+  "schemas": {
+    "artifact-output-manifest.schema.json": "sha256:3c390493139688331ab8cdaeb7cca9ca73b3d3f2e3af87f5bc63a2e119c0cd70",
+    "profiles/webpage-artifact-result.schema.json": "sha256:41df99ccbe2fd0d0448d7a08a0a9d3c8e0940846420cbf7e876c85831cef3c37"
+  }
+}
