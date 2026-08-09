@@ -10,7 +10,7 @@ import rfc8785
 from jsonschema import Draft202012Validator, FormatChecker
 from referencing import Registry, Resource
 
-PROTOCOL_VERSION = "0.6.0"
+PROTOCOL_VERSION = "0.7.0"
 _SCHEMA_ROOT = files(__package__).joinpath("schemas")
 
 

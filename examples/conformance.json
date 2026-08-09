@@ -139,6 +139,14 @@
     {
       "path": "m3-multi-harness/workspace-checkpoint-child.json",
       "schema": "schemas/0.6.0/workspace-checkpoint-manifest.schema.json"
+    },
+    {
+      "path": "m5/artifact-output-manifest.json",
+      "schema": "schemas/0.7.0/artifact-output-manifest.schema.json"
+    },
+    {
+      "path": "m5/webpage-artifact-result.json",
+      "schema": "schemas/0.7.0/profiles/webpage-artifact-result.schema.json"
     }
   ]
 }
