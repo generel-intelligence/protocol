@@ -150,6 +150,14 @@ class ModelResponseStarted(TypedDict):
     status: int
 
 
+class ModelResponseProgress(TypedDict):
+    type: Literal['model_response_progress']
+    request_id: str
+    chunk_index: int
+    byte_offset: int
+    byte_count: int
+
+
 class ModelResponseFinished(TypedDict):
     type: Literal['model_response_finished']
     request_id: str
@@ -183,7 +191,7 @@ class ExecutionError(TypedDict):
 
 
 class AgentTraceEvent(TypedDict):
-    protocol_version: Literal['0.6.0']
+    protocol_version: Literal['0.10.0']
     run_id: RunId
     sequence: int
     event_id: str
@@ -207,6 +215,7 @@ class AgentTraceEvent(TypedDict):
         | ConversationMessage
         | ModelRequest
         | ModelResponseStarted
+        | ModelResponseProgress
         | ModelResponseFinished
         | ToolStarted
         | ToolFinished

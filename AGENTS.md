@@ -38,7 +38,9 @@ deployment, or storage implementation.
   manifest; all prior schema bytes remain unchanged.
 - Protocol `0.9.0` owns operator-guided run configuration and delivered
   operator-action evidence; all prior schema bytes remain unchanged.
-- New interactive run producers and consumers cut over directly to `0.9.0`;
+- Protocol `0.10.0` owns append-only model-response progress events; each event
+  references one exact observed transport chunk and never implies token timing.
+- New interactive run producers and consumers cut over directly to `0.10.0`;
   this repository does not require legacy interactive ingestion, backfill, or
   dual-version dispatch.
 - Detailed relationships require proven source IDs or runner-owned actions;

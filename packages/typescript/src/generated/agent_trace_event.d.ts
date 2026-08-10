@@ -1,7 +1,9 @@
 /* Generated from JSON Schema. Do not edit. */
 
-export interface AgentTraceEvent {
-  protocol_version: "0.6.0";
+export type AgentTraceEvent = {
+  [k: string]: unknown;
+} & {
+  protocol_version: "0.10.0";
   run_id: string;
   sequence: number;
   event_id: string;
@@ -25,18 +27,20 @@ export interface AgentTraceEvent {
     | ConversationMessage
     | ModelRequest
     | ModelResponseStarted
+    | ModelResponseProgress
     | ModelResponseFinished
     | ToolStarted
     | ToolFinished
     | WorkspaceCheckpoint
     | ExecutionError;
-}
+};
+
 export interface ProfileReference {
   id: string;
   version: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "producer".
  */
 export interface Producer {
@@ -45,7 +49,7 @@ export interface Producer {
   version: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "source".
  */
 export interface Source {
@@ -53,7 +57,7 @@ export interface Source {
   id: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "context".
  */
 export interface Context {
@@ -61,7 +65,7 @@ export interface Context {
   workspace_context_id: string | null;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "relationship".
  */
 export interface Relationship {
@@ -69,7 +73,7 @@ export interface Relationship {
   event_id: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "capture".
  */
 export interface Capture {
@@ -81,7 +85,7 @@ export interface ArtifactReference {
   digest: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "runStarted".
  */
 export interface RunStarted {
@@ -89,7 +93,7 @@ export interface RunStarted {
   expected_coverage: ArtifactReference;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "taskStarted".
  */
 export interface TaskStarted {
@@ -97,7 +101,7 @@ export interface TaskStarted {
   task_id: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "taskFinished".
  */
 export interface TaskFinished {
@@ -106,7 +110,7 @@ export interface TaskFinished {
   outcome: "passed" | "failed" | "error";
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "runFinished".
  */
 export interface RunFinished {
@@ -115,7 +119,7 @@ export interface RunFinished {
   achieved_coverage: ArtifactReference;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "agentStarted".
  */
 export interface AgentStarted {
@@ -128,7 +132,7 @@ export interface AgentStarted {
   harness: HarnessIdentity;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "harnessIdentity".
  */
 export interface HarnessIdentity {
@@ -137,7 +141,7 @@ export interface HarnessIdentity {
   adapter_version: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "agentFinished".
  */
 export interface AgentFinished {
@@ -147,7 +151,7 @@ export interface AgentFinished {
   warnings: string[];
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "workspaceRegistered".
  */
 export interface WorkspaceRegistered {
@@ -163,7 +167,7 @@ export interface WorkspaceRegistered {
   capture: Capture;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "conversationMessage".
  */
 export interface ConversationMessage {
@@ -172,7 +176,7 @@ export interface ConversationMessage {
   role: "user" | "assistant";
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "modelRequest".
  */
 export interface ModelRequest {
@@ -181,7 +185,7 @@ export interface ModelRequest {
   model_id: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "modelResponseStarted".
  */
 export interface ModelResponseStarted {
@@ -190,7 +194,18 @@ export interface ModelResponseStarted {
   status: number;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
+ * via the `definition` "modelResponseProgress".
+ */
+export interface ModelResponseProgress {
+  type: "model_response_progress";
+  request_id: string;
+  chunk_index: number;
+  byte_offset: number;
+  byte_count: number;
+}
+/**
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "modelResponseFinished".
  */
 export interface ModelResponseFinished {
@@ -200,7 +215,7 @@ export interface ModelResponseFinished {
   chunk_count: number;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "toolStarted".
  */
 export interface ToolStarted {
@@ -209,7 +224,7 @@ export interface ToolStarted {
   tool_name: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "toolFinished".
  */
 export interface ToolFinished {
@@ -219,7 +234,7 @@ export interface ToolFinished {
   tool_name: string;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "workspaceCheckpoint".
  */
 export interface WorkspaceCheckpoint {
@@ -228,7 +243,7 @@ export interface WorkspaceCheckpoint {
   changed: boolean;
 }
 /**
- * This interface was referenced by `AgentTraceEvent`'s JSON-Schema
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "executionError".
  */
 export interface ExecutionError {
