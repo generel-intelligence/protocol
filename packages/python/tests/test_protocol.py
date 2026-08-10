@@ -373,12 +373,26 @@ def test_protocol_0_10_schema_inventory_is_exactly_one_valid_schema() -> None:
         assert hash_json(schema) == recorded[relative]
 
 
-def test_model_response_progress_requires_one_chunk_artifact() -> None:
+def test_model_response_progress_embeds_one_exact_transport_chunk() -> None:
     schema = "schemas/0.10.0/agent-trace-event.schema.json"
     event = load("examples/m5.5-live/model-response-progress.json")
     validate(schema, event)
     with pytest.raises(ValidationError):
-        validate(schema, {**event, "artifacts": []})
+        validate(
+            schema,
+            {
+                **event,
+                "artifacts": [{"artifact_id": "artifact_x", "digest": "sha256:" + "a" * 64}],
+            },
+        )
+    with pytest.raises(ValidationError):
+        validate(
+            schema,
+            {
+                **event,
+                "payload": {**event["payload"], "chunk_base64": "not base64"},
+            },
+        )
 
 
 def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fields() -> None:

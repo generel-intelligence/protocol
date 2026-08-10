@@ -1,6 +1,6 @@
 {
   "protocol_version": "0.10.0",
   "schemas": {
-    "agent-trace-event.schema.json": "sha256:f15918c65c824e884f6fa1adae1e564eb44b912a5c668f7233c0535fc7bc6f68"
+    "agent-trace-event.schema.json": "sha256:7a4fc73a4f3d87aa20fee490aa50c6eff8149d34364c2add9bd305b2d38e8b93"
   }
 }

@@ -27,17 +27,13 @@
     "status": "complete",
     "warnings": []
   },
-  "artifacts": [
-    {
-      "artifact_id": "artifact_model-response-chunk-0",
-      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
-    }
-  ],
+  "artifacts": [],
   "payload": {
     "type": "model_response_progress",
     "request_id": "request-1",
     "chunk_index": 0,
     "byte_offset": 0,
-    "byte_count": 48
+    "byte_count": 9,
+    "chunk_base64": "ZGF0YToge30K"
   }
 }

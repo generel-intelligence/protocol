@@ -185,11 +185,11 @@ provider frame, or indexed range must not be presented as a token unless
 separate provider and tokenizer evidence proves that claim.
 
 For a request with continuous progress evidence, chunk indexes and byte offsets
-start at zero and remain contiguous. Each event references exactly one
-`model-response-chunk` artifact whose size equals `byte_count`. Producers must
-not omit an observed non-empty chunk after progress capture begins. Progress
-events report transport availability only; they are not inferred tokens or
-completed assistant messages.
+start at zero and remain contiguous. Each event embeds one exact transport read
+as strict base64; its decoded size equals `byte_count`. Producers must not omit
+an observed non-empty chunk after progress capture begins. Progress events
+report transport availability only; they are not inferred tokens or completed
+assistant messages.
 
 ## Declared outputs
 

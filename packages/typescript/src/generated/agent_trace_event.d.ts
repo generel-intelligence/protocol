@@ -203,6 +203,7 @@ export interface ModelResponseProgress {
   chunk_index: number;
   byte_offset: number;
   byte_count: number;
+  chunk_base64: string;
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

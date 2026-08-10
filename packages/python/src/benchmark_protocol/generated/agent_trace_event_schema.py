@@ -156,6 +156,7 @@ class ModelResponseProgress(TypedDict):
     chunk_index: int
     byte_offset: int
     byte_count: int
+    chunk_base64: str
 
 
 class ModelResponseFinished(TypedDict):
