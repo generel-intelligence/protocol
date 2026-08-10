@@ -1,0 +1,7 @@
+{
+  "protocol_version": "0.9.0",
+  "schemas": {
+    "interaction-config.schema.json": "sha256:e2919db60d8dbcf5e2c636074a48faae0bf608979bef10c6d31119496e40753f",
+    "operator-action.schema.json": "sha256:e113a2f6181fd3852bf3bf3e1a00e5ad2213d35ef8bcf6aa827275dce557a01c"
+  }
+}

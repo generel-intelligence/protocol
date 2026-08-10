@@ -6,10 +6,9 @@ package names are provisional.
 
 ## Status
 
-Pre-alpha. Protocol `0.8.0` adds bounded multi-file webpage declarations and a
-deterministic promoted bundle manifest without changing prior schema bytes.
-New run producers and consumers cut over directly to `0.8.0`; legacy output
-declaration ingestion is not supported.
+Pre-alpha. Protocol `0.9.0` adds operator-guided run evidence without changing
+prior schema bytes. New interactive run producers and consumers cut over
+directly to `0.9.0`; legacy interactive ingestion is not supported.
 The TypeScript and Python bindings remain unpublished.
 
 The protocol must remain independent of website, database, runner, evaluator,
@@ -39,6 +38,9 @@ and deployment implementations.
 - `docs/conformance-0.6.0.md` — multi-harness evidence conformance rules.
 - `docs/conformance-0.7.0.md` — declared-output conformance rules.
 - `docs/conformance-0.8.0.md` — webpage-bundle conformance rules.
+
+Protocol `0.9.0` is owned by `schemas/0.9.0/` and
+`docs/conformance-0.9.0.md`.
 
 ## Verification
 

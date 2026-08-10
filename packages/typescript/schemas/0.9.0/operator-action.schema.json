@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.9.0/operator-action.schema.json",
+  "title": "Operator action",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "run_id",
+    "action_id",
+    "actor",
+    "kind",
+    "delivery",
+    "submitted_at",
+    "delivered_at",
+    "message"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.9.0"
+    },
+    "run_id": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/runId"
+    },
+    "action_id": {
+      "type": "string",
+      "pattern": "^action_[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "actor": {
+      "const": "human_operator"
+    },
+    "kind": {
+      "enum": [
+        "guidance",
+        "finish"
+      ]
+    },
+    "delivery": {
+      "enum": [
+        "steer",
+        "new_turn"
+      ]
+    },
+    "submitted_at": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/timestamp"
+    },
+    "delivered_at": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/timestamp"
+    },
+    "message": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/artifactReference"
+    }
+  }
+}

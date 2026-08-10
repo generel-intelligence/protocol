@@ -105,6 +105,15 @@ response-stream artifact rather than becoming one normalized event each.
 OpenCode-specific steps, parts, todo state, permission details, and session
 storage remain raw evidence.
 
+Protocol `0.9.0` keeps the `0.6.0` trace envelope and adds closed interaction
+artifacts. An `interaction-config` artifact on `run_started` identifies an
+operator-guided run and its bounded idle timeout. Each successfully delivered
+root-agent guidance or finish message produces one runner-owned user
+`conversation_message` with an `operator-action` artifact and the exact text
+artifact. The action records whether the harness accepted it as active-turn
+steering or a new turn. Pending and rejected control commands are not model
+input and do not become conversation evidence.
+
 Every detailed event records its observed source and only relationships proven
 by source IDs or runner-owned actions. Global sequence is runner capture order.
 Consumers must not infer cross-source causality from clocks, timing, or content.

@@ -19,7 +19,7 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.8.0"
+    assert PROTOCOL_VERSION == "0.9.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
@@ -40,6 +40,10 @@ def test_version_and_schema_access() -> None:
     assert get_schema("0.8.0/webpage-bundle-manifest.schema.json")["title"] == (
         "Webpage bundle manifest"
     )
+    assert get_schema("0.9.0/interaction-config.schema.json")["title"] == (
+        "Interaction configuration"
+    )
+    assert get_schema("0.9.0/operator-action.schema.json")["title"] == "Operator action"
 
 
 def test_canonicalization_corpus() -> None:
@@ -344,6 +348,17 @@ def test_protocol_0_8_schema_inventory_is_exactly_two_valid_schemas() -> None:
         schema = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.8.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_9_schema_inventory_is_exactly_two_valid_schemas() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.9.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.9.0.json")["schemas"]
+    assert len(paths) == 2
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.9.0").as_posix()
         assert hash_json(schema) == recorded[relative]
 
 
