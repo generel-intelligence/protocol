@@ -1,0 +1,6 @@
+{
+  "protocol_version": "0.9.0",
+  "run_id": "run_live_operator_1",
+  "mode": "operator_guided",
+  "operator_idle_timeout_seconds": 1800
+}

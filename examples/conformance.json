@@ -155,6 +155,14 @@
     {
       "path": "webpage-bundle/webpage-bundle-manifest.json",
       "schema": "schemas/0.8.0/webpage-bundle-manifest.schema.json"
+    },
+    {
+      "path": "m5.5-live/interaction-config.json",
+      "schema": "schemas/0.9.0/interaction-config.schema.json"
+    },
+    {
+      "path": "m5.5-live/operator-action.json",
+      "schema": "schemas/0.9.0/operator-action.schema.json"
     }
   ]
 }

@@ -26,3 +26,5 @@ export type { CoverageRecord } from "./capture_coverage_manifest.js";
 export type { ArtifactOutputPath } from "./artifact_output_manifest.js";
 export type { WebpageResultSemver } from "./webpage_artifact_result.js";
 export type { WebpageBundlePath } from "./webpage_bundle_manifest.js";
+export type { InteractionConfiguration } from "./interaction_config.js";
+export type { OperatorAction } from "./operator_action.js";

@@ -36,8 +36,11 @@ deployment, or storage implementation.
 - Protocol `0.8.0` replaces the pre-release output declaration with bounded
   webpage directories and owns the deterministic promoted webpage-bundle
   manifest; all prior schema bytes remain unchanged.
-- New run producers and consumers cut over directly to `0.8.0`; this repository
-  does not require legacy run ingestion, backfill, or dual-version dispatch.
+- Protocol `0.9.0` owns operator-guided run configuration and delivered
+  operator-action evidence; all prior schema bytes remain unchanged.
+- New interactive run producers and consumers cut over directly to `0.9.0`;
+  this repository does not require legacy interactive ingestion, backfill, or
+  dual-version dispatch.
 - Detailed relationships require proven source IDs or runner-owned actions;
   capture order must not be presented as inferred cross-source causality.
 - Keep result envelopes neutral; benchmark profiles own benchmark-specific

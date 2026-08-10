@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/0.9.0/interaction-config.schema.json",
+  "title": "Interaction configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "run_id",
+    "mode",
+    "operator_idle_timeout_seconds"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "0.9.0"
+    },
+    "run_id": {
+      "$ref": "../0.1.0/common.schema.json#/$defs/runId"
+    },
+    "mode": {
+      "const": "operator_guided"
+    },
+    "operator_idle_timeout_seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 86400
+    }
+  }
+}

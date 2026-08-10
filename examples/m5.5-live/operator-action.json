@@ -1,0 +1,14 @@
+{
+  "protocol_version": "0.9.0",
+  "run_id": "run_live_operator_1",
+  "action_id": "action_01",
+  "actor": "human_operator",
+  "kind": "guidance",
+  "delivery": "steer",
+  "submitted_at": "2026-08-09T18:00:00.000000Z",
+  "delivered_at": "2026-08-09T18:00:01.000000Z",
+  "message": {
+    "artifact_id": "artifact_operator_message_01",
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  }
+}

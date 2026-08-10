@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.8.0");
+  assert.equal(PROTOCOL_VERSION, "0.9.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -37,6 +37,11 @@ test("exports the candidate version and bundled schemas", () => {
     getSchema("0.8.0/webpage-bundle-manifest.schema.json").title,
     "Webpage bundle manifest"
   );
+  assert.equal(
+    getSchema("0.9.0/interaction-config.schema.json").title,
+    "Interaction configuration"
+  );
+  assert.equal(getSchema("0.9.0/operator-action.schema.json").title, "Operator action");
 });
 
 test("the built package includes every exported generated declaration", () => {
@@ -138,6 +143,31 @@ test("webpage bundle contracts validate", () => {
   const bundleSchema = "schemas/0.8.0/webpage-bundle-manifest.schema.json";
   assert.doesNotThrow(() => validate(bundleSchema, bundle));
   assert.throws(() => validate(bundleSchema, { ...bundle, entrypoint: "/index.html" }));
+});
+
+test("operator-guided run contracts validate", () => {
+  const interaction = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "m5.5-live", "interaction-config.json"),
+      "utf8"
+    )
+  );
+  const action = JSON.parse(
+    readFileSync(
+      join(repositoryRoot, "examples", "m5.5-live", "operator-action.json"),
+      "utf8"
+    )
+  );
+  assert.doesNotThrow(() =>
+    validate("schemas/0.9.0/interaction-config.schema.json", interaction)
+  );
+  assert.doesNotThrow(() => validate("schemas/0.9.0/operator-action.schema.json", action));
+  assert.throws(() =>
+    validate("schemas/0.9.0/operator-action.schema.json", {
+      ...action,
+      delivery: "inferred"
+    })
+  );
 });
 
 test("benchmark package paths cannot traverse", () => {
@@ -395,6 +425,19 @@ test("the protocol 0.7 schema inventory is exactly two recorded schemas", () => 
   assert.equal(paths.length, 2);
   for (const path of paths) {
     const schema = getSchema(`schemas/0.7.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("the protocol 0.9 schema inventory is exactly two recorded schemas", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.9.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.9.0.json"), "utf8")
+  ).schemas;
+  const paths = readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json"));
+  assert.equal(paths.length, 2);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.9.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
 });
