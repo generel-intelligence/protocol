@@ -62,6 +62,7 @@ python -m uv run python scripts/generate.py --check
 python -m uv run ruff format --check .
 python -m uv run ruff check .
 python -m uv run mypy
+python -m uv run deptry src
 python -m uv run pytest
 python -m uv build
 ```

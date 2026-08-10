@@ -11,6 +11,10 @@ const destinationRoot = join(packageRoot, "schemas");
 const generatedRoot = join(packageRoot, "src", "generated");
 const check = process.argv.includes("--check");
 
+function sameGeneratedText(actual, expected) {
+  return actual.replaceAll("\r\n", "\n") === expected.replaceAll("\r\n", "\n");
+}
+
 async function syncVersion() {
   const source = await readFile(join(repositoryRoot, "VERSION"));
   const destination = join(packageRoot, "VERSION");
@@ -59,7 +63,9 @@ if (check) {
   const stale = [];
   for (const [path, content] of expected) {
     try {
-      if ((await readFile(path, "utf8")) !== content) stale.push(relative(packageRoot, path));
+      if (!sameGeneratedText(await readFile(path, "utf8"), content)) {
+        stale.push(relative(packageRoot, path));
+      }
     } catch {
       stale.push(relative(packageRoot, path));
     }
