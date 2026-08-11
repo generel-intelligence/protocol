@@ -1,0 +1,39 @@
+{
+  "protocol_version": "0.10.0",
+  "run_id": "run_m55-live",
+  "sequence": 4,
+  "event_id": "event_model-response-progress-0",
+  "profile": {
+    "id": "agent-trace",
+    "version": "0.10.0"
+  },
+  "producer": {
+    "kind": "runner",
+    "id": "fixture-runner",
+    "version": "0.10.0"
+  },
+  "source": {
+    "kind": "model_gateway",
+    "id": "request-1-response-progress"
+  },
+  "context": {
+    "agent_span_id": "agent_root",
+    "workspace_context_id": "workspace_primary"
+  },
+  "relationships": [],
+  "occurred_at": "2026-08-10T16:00:04Z",
+  "captured_at": "2026-08-10T16:00:04Z",
+  "capture": {
+    "status": "complete",
+    "warnings": []
+  },
+  "artifacts": [],
+  "payload": {
+    "type": "model_response_progress",
+    "request_id": "request-1",
+    "chunk_index": 0,
+    "byte_offset": 0,
+    "byte_count": 9,
+    "chunk_base64": "ZGF0YToge30K"
+  }
+}

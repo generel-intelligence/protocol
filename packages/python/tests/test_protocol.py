@@ -19,7 +19,7 @@ def load(path: str) -> Any:
 
 
 def test_version_and_schema_access() -> None:
-    assert PROTOCOL_VERSION == "0.9.0"
+    assert PROTOCOL_VERSION == "0.10.0"
     assert get_schema("0.1.0/artifact.schema.json")["title"] == "Artifact"
     assert (
         get_schema("0.2.0/benchmark-package-manifest.schema.json")["title"]
@@ -360,6 +360,39 @@ def test_protocol_0_9_schema_inventory_is_exactly_two_valid_schemas() -> None:
         Draft202012Validator.check_schema(schema)
         relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.9.0").as_posix()
         assert hash_json(schema) == recorded[relative]
+
+
+def test_protocol_0_10_schema_inventory_is_exactly_one_valid_schema() -> None:
+    paths = sorted((REPOSITORY_ROOT / "schemas" / "0.10.0").rglob("*.schema.json"))
+    recorded = load("evidence/schema-digests-0.10.0.json")["schemas"]
+    assert len(paths) == 1
+    for path in paths:
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        relative = path.relative_to(REPOSITORY_ROOT / "schemas" / "0.10.0").as_posix()
+        assert hash_json(schema) == recorded[relative]
+
+
+def test_model_response_progress_embeds_one_exact_transport_chunk() -> None:
+    schema = "schemas/0.10.0/agent-trace-event.schema.json"
+    event = load("examples/m5.5-live/model-response-progress.json")
+    validate(schema, event)
+    with pytest.raises(ValidationError):
+        validate(
+            schema,
+            {
+                **event,
+                "artifacts": [{"artifact_id": "artifact_x", "digest": "sha256:" + "a" * 64}],
+            },
+        )
+    with pytest.raises(ValidationError):
+        validate(
+            schema,
+            {
+                **event,
+                "payload": {**event["payload"], "chunk_base64": "not base64"},
+            },
+        )
 
 
 def test_protocol_0_6_rejects_malformed_context_coverage_parent_and_workspace_fields() -> None:

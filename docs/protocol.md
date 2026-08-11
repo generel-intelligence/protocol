@@ -100,8 +100,11 @@ The additive `0.3.0` agent trace retains those lifecycle meanings and adds:
 - runner-observed execution errors.
 
 Private message, model, tool, workspace, and error bodies remain
-content-addressed artifacts. Ordered network chunks remain inside the model
-response-stream artifact rather than becoming one normalized event each.
+content-addressed artifacts. Protocol `0.10.0` permits each observed non-empty
+model response transport chunk to become a `model_response_progress` event.
+Each progress event references that exact chunk as a content-addressed artifact
+and records its zero-based chunk index, byte offset, and byte count. The final
+response-stream artifact remains the canonical complete response.
 OpenCode-specific steps, parts, todo state, permission details, and session
 storage remain raw evidence.
 
@@ -180,6 +183,13 @@ describes observed byte availability, not provider token generation. Warnings
 record buffering, estimation, or other known ambiguity. A transport read,
 provider frame, or indexed range must not be presented as a token unless
 separate provider and tokenizer evidence proves that claim.
+
+For a request with continuous progress evidence, chunk indexes and byte offsets
+start at zero and remain contiguous. Each event embeds one exact transport read
+as strict base64; its decoded size equals `byte_count`. Producers must not omit
+an observed non-empty chunk after progress capture begins. Progress events
+report transport availability only; they are not inferred tokens or completed
+assistant messages.
 
 ## Declared outputs
 

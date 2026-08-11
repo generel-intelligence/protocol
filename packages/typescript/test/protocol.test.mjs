@@ -11,7 +11,7 @@ const fixtures = JSON.parse(
 );
 
 test("exports the candidate version and bundled schemas", () => {
-  assert.equal(PROTOCOL_VERSION, "0.9.0");
+  assert.equal(PROTOCOL_VERSION, "0.10.0");
   assert.equal(getSchema("0.1.0/artifact.schema.json").title, "Artifact");
   assert.equal(
     getSchema("0.2.0/benchmark-package-manifest.schema.json").title,
@@ -438,6 +438,19 @@ test("the protocol 0.9 schema inventory is exactly two recorded schemas", () => 
   assert.equal(paths.length, 2);
   for (const path of paths) {
     const schema = getSchema(`schemas/0.9.0/${path}`);
+    assert.equal(hash_json(schema), recorded[path]);
+  }
+});
+
+test("the protocol 0.10 schema inventory is exactly one recorded schema", () => {
+  const schemaRoot = join(repositoryRoot, "schemas", "0.10.0");
+  const recorded = JSON.parse(
+    readFileSync(join(repositoryRoot, "evidence", "schema-digests-0.10.0.json"), "utf8")
+  ).schemas;
+  const paths = readdirSync(schemaRoot).filter((name) => name.endsWith(".schema.json"));
+  assert.equal(paths.length, 1);
+  for (const path of paths) {
+    const schema = getSchema(`schemas/0.10.0/${path}`);
     assert.equal(hash_json(schema), recorded[path]);
   }
 });
