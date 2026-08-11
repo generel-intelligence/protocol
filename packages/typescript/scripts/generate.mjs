@@ -33,7 +33,10 @@ async function schemaFiles(directory) {
     const path = join(directory, entry.name);
     return entry.isDirectory() ? schemaFiles(path) : [path];
   }));
-  return nested.flat().filter((path) => path.endsWith(".schema.json")).sort();
+  return nested
+    .flat()
+    .filter((path) => path.endsWith(".schema.json"))
+    .sort((left, right) => left.localeCompare(right, undefined, { numeric: true }));
 }
 
 async function expectedFiles() {
